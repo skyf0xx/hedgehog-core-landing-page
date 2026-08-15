@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Hedgehog's landing-page core: a pre-built Astro + Tailwind v4 workspace, the Chain Method's brief-to-artifact agent pipeline, and the skills that drive it.",
   "type": "module",
+  "scripts": {
+    "release": "npm version patch -m \"chore: bump version to %s\""
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/skyf0xx/hedgehog-core-landing-page.git"

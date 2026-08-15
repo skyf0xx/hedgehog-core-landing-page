@@ -1,0 +1,35 @@
+{
+  "name": "@skyf0xx/hedgehog-core-landing-page",
+  "version": "1.0.0",
+  "description": "Hedgehog's landing-page core: a pre-built Astro + Tailwind v4 workspace, the Chain Method's brief-to-artifact agent pipeline, and the skills that drive it.",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skyf0xx/hedgehog-core-landing-page.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "workspace",
+    "agents",
+    "skills",
+    "CLAUDE.core.md",
+    "hedgehog-core.yaml",
+    "!workspace/node_modules/**",
+    "!workspace/.astro/**",
+    "!workspace/dist/**"
+  ],
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "keywords": [
+    "hedgehog-core",
+    "hedgehog",
+    "claude-code",
+    "astro",
+    "tailwindcss",
+    "landing-page"
+  ],
+  "license": "MIT"
+}

@@ -23,20 +23,24 @@ wearing this section's placement as false credibility.
 ## The algorithm
 
 Paragraph count from the beat count `landing-sequencer` assigned, but
-proof content is the one archetype most likely to be genuinely
-list-shaped — a set of parallel data points (3 stats, 3 logos, 3 quotes)
-reads better as a list than forced into prose. Decide the shape first:
+proof content is the one archetype most likely to need a shape other
+than prose. Decide the shape first:
 
-1. **Single strong proof point** (1 case study, 1 headline stat) → prose,
-   1 paragraph: name the evidence, state the specific number or result,
-   connect it back to the exact claim it's proving.
-2. **Multiple parallel proof points** (3+ stats, logos, or quotes of
+1. **Single strong proof point, needing development** (1 case study, 1
+   result with context) → prose, 1 paragraph: name the evidence, state
+   the specific number or result, connect it back to the exact claim
+   it's proving.
+2. **Single strong proof point, freestanding** (1 headline stat that
+   needs no surrounding narrative) → a callout line per
+   `landing-copywriter`'s output format: the number or comparison,
+   bolded, one sentence, no paragraph built around it.
+3. **Multiple parallel proof points** (3+ stats, logos, or quotes of
    equal weight) → a `-` list per `landing-copywriter`'s output format,
    each item a specific, named data point — not restated as full
    sentences if a short parallel phrase does the job.
-3. **Mixed** (one lead proof point plus supporting parallel evidence) →
-   one prose paragraph for the lead point, followed by a `-` list for the
-   rest.
+4. **Mixed** (one lead proof point plus supporting parallel evidence) →
+   one prose paragraph or callout for the lead point, followed by a `-`
+   list for the rest.
 
 Every item, in either shape, names its source: a specific number, a
 named customer, a dated benchmark, a quoted individual — never "users

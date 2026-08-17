@@ -39,12 +39,11 @@ transition spacing, sub-section beat structure, and each section's copy
 archetype role (see Copy archetype role, below)
 
 **If `EXPERIENCE.md` names a fixed section list**, that list is the
-section inventory this phase paces — every section it names gets a slot
-in the sequence (merged into an adjacent section only where the beat
-structure genuinely calls for double duty, per Copy archetype role
-below, not dropped for being absent from the AIDA beat-map). Where
-`EXPERIENCE.md` is silent on section order, derive it from the AIDA
-beat-map the existing way.
+section inventory this phase paces — every section it names gets its own
+slot in the sequence, never dropped for being absent from the AIDA
+beat-map and never folded into a neighboring section to save a slot.
+Where `EXPERIENCE.md` is silent on section order, derive it from the
+AIDA beat-map the existing way.
 
 Treat sections as panels in sequence, after McCloud's panel-transition
 taxonomy (*Understanding Comics*): moment-to-moment, action-to-action,
@@ -100,12 +99,19 @@ pick which `landing-copy-*` skill it invokes for that section:
 - **CTA** — the ask, wherever it falls in the sequence
   (`landing-copy-cta`)
 
-A section can carry two roles only where they're genuinely the same
-beat doing double duty (a closing section that's both Proof and CTA) —
-name both explicitly rather than picking one arbitrarily. Don't assign a
-role a section doesn't need just to fill out the taxonomy — a short page
-might skip Objection entirely, and that's a legitimate sequencing
-decision, not a gap.
+Every section carries exactly one role, always — never two. A section
+that seems to need both Mechanism and Proof is two jobs asking for two
+sections: give the second job its own slot in the sequence, sized to
+whatever beat count that job actually needs (a single-beat Proof section
+credibly runs one paragraph, or the list `landing-copy-proof` calls
+for). The CTA is not a role in this sense: per `landing-copywriter`'s
+output format it's a single blockquote line, not a paragraph budget, so
+naming which section carries the ask is a placement decision, made
+alongside the one archetype role that section's prose actually carries
+— not a second archetype stacked on top of it. Don't assign a role a
+section doesn't need just to fill out the taxonomy — a short page might
+skip Objection entirely, and that's a legitimate sequencing decision,
+not a gap.
 
 Assign roles in the same pass as the beat structure: a section's role and
 its beat count are two different decisions (role is *what job the
@@ -145,14 +151,15 @@ rather than in separate passes.
 - The whole sequence reads as one composition, checked as a whole, not
   approved section-by-section only.
 - The peak moment and ending treatment are placed, not omitted.
-- Every section has exactly one archetype role (or two, only where
-  genuinely doing double duty, both named explicitly) — no section left
+- Every section has exactly one archetype role — no section left
   unassigned, since `landing-copywriter` can't pick a skill for a section
-  with no role.
+  with no role, and no section carrying two full archetypes' worth of
+  paragraph budget. The CTA blockquote line is a placement decision, not
+  a second role, and doesn't count against this.
 - If `.hedgehog/BMAD/05-ux-spec/EXPERIENCE.md` names a section, that
-  section appears in this sequence (on its own or merged into another
-  section's double-duty role, per Copy archetype role above) — none of
-  BMAD's named sections silently disappear from the list.
+  section appears in this sequence with its own slot — none of BMAD's
+  named sections silently disappear from the list or get folded into a
+  neighbor to avoid adding one.
 
 ## Constraints
 
@@ -170,6 +177,10 @@ rather than in separate passes.
 - Never assign an archetype role just to fill out the taxonomy — a page
   that doesn't need an Objection section skips it; forcing one in is a
   worse defect than an incomplete-looking set.
+- Never assign a section two archetype roles to save a slot — a section
+  that needs both Mechanism and Proof gets two sections, each sized to
+  its own beat count, not one section carrying both paragraph budgets at
+  once.
 - Don't relitigate the token system or the signature element — if
   either seems wrong for pacing purposes, flag it back to
   `landing-systems` rather than quietly working around it.

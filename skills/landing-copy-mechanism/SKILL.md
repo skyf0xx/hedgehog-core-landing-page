@@ -41,10 +41,13 @@ within budget:
 
 A 1-beat mechanism section compresses all three (state it, connect it,
 land the change) into one paragraph; a 3-beat section earns each its own
-paragraph, particularly when the mechanism has real internal steps worth
-walking through (in which case genuinely enumerable steps become a `-`
-list per `landing-copywriter`'s output format, alongside the connecting
-prose — not instead of it).
+paragraph. Where the mechanism has real internal steps that happen in
+order — claim, build, verify, commit — that sequence is a numbered list
+per `landing-copywriter`'s output format, sitting alongside the
+connecting prose, not narrated as a single sentence chaining each step
+with commas and "and." A sequence written as one long sentence is the
+paragraph algorithm's sentence-density ceiling failing quietly; pull it
+into the list instead of compressing it.
 
 ## Writing standard (this section's delta from `landing-copywriter`'s full standard)
 
@@ -58,10 +61,12 @@ prose — not instead of it).
   `landing-copywriter`'s output format. If it's one continuous idea, keep
   it prose — don't force steps that don't exist to make the section look
   more substantial.
-- **No proof creep.** A specific number, a named customer, a benchmark —
-  all belong to `landing-copy-proof`. If a proof point is doing the
-  persuading here instead of the mechanism's own logic, that's the wrong
-  section carrying the weight.
+- **No proof creep, not even as a callout.** A specific number, a named
+  customer, a benchmark — all belong to a Proof section. A checkable fact
+  set apart as a callout line is still Proof's job wearing a different
+  markdown shape; if the mechanism's logic needs backing up, that's a gap
+  to flag back to `landing-sequencer` for a real Proof section, not
+  something to resolve inside Mechanism with a bolded line.
 
 ## Self-test
 

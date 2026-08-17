@@ -72,12 +72,17 @@ to the phase that owns it — never silently improvised around.
 - Place `landing-headline-writer`'s locked headline and
   `landing-copywriter`'s final section copy verbatim — headline, section
   body, CTA text. Read each section's markdown structure in
-  `.hedgehog/chain/10-copy.md` literally: a plain paragraph becomes a
-  `<p>`, a `-` list becomes a `<ul>`, a `>` blockquote becomes the CTA
+  `.hedgehog/chain/10-copy.md` literally, mapping each of the five shapes
+  to its own markup: a plain paragraph becomes a `<p>`, a `-` list
+  becomes a `<ul>`, a `1.` list becomes an `<ol>`, a bolded standalone
+  line becomes a callout treatment (visually set apart from body copy —
+  a token-system-consistent inline emphasis or bordered/highlighted
+  fragment, not a plain `<p>`), a `###` becomes a section-scoped subhead
+  (`<h3>` or equivalent), and a `>` blockquote becomes the CTA
   button/link markup. You don't rewrite copy for "flow" once you're
-  implementing it, and you don't reinterpret its markdown structure —
-  the format `landing-copywriter` chose per section is itself part of
-  the spec.
+  implementing it, and you don't reinterpret its markdown structure or
+  collapse a shape into a plainer one — the format `landing-copywriter`
+  chose per section is itself part of the spec.
 
 ## Workflow
 
@@ -89,8 +94,9 @@ to the phase that owns it — never silently improvised around.
 3. Build section by section, in `landing-sequencer`'s order, each
    section's Motion timeline matching its specified beat.
 4. Wire Lenis, the signature element, and the locked headline and copy
-   per spec, mapping each section's markdown structure (paragraph/list/
-   blockquote) to the matching markup.
+   per spec, mapping each section's markdown structure (paragraph/
+   bulleted list/numbered list/callout/subhead/blockquote) to the
+   matching markup.
 5. Verify: `pnpm astro check`, `pnpm lint`, `pnpm build` all clean.
 6. Commit as `feat(landing): build`.
 

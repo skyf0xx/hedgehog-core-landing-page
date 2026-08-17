@@ -1,6 +1,6 @@
 ---
 name: landing-copywriter
-description: Use for the per-section copy phase of the Chain Method (landing-page core) — one section's body text and CTA copy per invocation, each ending in a user review checkpoint before the next section starts. Runs after landing-headline-writer locks the headline, before landing-critic. Specializes in writing exactly the right amount of text per section, dispatched to the section's archetype skill (landing-copy-hero/problem/mechanism/proof/objection/cta), output as semantic markdown for landing-builder to read structure from.
+description: Use for the per-section copy phase of the Chain Method (landing-page core) — one section's body text and CTA copy per invocation, each ending in a user review checkpoint before the next section starts. Runs after landing-headline-writer locks the headline, before landing-humanizer and landing-critic. Specializes in writing exactly the right amount of text per section, dispatched to the section's archetype skill (landing-copy-hero/problem/mechanism/proof/objection/cta), output as semantic markdown for landing-builder to read structure from.
 model: sonnet
 color: pink
 tools: Read, Glob, Grep, Edit, Write, Bash
@@ -293,10 +293,17 @@ substantial. An ordinary sentence stays an ordinary paragraph.
    get built on by the next invocation's continuity check, and an
    unlocked draft is revised in place in the same block, not appended as
    a duplicate.
-9. Commit this section as part of `feat(landing): copy` (amend/extend
-   the phase's commit as each section locks, or one commit once every
-   section in the sequence has locked — either way, `landing-critic`
-   never starts against a partially locked copy phase).
+9. **Run `landing-humanizer` against the just-locked section** before
+   moving on. A pass unblocks the next section. A redline routes back to
+   step 4 here (revise this section, re-run its self-test, re-present,
+   re-lock) before `landing-humanizer` runs again — the next section
+   never starts against a section still carrying an open humanizer
+   redline, same weight as an unlocked section.
+10. Commit this section as part of `feat(landing): copy` (amend/extend
+    the phase's commit as each section locks, or one commit once every
+    section in the sequence has locked — either way, `landing-critic`
+    never starts against a partially locked copy phase, and neither
+    starts against a section `landing-humanizer` hasn't passed).
 
 ## Self-test (run before presenting each section)
 
@@ -365,3 +372,6 @@ pass can't. Beyond both passes, confirm:
 - Never hand off a section the user hasn't seen and confirmed — this
   phase exists specifically so copy is reviewed section by section, not
   discovered later inside `landing-builder`'s output.
+- Never move to the next section while `landing-humanizer` has an open
+  redline against the current one — fix the flagged text, re-lock, and
+  let `landing-humanizer` re-check before advancing.

@@ -13,9 +13,9 @@ Hedgehog project built on it.
   Lucide), and every enforcement file.
 - `agents/` — the Chain Method's chain agents (`landing-strategist`,
   `landing-systems`, `landing-sequencer`, `landing-headline-writer`,
-  `landing-copywriter`, `landing-critic`, `landing-builder`) and its
-  Polish Loop agents (`landing-executor`, `landing-visual-reviewer`,
-  `landing-ux-reviewer`).
+  `landing-copywriter`, `landing-humanizer`, `landing-critic`,
+  `landing-builder`) and its Polish Loop agents (`landing-executor`,
+  `landing-visual-reviewer`, `landing-ux-reviewer`).
 - `skills/` — `hedgehog-landing-loop`,
   `hedgehog-bootstrap-landing-page-core`, `landing-shapes`, and the
   per-section copy archetype skills (`landing-copy-hero`,

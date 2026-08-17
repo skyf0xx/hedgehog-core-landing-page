@@ -90,6 +90,13 @@ pinned icon source. Neither restates the other's decision.
   read, edit, and lock before the next section is drafted. Output is
   semantic markdown (paragraph/list/blockquote) so `landing-builder`
   reads section structure directly.
+- **`landing-humanizer`** — runs immediately after each section locks in
+  `landing-copywriter`, before the next section is drafted: an
+  independent AI-tell audit of that section's actual locked text (banned
+  vocabulary, punctuation fingerprint, hedges, rhetorical scaffolding,
+  burstiness) distinct from `landing-copywriter`'s own self-graded
+  Writing standard. Redlines route back to `landing-copywriter`; cannot
+  rewrite.
 - **`landing-critic`** — the reconciled traceability/distinctiveness
   audit (does every choice, including the headline and every section's
   copy, trace to the subject statement, does anything match a known

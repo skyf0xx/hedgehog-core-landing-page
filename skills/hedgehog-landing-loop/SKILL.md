@@ -115,11 +115,11 @@ agent works from anything but what was actually handed to it. Steps 4a
 only parallel-input point in the chain, both reading the same upstream
 artifact; everything else is strictly sequential.
 
-This table's 12 rows are the fine-grained, per-agent-dispatch view. The
+This table's 13 rows are the fine-grained, per-agent-dispatch view. The
 compiled build graph (this core's `workspace/core.yaml`) has only
 5 layers — `brief`/`feeling`/`tokens`/`sequence`/`artifact` — because it's
 the coarser, one-task-per-commit view: rows 1–4 compile into one `feeling`
-task, 5–7 into one `tokens` task, 8–10 into one `sequence` task, 11–12
+task, 5–7 into one `tokens` task, 8–10a into one `sequence` task, 11–12
 into one `artifact` task. These are intentionally not 1:1; don't "fix"
 either one to match the other's granularity — see The Loop below for how
 one delegated phase relates to one compiled task.
@@ -135,7 +135,8 @@ one delegated phase relates to one compiled task.
 | 7 | Signature Element | `landing-systems` | Signature element (source, persistence, continuity, scale range, literalness) | bundled into `feat(landing): systems` |
 | 8 | Sequencer | `landing-sequencer` | Per-section transition type, weight, spacing, beat structure | `feat(landing): sequence` |
 | 9 | Headline | `landing-headline-writer` | The headline plus 2 backups, from 3 distinct rhetorical mechanisms, reviewed and locked by the user | `feat(landing): headline` |
-| 10 | Copywriter (one invocation per section) | `landing-copywriter` | One section's body text and CTA copy per invocation, to the fixed paragraph algorithm, reviewed and locked by the user before the next section starts | `feat(landing): copy` (one commit once every section locks, or extended per section — never split across an unlocked section) |
+| 10a | Copywriter (one invocation per section) | `landing-copywriter` | One section's body text and CTA copy per invocation, to the fixed paragraph algorithm, reviewed and locked by the user before the next section starts | `feat(landing): copy` (one commit once every section locks, or extended per section — never split across an unlocked section) |
+| 10b | Humanizer (one invocation per locked section) | `landing-humanizer` | Redlines, or a pass — AI-tell audit (banned vocabulary, punctuation fingerprint, hedges, rhetorical scaffolding, burstiness) against the section `landing-copywriter` just locked | bundled into `feat(landing): copy` (redline routes back to 10a before the next section starts; no separate commit) |
 | 11 | Critic + Usability Auditor | `landing-critic` | Redlines, or a pass — reconciled traceability/distinctiveness + usability audit | `feat(landing): audit` (no commit if redlined — see Correction Protocol) |
 | 12 | Builder | `landing-builder` | The built page, in Astro | `feat(landing): build` |
 
@@ -148,12 +149,18 @@ a Tailwind token or a copy rule) and 11's reconciliation into a single
 artifact, one review checkpoint, because it's the single highest-leverage
 line on the page — every section beneath it either delivers on its
 promise or doesn't, so it locks before any section body is drafted. Copy
-(10) is its own phase too, run once per section rather than once for the
+(10a) is its own phase too, run once per section rather than once for the
 whole page, specifically so the user reads and confirms each section's
 actual words before the next section is drafted, and before either the
 audit or the build runs — see `landing-headline-writer`'s and
 `landing-copywriter`'s own files for their writing standards, the
-paragraph algorithm, and their self-tests.
+paragraph algorithm, and their self-tests. Humanizer (10b) runs
+immediately after each section locks, still inside the same `sequence`
+task — an independent AI-tell check against the section's actual locked
+text, distinct from `landing-copywriter`'s own self-graded Writing
+standard and from `landing-critic`'s traceability scope; see
+`landing-humanizer`'s own file for what it checks and why it's a
+separate pass rather than folded into either neighbor.
 
 ## The Loop (every unit of work)
 
@@ -168,15 +175,17 @@ paragraph algorithm, and their self-tests.
    `hedgehog ready` previews the same decision without claiming anything.
 2. **Map the packet's layer to the fine-grained phases it bundles**, per
    the table above (`feeling` = phases 1–4, `tokens` = 5–7, `sequence` =
-   8–10, `artifact` = 11–12), and **delegate to that layer's owning
+   8–10b, `artifact` = 11–12), and **delegate to that layer's owning
    agent(s)**, passing the full chain so far (every upstream artifact,
    not just the immediately prior one) — an agent that only sees its
    direct input can't verify its own traceability back to the subject
    statement. Within a bundled layer, run its phases in order and in one
-   continuous pass: phase 10 (`landing-copywriter`) still runs once per
-   section, in `landing-sequencer`'s order, every section reviewed and
-   locked before the next starts, all still inside the one `sequence`
-   task.
+   continuous pass: phase 10a (`landing-copywriter`) still runs once per
+   section, in `landing-sequencer`'s order, and phase 10b
+   (`landing-humanizer`) runs immediately after each section locks,
+   before the next section is drafted — every section reviewed, locked,
+   and humanizer-passed before the next starts, all still inside the one
+   `sequence` task.
 
    **Relaying a live user-confirmation checkpoint to a delegated
    subagent.** Phase 1 (Strategist) carries a hard-stop checkpoint per
@@ -247,8 +256,10 @@ differences for this core:
 - **Fast-forwarding ripples further.** A token system change (phase 6)
   ripples through the signature element (7), the sequence (8), the
   headline (9, if the voice spec shifted) and every locked section of
-  copy (10, re-run per affected section, not the whole phase over again),
-  and the build (12) — each its own small commit, in order.
+  copy (10a, re-run per affected section, not the whole phase over again,
+  each re-run still passing through 10b's humanizer check before it
+  counts as locked again), and the build (12) — each its own small
+  commit, in order.
 - **Re-run `landing-critic` against the patched chain before resuming** —
   an extra step this core adds, since traceability is what the whole
   chain rests on.
@@ -297,14 +308,21 @@ whichever headline is locked at phase 9, so an unlocked headline means
 every section written against it is provisional too.
 
 Before each `landing-copywriter` invocation after the first, confirm the
-previous section is locked, not just presented — the next section's
-continuity check (no repeated claims, no synonym drift) reads the prior
-section's actual locked text, not a draft still awaiting edits.
+previous section is locked and has passed `landing-humanizer`, not just
+presented — the next section's continuity check (no repeated claims, no
+synonym drift) reads the prior section's actual locked text, and a
+section still carrying an open humanizer redline isn't final text to
+check continuity against.
+
+Before `landing-humanizer` starts on a section, confirm that section is
+locked, not just presented — it audits the actual locked text, not a
+draft still awaiting the user's edits.
 
 Before `landing-critic` starts, confirm every section `landing-copywriter`
-wrote has been presented to and locked by the user, not just written —
-`landing-critic`'s traceability audit reads confirmed copy, not a draft
-still awaiting review.
+wrote has been presented to, locked by the user, and passed
+`landing-humanizer` — `landing-critic`'s traceability audit reads
+confirmed, humanizer-clean copy, not a draft still awaiting review or
+still carrying an open AI-tell redline.
 
 Before `landing-builder` starts, confirm:
 
@@ -486,9 +504,10 @@ still holds:
   not a new graph row. Route it to the Correction Protocol's post-build
   entry instead of `planner`: re-run `landing-sequencer` to place the
   new section in the beat structure, then `landing-headline-writer` and
-  `landing-copywriter` for that section only, `landing-critic` against
-  the full patched chain, then `landing-builder` to rebuild the
-  artifact — each its own small commit, same as any other correction.
+  `landing-copywriter` for that section only (locked only once
+  `landing-humanizer` passes it), `landing-critic` against the full
+  patched chain, then `landing-builder` to rebuild the artifact — each
+  its own small commit, same as any other correction.
 - **It doesn't hold** (a different subject, audience, or job): that's a
   different page, and belongs in its own landing-page project via
   `planner`'s first run there, not an edit to this one's locked brief.

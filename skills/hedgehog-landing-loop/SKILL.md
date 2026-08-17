@@ -47,8 +47,18 @@ back at Confirm & Lock for the user to accept or correct.
    PR-FAQ (a landing page's brief and PR-FAQ are the closest BMAD
    artifacts to a subject statement — the PRD's Glossary and deep-recon
    output are read for supporting color, not required to resolve a
-   one-page subject/audience/job). Where BMAD's material leaves any of
-   the three genuinely unresolved, ask directly — don't proceed on
+   one-page subject/audience/job). `00-brief.md` itself stays this thin
+   by design — it's the root traceability walks back to, not a copy of
+   BMAD's full archive. The PRD's Features/FRs and the UX spec
+   (`05-ux-spec/DESIGN.md`/`EXPERIENCE.md`), where BMAD produced them,
+   are read directly by `landing-strategist`, `landing-systems`,
+   `landing-sequencer`, and `landing-headline-writer` later in the chain
+   (see each agent's own Workflow) rather than mined into the brief here
+   — a locked color, typeface, mascot requirement, or section list is
+   BMAD's own committed material, not something this mining step
+   compresses into one paragraph and the rest of the chain then works
+   without. Where BMAD's material leaves any of the subject/audience/job
+   three genuinely unresolved, ask directly — don't proceed on
    vagueness, and don't invent an audience or job that wasn't stated,
    mined, or confirmed.
 3. **Write `.hedgehog/chain/00-brief.md`** — the mined subject statement,

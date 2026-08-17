@@ -25,18 +25,31 @@ values and the signature element.
   `landing-shapes` skill, invoked at the Sequencer/Builder phase. You
   name the geometry personality and element family here at step 6; the
   concrete CSS/canvas recipe is that skill's job, not yours.
-- This core has no design-handoff tool. Every token, dial, and signature
-  element choice is derived directly from `landing-strategist`'s
-  emotional target and your own reconciliation at step 5 — never
-  imported from an external design file.
+- This core has no separate Figma/design-tool handoff — but where
+  `.hedgehog/BMAD/05-ux-spec/DESIGN.md` exists, it **is** a design
+  handoff: a `status: final` token set (named hex colors, named
+  typefaces, radius/spacing/component specs) produced by BMAD's own UX
+  elicitation. Every token, dial, and signature element choice is
+  reconciled against `landing-strategist`'s emotional target *and*
+  against that file where it exists — never independently re-derived
+  from the emotional target alone when BMAD already locked the answer.
 
 ## Core Responsibilities
 
 ### Step 4a — Ingredient Director
 
-**In:** sorted emotional targets (from `landing-strategist`)
+**In:** sorted emotional targets (from `landing-strategist`), plus
+`.hedgehog/BMAD/05-ux-spec/DESIGN.md` where it exists
 **Out:** dial table — color / type / form / space / motion, each
 direction justified per adjective
+
+**Where `DESIGN.md` names a specific color, typeface, radius, or
+component pattern as `status: final`, that value is the dial's
+direction** — cite the adjective it satisfies, the same as any other
+direction in the table, rather than treating the emotional target as
+the sole source and independently landing on a different value that
+happens to fill the same slot. A dial `DESIGN.md` is silent on is
+derived from the emotional target alone, same as before.
 
 Assign a direction on each visual dial for every adjective. Where two
 adjectives conflict on the same dial, resolve it explicitly — state which
@@ -115,7 +128,8 @@ technique:
 ### Step 5 — Systems Designer
 
 **In:** dial table (4a) + voice spec (4b) + note-timing spec (from
-`landing-strategist`)
+`landing-strategist`) + `.hedgehog/BMAD/05-ux-spec/DESIGN.md` where it
+exists
 **Out:** the token system
 
 Collapse intentions into a small, consistent rule set: 4–6 named hex
@@ -156,10 +170,15 @@ a sign the scale itself needs revisiting, not an exception to carve out.
 **Pick and install the actual typefaces — never ship `system-ui`.** The
 core's placeholder font tokens are a system stack so the pipeline
 compiles, not a choice; leaving them is the single fastest way to make a
-page read as a template and undo the scale work above. Choose two faces
-from the letterform-character dial (4a) — a characterful display face
-and a restrained body face, matched to the target feeling, not a
-repeated default pair — and install them as pinned dependencies:
+page read as a template and undo the scale work above. **If
+`.hedgehog/BMAD/05-ux-spec/DESIGN.md` names specific typefaces, install
+those** — they're elicited, not a placeholder, and a different pair
+chosen from the letterform-character dial alone is not a substitute even
+if it satisfies the same adjective. Only where `DESIGN.md` is silent or
+absent, choose two faces from the letterform-character dial (4a) — a
+characterful display face and a restrained body face, matched to the
+target feeling, not a repeated default pair — and install them as pinned
+dependencies:
 
 ```bash
 pnpm add @fontsource-variable/<display> @fontsource-variable/<body>
@@ -196,8 +215,19 @@ is.
 
 ### Step 6 — Signature Element
 
-**In:** token system + subject statement
+**In:** token system + subject statement + `.hedgehog/BMAD/05-ux-spec/
+DESIGN.md` where it exists
 **Out:** signature element + its rules
+
+**If `DESIGN.md` already names a required mascot, motif, or recurring
+visual asset** (e.g. a mascot tied to the product's own naming story,
+with instructions on how it must and must not be used), that asset is
+the signature element, or a required companion to it — define its
+persistence/continuity/scale/literalness rules against what `DESIGN.md`
+already specified, rather than sourcing a wholly separate motif from the
+subject statement alone and leaving BMAD's required asset unused. Where
+`DESIGN.md` is silent on a recurring visual asset, source one the
+existing way:
 
 Pull one visual artifact from the subject's own physical/material
 world — not a decoration library — and define:
@@ -232,10 +262,14 @@ and generic clip-art geometry.
 ## Workflow
 
 1. Read `landing-strategist`'s full output — don't work from a summary.
+   **Read `.hedgehog/BMAD/05-ux-spec/DESIGN.md` in full, if it exists** —
+   its colors, typography, component patterns, and Do's/Don'ts are
+   elicited design decisions, not a placeholder to work around.
 2. Run 4a and 4b together (same input, independent outputs) — they don't
    depend on each other, but both feed step 5.
-3. Run step 5, reconciling 4a/4b/4c into the actual token system. Write
-   `src/styles/global.css`'s `@theme` block.
+3. Run step 5, reconciling 4a/4b/4c and `DESIGN.md` (where it exists)
+   into the actual token system. Write `src/styles/global.css`'s
+   `@theme` block.
 4. Run step 6 against the completed token system. Write the signature
    element into `src/shapes/`.
 5. Self-test (below).
@@ -245,16 +279,22 @@ and generic clip-art geometry.
 ## Self-test
 
 - Every dial direction in 4a traces to a named adjective from
-  `landing-strategist`'s output — a color or type choice with no
-  adjective behind it gets cut.
+  `landing-strategist`'s output, or to a `status: final` value in
+  `DESIGN.md` — a color or type choice with no adjective and no
+  `DESIGN.md` citation behind it gets cut.
 - Ingredients move in agreement: color, type, space, motion, and copy
   rhythm all point the same emotional direction. A page warm in color but
   cold in type is a defect to fix here, not a later polish pass.
 - Every claim in the voice spec that needs a mechanism has a stated
   reason-why, not a bare assertion.
-- The signature element's source is traceable to the subject statement,
-  not a generic decoration. If you can't state which sentence in the
-  subject statement it came from, it's not sourced — revise.
+- The signature element's source is traceable to the subject statement
+  or to a required asset named in `DESIGN.md`, not a generic decoration.
+  If you can't state which sentence or `DESIGN.md` section it came from,
+  it's not sourced — revise.
+- **If `DESIGN.md` exists**, every named color, typeface, and component
+  pattern in the written token system either matches a `DESIGN.md` value
+  or is clearly new ground `DESIGN.md` didn't cover — none silently
+  contradicts a `status: final` value BMAD already locked.
 - The token system is the single place spacing/color/type/motion values
   live — nothing downstream (Sequencer, Builder) should need to invent a
   new value outside it.
@@ -262,13 +302,18 @@ and generic clip-art geometry.
 ## Constraints
 
 - Never introduce a token, signature-element choice, or copy pattern
-  that doesn't originate in `landing-strategist`'s output — that's the
+  that doesn't originate in `landing-strategist`'s output or in
+  `.hedgehog/BMAD/05-ux-spec/DESIGN.md` where it exists — that's the
   traceability discipline `landing-critic` audits, and a violation here
   is exactly what gets redlined.
+- Never independently re-derive a color, typeface, radius, spacing unit,
+  or component pattern that `DESIGN.md` already committed to
+  `status: final` — read and use BMAD's own value, don't land on a
+  different one that happens to satisfy the same adjective.
 - Never reach for an icon library, a component library, or a generic
-  decorative asset to fill a gap — that gap is a signal to go back to the
-  Ingredient Vocabulary and derive the right choice, not to default to
-  something off-the-shelf.
+  decorative asset to fill a gap — that gap is a signal to go back to
+  `DESIGN.md` (if it exists) or the Ingredient Vocabulary and derive the
+  right choice, not to default to something off-the-shelf.
 - Don't write section layout, pacing, or transitions — that's
   `landing-sequencer`'s step 7, working from your token system.
 - Don't touch `src/pages/`, `src/sections/` beyond what's needed to

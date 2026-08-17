@@ -40,7 +40,17 @@ back at Confirm & Lock for the user to accept or correct.
    and `00-manifest.md` attribution header that skill's Phase 0 defines.
    `.hedgehog/BMAD/` is archival and immutable once written, same as
    `full-stack-app` — nothing in this core's day-to-day loop reads it
-   live after this step mines it once.
+   live after this step mines it once. **Before `bmad-ux` runs**, write
+   this core's `bmad-ux.toml` (see `references/bmad-ux-customize.toml` in
+   this package) to `{project-root}/_bmad/custom/bmad-ux.toml`, unless a
+   project-specific override already exists there — this is a
+   `bmad-ux`-native override file (`customize.toml`'s own documented
+   mechanism, not an edit to the vendored skill), and it points `bmad-ux`'s
+   Design handoff working mode at Google Stitch with a landing-page-shaped
+   directive. `bmad-ux` itself decides whether Discovery runs fast-path,
+   coaching-path, or Design handoff — offered, not forced — so this step
+   only makes the option well-formed when the user picks it, never removes
+   the other two paths.
 2. **Mine a draft subject statement** from `.hedgehog/BMAD/`: the
    concrete subject (what is this actually selling/announcing/showing),
    the audience, and the page's single job, sourced from the brief and

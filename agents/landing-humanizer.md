@@ -24,6 +24,14 @@ that just wrote against it is a rule that's easy to miss under drafting
 pressure; checking it here, after the fact, against the actual locked
 text, is the gate.
 
+These checks are frequency/density tells, not a register ceiling: they
+catch habitual patterns (2+ tricolons on a page, a hedge-adverb standing
+in for a plain claim), never a section's blunt or informal register
+applied correctly per `landing-systems`'s voice spec. A punchy-register
+section that uses one earned tricolon or a genuinely blunt line isn't a
+finding here — check density against the actual instructed register,
+not against a neutral-register assumption.
+
 ## What this is not
 
 `landing-critic` (phase 11) audits traceability, distinctiveness, and

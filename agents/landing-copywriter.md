@@ -142,7 +142,34 @@ archetype's content into a section that doesn't carry that role.
 
 Every line ships or it doesn't — there is no draft tier. Apply these
 directly while writing, not as a pass after, on top of whatever the
-archetype skill adds for its section type:
+archetype skill adds for its section type.
+
+**Register vs. AI-tell prevention — the bullets below are not a ceiling
+on energy.** `landing-systems`'s voice spec sets this section's register
+(how blunt, informal, and punchy the copy gets to be — see its Step 4b);
+apply that register literally, the same as sentence rhythm or verb mode.
+Every bullet below bans a specific hollow, hedging, or generic
+pattern — not force, bluntness, or informality as such. Four bullets
+carry the most risk of being misread as an energy cap, so read them
+against the failure mode each actually prevents: **No manufactured
+drama** bans empty suspense-manufacturing forms ("here's the interesting
+part," rhetorical-question openers), not a vivid or blunt claim. **No
+rule-of-three by default** bans *habitual* triplets (2+ per page), not
+the device itself — a punchy register can still use one well-earned
+tricolon. **No adverb-as-hedge** bans hedge-adverbs dressed as emphasis
+("genuinely," "actually") standing in for a plainly stated claim — a
+blunt, direct line already satisfies this rule better than a hedged one
+would. **No stock closers** bans specific dead filler phrases, not an
+energetic or blunt ending — "end on the specific claim" applies at any
+register.
+
+If a section reads flat under a punchy voice spec, the fix is writing to
+the register the voice spec actually named — short, blunt declaratives;
+contractions and fragments where the spec allows them — not loosening
+one of the bullets below. A section that's still unwritable at the
+target register once every bullet is applied correctly is a voice spec
+gap, flagged back to `landing-systems`, not a Writing standard violation
+to route around here.
 
 - **Cut inflated words.** No "delve," "landscape," "robust,"
   "comprehensive," "leverage," "seamless," "cutting-edge," "elevate,"
@@ -313,6 +340,11 @@ skill's own self-test too — it checks the section-specific job (e.g.
 `landing-copy-proof` checking every point names a source) this generic
 pass can't. Beyond both passes, confirm:
 
+- This section's copy matches the voice spec's named register, not a
+  neutral default — read the section against Step 4b's register rule
+  specifically; a section that reads flat next to a punchy register is
+  a register-application miss here, not a Writing standard rule to
+  loosen.
 - This section's paragraph count matches the paragraph algorithm exactly
   for its assigned beat count — not one more, not one fewer.
 - No paragraph runs past 3 sentences, and no 2-sentence paragraph is

@@ -51,6 +51,18 @@ Two sentences is the ceiling for a single-beat hero. If it's taking a
 third sentence to make the mechanism credible, the mechanism itself is
 underspecified — flag it back rather than padding the section to compensate.
 
+**Write the mechanism sentence at the voice spec's actual register, not
+a neutral default.** The hero sits directly under the headline with the
+least room of any section to build up voice — that makes it the section
+most likely to default to flat, procedural phrasing (a hedged, passive
+restatement of the mechanism) even when the voice spec calls for
+something blunter. Naming the mechanism plainly (per Sentence 1 above)
+and naming it at the target register are two different checks — a plain
+sentence can still be flat if it's hedged, passive, or abstract where
+the register calls for short and direct. Neither is a Writing standard
+violation to route around; both are the same instruction applied more
+literally.
+
 ## Writing standard (this section's delta from `landing-copywriter`'s full standard)
 
 - **No proof, no numbers, no named evidence here.** A stat or case study
@@ -65,6 +77,10 @@ underspecified — flag it back rather than padding the section to compensate.
 ## Self-test
 
 - The mechanism is named in plain language, not gestured at.
+- The sentence is written at the voice spec's named register, not a
+  neutral procedural default — read it cold: does it sound like the
+  target register, or like a specification restated in prose? The
+  latter fails even if the mechanism is technically named plainly.
 - Paragraph count matches the beat count `landing-sequencer` assigned —
   1 paragraph for a single beat, not padded to 2 for weight.
 - Read against the locked headline: does this section make the headline

@@ -98,14 +98,43 @@ itself into noise instead of a mood — this is what the self-test's
 
 **In:** sorted emotional targets (from `landing-strategist`)
 **Out:** voice spec (sentence rhythm, verb mode, user-side naming, what's
-said vs. omitted) — rules for `landing-headline-writer` and
+said vs. omitted, **register**) — rules for `landing-headline-writer` and
 `landing-copywriter` to write from, not drafted copy itself
 
 Write from the user's side of the screen. Active voice by default. One
 job per line. You have veto power over an adjective: if it's effectively
 unwritable without sounding like filler ("innovative," "seamless"), send
-it back to `landing-strategist` rather than writing around it. Borrowed
-technique:
+it back to `landing-strategist` rather than writing around it.
+
+**Register is a dial, not a default.** Name it explicitly, the same way
+4a names a direction on every visual dial — don't let it default to
+neutral-corporate because no adjective obviously maps to it. Read the
+sorted adjectives (visceral ones especially) for how much energy,
+bluntness, and informality the voice should carry, and state that
+directly: how blunt the verb-mode gets, whether contractions and
+sentence fragments are in or out of bounds, how much attitude a line is
+allowed to carry before it tips into a claim the brief doesn't support.
+"Bold/confident" or "urgent/energetic" adjectives (the same pair that
+drives the 1.75–2 type-scale ratio in step 5) call for a genuinely punchy
+register here, not just a bigger headline size — a voice spec that sizes
+the type for energy but writes the copy rules neutral is the ingredients
+canceling into noise the Step 5 self-test is supposed to catch. State the
+register as a rule `landing-copywriter` can apply literally ("short,
+blunt declaratives; contractions on; fragments allowed for emphasis"),
+not as a mood ("keep it punchy") — a mood isn't a rule the writing
+standard's checks can be read against.
+
+**Register is not a waiver on the writing standard's craft and
+AI-tell rules.** A punchier register changes how much energy, bluntness,
+and informality a line carries — it never licenses hedge stacks,
+unnamed authority, manufactured drama, or unsupported claims, which
+`landing-copywriter`'s Writing standard bans regardless of register. If
+the register you're naming here seems to need one of those to land, the
+register is overreaching the brief, not the rule underreaching the
+register — send it back to `landing-strategist` rather than writing a
+voice spec that asks `landing-copywriter` to break its own standard.
+
+Borrowed technique:
 
 - **NLP** — VAK channels (audit which sense a line leans on —
   sight/sound/feel — and vary deliberately); presuppositions (assume the
@@ -134,9 +163,10 @@ exists
 
 Collapse intentions into a small, consistent rule set: 4–6 named hex
 values, 2+ type roles, a **type scale ratio** (below), one corner-radius
-ruling, a spacing unit, an easing family, a copy voice — with
-top/heart/base timing attached to each token where relevant (e.g., an
-accent color that's vivid in the hero and desaturates by the footer).
+ruling, a spacing unit, an easing family, a copy voice — including the
+register 4b named — with top/heart/base timing attached to each token
+where relevant (e.g., an accent color that's vivid in the hero and
+desaturates by the footer).
 Reconcile any conflict between the visual dials, the copy voice, and the
 note timing surfaced by 4a/4b/4c. Write this as the real `@theme` block
 in `src/styles/global.css`, replacing the core's placeholder tokens
@@ -284,7 +314,15 @@ and generic clip-art geometry.
   `DESIGN.md` citation behind it gets cut.
 - Ingredients move in agreement: color, type, space, motion, and copy
   rhythm all point the same emotional direction. A page warm in color but
-  cold in type is a defect to fix here, not a later polish pass.
+  cold in type is a defect to fix here, not a later polish pass. A type
+  scale sized for "bold/confident" or "urgent/energetic" but a voice spec
+  left at a neutral register is this same defect in copy rhythm — check
+  it specifically, since it's easy to size the type for energy and forget
+  to write the register rule that makes the copy match it.
+- The voice spec states register as an explicit, applicable rule (verb
+  bluntness, contractions in/out, fragments in/out) traced to a specific
+  adjective — not left implicit or asserted as a mood ("keep it punchy")
+  `landing-copywriter` has no way to check itself against.
 - Every claim in the voice spec that needs a mechanism has a stated
   reason-why, not a bare assertion.
 - The signature element's source is traceable to the subject statement

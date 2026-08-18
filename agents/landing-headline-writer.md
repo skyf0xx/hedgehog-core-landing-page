@@ -29,9 +29,9 @@ None — you write prose into `.hedgehog/chain/`, not code.
 
 Use the `landing-copy-headline` skill for the actual generation
 procedure: the 8 named rhetorical mechanisms, the outcome-subject test,
-and the writing standard scoped to a single line. That skill is this
-agent's algorithm — don't draft candidates by feel or improvise a
-different method here.
+the first-time-reader test, and the writing standard scoped to a single
+line. That skill is this agent's algorithm — don't draft candidates by
+feel or improvise a different method here.
 
 ## Core Responsibilities
 
@@ -64,8 +64,10 @@ against its own archetype skill.
    names) if that file exists — not a summary of any of them.
 2. Run the `landing-copy-headline` skill's procedure end to end: generate
    candidates against at least 3 distinct mechanisms, run the
-   outcome-subject test and the writing standard against each, select the
-   3 that survive both.
+   outcome-subject test, the first-time-reader test, and the writing
+   standard against each, select the 3 strongest — flagging plainly any
+   selected candidate that failed the first-time-reader test and was
+   kept anyway.
 3. Self-test (below) — the skill's own self-test, not a separate check.
 4. **Present the 3 candidates to the user**, each labeled with its
    mechanism, and ask them to pick one as the headline (the other 2 stand

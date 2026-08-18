@@ -5,7 +5,7 @@
 #   brief    — planning intake's mined subject statement (Phase 0)
 #   feeling  — Strategist/Brand Anthropologist/Psychologist/Perfumer (landing-strategist)
 #   tokens   — Ingredient Director/Copywriter/Systems Designer/Signature Element (landing-systems)
-#   sequence — Sequencer, Headline, per-section Copywriter (landing-sequencer, landing-headline-writer, landing-copywriter)
+#   sequence — Sequencer, Headline, per-section Copywriter + Humanizer (landing-sequencer, landing-headline-writer, landing-copywriter, landing-humanizer)
 #   artifact — Critic + Builder (landing-critic, landing-builder)
 #
 # feeling, tokens, and sequence each write their own chain-record file

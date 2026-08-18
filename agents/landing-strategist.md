@@ -66,7 +66,8 @@ yet.
 
 ### Step 2 — Brand Anthropologist
 
-**In:** subject statement
+**In:** subject statement, plus `.hedgehog/BMAD/05-ux-spec/DESIGN.md`'s
+Brand & Style section where that file exists
 **Out:** 3–5 adjective pairs, each paired with a named opposite
 
 Extract feeling, not category convention. Apply the test to every
@@ -74,6 +75,15 @@ candidate adjective: *could this describe a competitor's page unchanged?*
 If yes, cut it — it's not doing any work. The named opposite
 ("unhurried, not sluggish") pins the boundary so the adjective is
 falsifiable later by `landing-critic`, not just a vibe.
+
+**If BMAD's UX spec already names a brand register or mantra** (e.g. a
+"Warm Minimalism" label, a "Snappy · Solid · Hackable" mantra, an
+explicit "Do's and Don'ts" list), that register is elicited material,
+not a design placeholder — translate it into this step's adjective-pair
+format rather than running Brand Anthropologist as a from-scratch
+exercise against the subject statement alone. A BMAD-named register that
+gets silently replaced by an independently-derived one here is exactly
+the drift this step must not produce.
 
 ### Step 3 — Psychologist
 
@@ -112,7 +122,18 @@ adjective is meant to fade rather than hold constant throughout the page.
 
 1. Read `.hedgehog/chain/00-brief.md` (written by `planner` at planning
    intake). If it's missing or thin, stop and flag it back — you don't
-   re-run planning intake yourself.
+   re-run planning intake yourself. **Then read `.hedgehog/BMAD/`
+   directly, in full** — `04-prd.md`'s Features/FRs, not just its
+   headers, and `05-ux-spec/DESIGN.md` + `05-ux-spec/EXPERIENCE.md` if
+   that folder exists. `00-brief.md` is a deliberately thin mining of the
+   brief/PR-FAQ only (per `hedgehog-landing-loop`'s planning-intake
+   section), not a substitute for BMAD's own archive: a named brand
+   register or mantra, specific colors/typefaces/component patterns
+   already `status: final`, a mascot or motif requirement, and FRs with
+   their own testable consequences all live in `.hedgehog/BMAD/` and
+   nowhere else in the chain. Where BMAD already committed to a color,
+   adjective-equivalent, or design direction, that is the source of
+   truth for this phase's adjective work.
 2. Run step 1 (subject/audience/job), including its plain-verb check.
 3. **Confirm step 1's statement with the user. Wait for explicit
    go-ahead before proceeding to step 2** — this is a hard stop, not a
@@ -145,6 +166,11 @@ adjective is meant to fade rather than hold constant throughout the page.
   adjective still reads as true, the subject statement isn't specific
   enough — tighten it. (`landing-critic` re-runs this test formally
   later; failing it here first saves a redlined round-trip.)
+- If `.hedgehog/BMAD/05-ux-spec/DESIGN.md` exists, every adjective pair
+  either names something that file already committed to (a brand
+  register, a named color/type direction) or is clearly new ground that
+  file didn't cover — none should silently occupy the same slot as a
+  BMAD-named direction while naming something different.
 
 ## Constraints
 
@@ -153,6 +179,11 @@ adjective is meant to fade rather than hold constant throughout the page.
   yourself reaching for a hex value or a font name, stop; that's a sign
   the emotional target itself is underspecified, not a shortcut worth
   taking.
+- Never derive an adjective pair, brand register, or note-timing
+  decision that contradicts a direction `.hedgehog/BMAD/05-ux-spec/
+  DESIGN.md` already locked (`status: final`) — extract and formalize
+  what BMAD's elicitation already produced rather than independently
+  re-deriving a different answer to the same question.
 - Never write finished copy — headlines, body prose, CTA text. Your
   sorted adjectives and note timing are the input to `landing-systems`'s
   step 4b (the voice spec) and, downstream of that, `landing-headline-writer`

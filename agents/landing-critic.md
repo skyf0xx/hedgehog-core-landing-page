@@ -46,6 +46,21 @@ Own traceability and distinctiveness. Run:
 - **Chanel cut** — identify one thing to remove before sign-off. If
   nothing is genuinely removable, say so explicitly rather than
   inventing a cut for form's sake.
+- **BMAD-fidelity audit** — where `.hedgehog/BMAD/04-prd.md` or
+  `.hedgehog/BMAD/05-ux-spec/` exist, read them directly (not the chain's
+  paraphrase of them) and check every `status: final` color, typeface,
+  component pattern, mascot/motif requirement, named section, and locked
+  headline claim against what the chain actually produced. This audit is
+  distinct from the traceability audit above: traceability checks that a
+  choice traces back to *something* upstream in the chain; this checks
+  that nothing upstream in the chain silently replaced material BMAD's
+  own elicitation already locked with a different answer to the same
+  question. A token, section, or claim that's internally consistent with
+  `landing-strategist`'s adjectives but contradicts a `status: final`
+  BMAD value fails this audit even though it would pass traceability
+  alone — redline it back to whichever phase introduced the
+  substitution, naming the specific `DESIGN.md`/`EXPERIENCE.md`/
+  `04-prd.md` line it departed from.
 
 ### Step 9 — Usability Auditor (reconciled with step 8, not sequential)
 
@@ -79,9 +94,11 @@ for `landing-builder` to guess at.
    `landing-sequencer`'s pacing spec, `landing-headline-writer`'s locked
    headline, every locked section from `landing-copywriter`, and (if this
    is a re-audit after a Correction Protocol fix) `landing-builder`'s
-   current output.
-2. Run the traceability audit, default audit, swap test, and Chanel cut
-   together — step 8.
+   current output. Also read `.hedgehog/BMAD/04-prd.md` and
+   `.hedgehog/BMAD/05-ux-spec/` directly, if they exist — required for
+   the BMAD-fidelity audit below, not optional supporting color.
+2. Run the traceability audit, default audit, swap test, BMAD-fidelity
+   audit, and Chanel cut together — step 8.
 3. Run the Fitts's Law and affordance checks — step 9.
 4. Reconcile: note any conflict between the two audits and how it
    resolves.
@@ -96,6 +113,9 @@ for `landing-builder` to guess at.
   no reason.
 - The swap test was actually run against the current hero and signature
   element, not assumed to still hold from an earlier pass.
+- If `.hedgehog/BMAD/04-prd.md` or `05-ux-spec/` exist, they were read
+  directly for the BMAD-fidelity audit, not skipped because the chain's
+  own artifacts already looked internally consistent.
 - Both audits (traceability/distinctiveness and usability) were run, not
   just one — a pass that only checked one side isn't a real pass.
 
@@ -107,6 +127,11 @@ for `landing-builder` to guess at.
   good" — looking good and being derived from the chain are different
   claims, and this core exists specifically to keep them from being
   conflated.
+- Never skip the BMAD-fidelity audit because the chain passes
+  traceability — an internally consistent chain that silently
+  contradicts a `status: final` BMAD value is exactly the failure mode
+  traceability alone can't catch, since every step in that chain still
+  traces cleanly to the step before it.
 - Don't expand into Jakob's Law or broader platform-convention checks —
   deliberately out of scope for a single landing page (see
   `hedgehog-landing-loop`'s Rules). If a project's landing-page scope

@@ -1,6 +1,6 @@
 ---
 name: landing-copy-headline
-description: Use whenever `landing-headline-writer` drafts the page headline (Chain Method step 9). Gives the 8 named rhetorical mechanisms, the outcome-subject test, and the selection procedure for generating 3 distinct-mechanism candidates and presenting them for the user's lock. Trigger on "write the headline", "headline candidates", or the start of `landing-headline-writer`'s own workflow.
+description: Use whenever `landing-headline-writer` drafts the page headline (Chain Method step 9). Gives the 8 named rhetorical mechanisms, the outcome-subject test, the first-time-reader (curse-of-knowledge) test, and the selection procedure for generating 3 distinct-mechanism candidates and presenting them for the user's lock. Trigger on "write the headline", "headline candidates", or the start of `landing-headline-writer`'s own workflow.
 ---
 
 # Landing Copy: Headline
@@ -85,6 +85,44 @@ Transformation-mechanism candidate that fails it still fails, and a
 Mechanism-mechanism candidate that passes it is still eligible. Rewrite
 or cut any candidate that fails before Step 4.
 
+## Step 3.5: The first-time-reader test (run on every candidate)
+
+The outcome-subject test checks *what the sentence is grammatically
+about*; this test checks a different failure mode — whether parsing that
+subject at all requires context the reader doesn't have yet. A headline
+can pass Step 3 cleanly and still fail here: naming the reader's outcome
+in subject position doesn't help if the outcome itself is only legible
+to someone who already knows the frame, the tension, or the stance being
+assumed.
+
+This risk concentrates in four of the eight mechanisms by construction —
+**Tension**, **Reframe**, **Provocation**, and **Identity** each work by
+setting up a frame, contradiction, or stance the reader is assumed to
+already hold or recognize, and **Curiosity** withholds the payoff
+entirely, by design. Candidates from these mechanisms need this test run
+deliberately, not as a formality; **Outcome** and **Transformation** are
+lower-risk by construction but not exempt.
+
+Run it by reading only the headline, cold, as a first-time visitor with
+zero context would: **does the line require the reader to have already
+inferred a frame, a tension, or a stance that hasn't been stated yet?**
+
+- "Your website isn't a brochure. It's a decision engine." **fails** —
+  the reader has to already accept "brochure" as the wrong frame before
+  the reframe lands; nothing in the line itself establishes that.
+- "For teams that refuse to ship generic software." **fails** — assumes
+  the reader already self-identifies with the stance being named.
+- "Your agent's work outlives the session that made it." **passes** —
+  every term is legible cold; no prior frame is assumed.
+
+A candidate that fails this test is not automatically cut — some subject
+statements genuinely support an indirect mechanism better than a direct
+one — but it needs either a rewrite that establishes the missing frame
+within the line itself, or an explicit flag to the user at Step 5
+("this candidate assumes prior context; pick it knowingly, not by
+default"). Never present a candidate that fails this test as
+indistinguishable in risk from one that passes it.
+
 ## Step 4: Apply the writing standard
 
 Scoped to a single line — the same bar `landing-copywriter` holds section
@@ -103,10 +141,13 @@ copy to:
 
 ## Step 5: Select and present
 
-Select the 3 strongest, distinct candidates that survived Steps 3 and 4.
-Label each with its mechanism name and present all 3 to the user — this
-is a hard stop; wait for an explicit pick (the other 2 stand as backups)
-or a redirect. Every section `landing-copywriter` writes afterward is
+Select the 3 strongest, distinct candidates that survived Steps 3, 3.5,
+and 4. Label each with its mechanism name and present all 3 to the
+user — this is a hard stop; wait for an explicit pick (the other 2 stand
+as backups) or a redirect. Where a presented candidate failed Step 3.5
+and was kept anyway (rewrite wasn't viable, or the indirect mechanism
+genuinely fit the subject statement best), flag that plainly alongside
+it, not silently. Every section `landing-copywriter` writes afterward is
 checked against whichever headline locks here, so an unconfirmed pick
 compounds the same way an unconfirmed subject statement does at strategy
 step 1.
@@ -119,6 +160,11 @@ step 1.
   a line that could run on a competitor's page unchanged (the swap test)
   was rewritten before presenting, not left for `landing-critic` to
   catch.
+- Every candidate was run through the first-time-reader test
+  individually (Step 3.5), not waved through because the outcome-subject
+  test already passed — the two check different failure modes. Any
+  candidate presented despite failing it carries an explicit flag to the
+  user, not a silent pass.
 - Every candidate passed the outcome-subject test individually — not
   waved through because the set as a whole "feels balanced."
 

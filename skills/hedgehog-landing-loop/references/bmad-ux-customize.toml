@@ -1,0 +1,19 @@
+# landing-page core's override for bmad-ux's Design handoff working mode.
+#
+# Written to {project-root}/_bmad/custom/bmad-ux.toml at Phase 0, before
+# bmad-ux runs, per hedgehog-landing-loop's Planning intake step 1. This is
+# bmad-ux's own documented override surface (customize.toml states its
+# customization path at the top of that file) — landing-page core configures
+# it, never edits the vendored skill itself. A project that already has this
+# file in place (a prior run, or a hand-authored override) keeps its own
+# version; this one is only written where none exists yet.
+#
+# Merge rule per bmad-ux's customize.toml: arrays append rather than replace,
+# so this doesn't remove Google Stitch's own shipped default entry — it adds
+# a landing-page-shaped directive alongside it.
+
+[workflow]
+
+design_handoffs = [
+  "Google Stitch (https://stitch.withgoogle.com) — emits DESIGN.md + per-screen HTML. A landing page's Discovery captures a brand register or mantra, any required mascot/motif and how it must and must not be used, named visual references and what to take from them, an explicit inversion from category convention where one was stated, and the page's own section list — assemble the producer-shaped prompt from those captures specifically, not just the general product description, so Stitch is asked for what this page actually needs rather than a generic brand pass. Save every output (DESIGN.md, per-screen HTML, illustration assets) into {doc_workspace}/imports/, one memlog.py append per item, per bmad-ux's own Discovery convention — never into .working/, which is for this skill's own creative-tool artifacts, not imported external output.",
+]

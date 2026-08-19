@@ -14,9 +14,9 @@ Stages 1–3 and 6–7 around you — it hands off to you once Stage 3's
 section list, beat structure, and archetype roles are locked, and you
 hand back once every section's copy is locked.
 
-Nobody reads drafted copy for the first time buried in Astro markup — it
-exists here first, as prose the user reads, edits, and locks, before
-`landing-builder` ever builds it.
+Copy is drafted and locked here, as prose, before `landing-builder`
+places it into components at Stage 7 — never drafted directly in
+markup.
 
 ## Stack (locked)
 
@@ -32,8 +32,8 @@ this is that algorithm, not a duplicate of it.
 **In:** Stage 1's emotional target (adjective pairs, subject statement),
 Stage 2's voice spec and token system, Stage 3's section list and beat
 structure, plus `04-prd.md`'s Hero/Core Claim feature where it exists.
-**Out:** the headline plus 2 backups, each from a distinct rhetorical
-mechanism, locked by the user.
+**Out:** the locked headline plus its backups (2 to 4 candidates, each
+a distinct pattern per `landing-copy-headline`), locked by the user.
 
 If the PRD names a locked convergence claim (a specific phrase already
 committed to, not just a topic), generate candidates carrying that
@@ -41,12 +41,13 @@ claim's actual content — a structurally similar but differently-worded
 substitute doesn't count. A departure from the named claim is a
 swap-test flag raised to the user explicitly.
 
-**Present the 3 candidates — hard stop.** Label each with its mechanism
-and get an explicit pick (or redirect) before section copy starts. Write
-the locked headline and its 2 backups to `.hedgehog/chain/09-headline.md`.
+**Present every surviving candidate — hard stop.** Label each with its
+pattern and get an explicit pick (or redirect) before section copy
+starts. Write the locked headline and its backups to
+`.hedgehog/chain/09-headline.md`.
 
 **Self-test:** run `landing-copy-headline`'s own self-test in full.
-Beyond that: the user explicitly picked or redirected among all 3
+Beyond that: the user explicitly picked or redirected among all
 labeled candidates, and if `04-prd.md` names a locked convergence claim,
 either the headline carries it or the departure was raised explicitly
 before lock.
@@ -133,20 +134,23 @@ section that doesn't carry that role.
 Every line ships or it doesn't — no draft tier. Apply directly while
 writing, on top of whatever the archetype skill adds.
 
-**Register vs. AI-tell prevention — these bullets are not a ceiling on
-energy.** Apply Stage 2's register literally, same as sentence rhythm
-or verb mode. Each bullet bans a specific hollow, hedging, or generic
-pattern — not force, bluntness, or informality itself. If a section
-reads flat under a punchy register, the fix is writing to that register
-(short, blunt declaratives; contractions and fragments where allowed) —
-not loosening a bullet. A section still unwritable at the target
-register once every bullet is applied correctly is a voice-spec gap,
-flagged back to `landing-builder` to revisit at Stage 2.
+These bullets ban specific hollow, hedging, or generic patterns — they
+are not a ceiling on energy. Apply Stage 2's register literally (short,
+blunt declaratives; contractions and fragments where allowed); if a
+section reads flat under a punchy register, the fix is writing to that
+register, not loosening a bullet. A section still unwritable at the
+target register once every bullet is applied correctly is a voice-spec
+gap, flagged back to `landing-builder` to revisit at Stage 2.
 
 - **Cut inflated words.** No "delve," "landscape," "robust,"
   "comprehensive," "leverage," "seamless," "cutting-edge," "elevate,"
   "unlock," "empower," "streamline," "game-changer," "harness,"
-  "revolutionize." State the plain verb or noun.
+  "revolutionize," "utilize," "foster," "facilitate," "pivotal,"
+  "nuanced," "multifaceted," "crucial," "garner," "vibrant," "tapestry,"
+  "testament," "interplay," "intricate," "showcase" (verb), "underscore,"
+  "navigate" (abstract), "myriad," "synergy," "paradigm shift." State
+  the plain verb or noun — this is the banned list the AI-tell check
+  re-audits below.
 - **No negation formulas.** Never "It's not X — it's Y." State the
   positive claim directly.
 - **No hedge stacks.** Never pair "could potentially," "may
@@ -238,14 +242,9 @@ correctly. A punchy-register section with one earned tricolon isn't a
 finding — judge density against the instructed register, not a neutral
 assumption.
 
-- **Banned vocabulary** — beyond the Writing standard's list: "delve,"
-  "leverage" (verb), "utilize," "robust," "comprehensive," "streamline,"
-  "foster," "facilitate," "pivotal," "nuanced," "multifaceted,"
-  "crucial," "garner," "vibrant," "tapestry," "testament," "interplay,"
-  "intricate," "landscape" (abstract), "showcase" (verb), "underscore,"
-  "seamless," "cutting-edge," "elevate," "unlock," "empower,"
-  "game-changer," "harness," "revolutionize," "navigate" (abstract),
-  "myriad," "synergy," "paradigm shift."
+- **Banned vocabulary** — re-audit the Writing standard's list against
+  the actual text; a word slipping through while drafting is exactly
+  what this pass catches.
 - **Punctuation fingerprint** — em dashes that shipped anyway,
   semicolons outside a genuine list-with-internal-commas or formal
   register, curly quotes where straight ones are the project's
@@ -356,5 +355,6 @@ here is for reading/opening files (`code -g ...`), not for committing.
 - Never hand off a section the user hasn't seen and confirmed — this
   phase exists specifically so copy is reviewed section by section, not
   discovered later inside `landing-builder`'s build.
-- Never present fewer than 3 distinct-mechanism headline candidates, and
-  never lock a headline without the user's explicit pick or redirect.
+- Never present fewer than 2 distinct-pattern headline candidates, and
+  never lock a headline without the user's explicit pick or redirect
+  among every candidate presented.

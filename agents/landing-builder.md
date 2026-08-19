@@ -356,7 +356,7 @@ beat structure, from the same AIDA beat-map and section list.
 
 Hand off to `landing-copywriter` once Stage 3's section list, beat
 structure, and archetype roles are locked. It runs the headline
-(Stage 4: `landing-copy-headline`'s algorithm, 3 distinct-mechanism
+(Stage 4: `landing-copy-headline`'s algorithm, distinct-pattern
 candidates, a hard stop for the user's pick) and then every section's
 body/CTA copy (Stage 5: one section per invocation, each dispatched to
 its matching `landing-copy-*` archetype skill, the paragraph algorithm,

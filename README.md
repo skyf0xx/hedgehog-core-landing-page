@@ -11,10 +11,9 @@ Hedgehog project built on it.
   project's repo root: Astro config, the Tailwind v4 CSS-first token
   layer, the animation/icon library set (Motion, Lenis, SplitType, ogl,
   Lucide), and every enforcement file.
-- `agents/` — the Chain Method's chain agents (`landing-strategist`,
-  `landing-systems`, `landing-sequencer`, `landing-headline-writer`,
-  `landing-copywriter`, `landing-humanizer`, `landing-critic`,
-  `landing-builder`) and its Polish Loop agents (`landing-executor`,
+- `agents/` — the Chain Method's chain agent (`landing-builder`, which
+  runs the whole chain from the subject statement through the built
+  page) and its Polish Loop agents (`landing-executor`,
   `landing-visual-reviewer`, `landing-ux-reviewer`).
 - `skills/` — `hedgehog-landing-loop`,
   `hedgehog-bootstrap-landing-page-core`, `landing-shapes`, and the

@@ -1,18 +1,18 @@
 ---
 name: landing-shapes
-description: Use whenever `landing-systems` names the signature element's geometry personality and family (Chain Method step 6), `landing-sequencer` picks a concrete transition/divider technique for it, or `landing-builder` implements any section shape, divider, or icon. Trigger on "implement the signature element", "write the divider", "section transition CSS", "src/shapes/*", or an icon/illustration sourcing question. Gives the concrete construction techniques — curved and angular alike — and the one pinned icon source, so shapes come from a formula or a sourced icon instead of hand-typed or hand-measured geometry.
+description: Use whenever `landing-builder` names the signature element's geometry personality and family (its systems stage), picks a concrete transition/divider technique for it (its sequencing stage), or implements any section shape, divider, or icon (its build stage). Trigger on "implement the signature element", "write the divider", "section transition CSS", "src/shapes/*", or an icon/illustration sourcing question. Gives the concrete construction techniques — curved and angular alike — and the one pinned icon source, so shapes come from a formula or a sourced icon instead of hand-typed or hand-measured geometry.
 ---
 
 # Landing Shapes
 
-`landing-systems` decides *what* the signature element is and *why* —
-its source in the subject statement, persistence, continuity, scale
-range, literalness (Chain Method step 6). This skill covers *how* to
-build it, and every other section shape or divider the build needs: the
+`landing-builder`'s systems stage decides *what* the signature element
+is and *why* — its source in the subject statement, persistence,
+continuity, scale range, literalness. This skill covers *how* to build
+it, and every other section shape or divider the build needs: the
 geometry personality, the technique library, and the one pinned SVG
 source. It never decides what a shape means or where it recurs — that
-traceability stays with the Chain Method phases and `landing-critic`'s
-audit.
+traceability stays with the Chain Method stages and `landing-builder`'s
+own traceability self-check.
 
 ## Hard rule: never hand-draw a shape — compute it or source it
 
@@ -56,7 +56,7 @@ through this quickly:
      contrast, or an organic page with one hard geometric anchor.
    - *Geometric-precise* — perfect circles/arcs and straight lines only,
      no irregular organic blobs — reads as engineered, not organic.
-   Let the target feeling (below) and `landing-systems`'s tokens drive
+   Let the target feeling (below) and the token system drive
    this: futuristic, bold/confident, urgent targets often want angular
    or geometric-precise over organic; cozy, nostalgic, playful targets
    almost always want organic.
@@ -196,18 +196,17 @@ deliberately per build rather than defaulting to none:
   content swap · marquee that speeds up on scroll velocity.
 
 Palette, typography, layout paradigm, and animation personality are
-`landing-systems`'s token system and `landing-sequencer`'s pacing spec —
-this skill doesn't restate or re-decide those; if a shape choice here
-seems to need a different color or pacing than the token system
-specifies, flag it back rather than inventing a value.
+the token system and the pacing spec — this skill doesn't restate or
+re-decide those; if a shape choice here seems to need a different color
+or pacing than the token system specifies, flag it back rather than
+inventing a value.
 
 ## Style for a feeling — geometry parameters
 
-Once `landing-strategist`'s adjectives have named a target feeling, pull
+Once the strategy stage's adjectives have named a target feeling, pull
 the geometry-side parameters from this table rather than eyeballing
-them fresh. Color, saturation, and type weight stay owned by
-`landing-systems`'s token system — only the columns below have no
-existing Chain Method owner.
+them fresh. Color, saturation, and type weight stay owned by the token
+system — only the columns below have no existing Chain Method owner.
 
 | Feeling | Geometry lean | Corner radius | Line/stroke weight | Grain |
 |---|---|---|---|---|

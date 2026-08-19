@@ -6,9 +6,9 @@ caused it. No domain data, no backend — a single (or few-page) marketing
 site, built once through a fixed pipeline rather than iterated on
 freely. See `.hedgehog/BMAD/` for the vendored BMAD-METHOD shelf's raw
 output and `.hedgehog/chain/` for this core's own archival planning
-intake output — the Strategist's subject statement, the adjective/note
-tables, and the token system, written once by `planner` and the pipeline
-agents, never edited after a phase closes.
+intake output — the subject statement, the adjective/note tables, and
+the token system, written once by `planner` and `landing-builder`,
+never edited after a phase closes.
 
 The Chain Method decides *what* the signature element is and *why* it's
 there — sourced from the subject statement, audited for traceability.
@@ -31,16 +31,16 @@ pinned icon source. Neither restates the other's decision.
   `astro.config.mjs` already exists.
 - **`landing-shapes`** — the shape/divider/icon construction library:
   geometry personality, curve and angular CSS/canvas techniques, and
-  Lucide as the pinned icon source. `landing-systems` points into it
-  when naming the signature element's family; `landing-sequencer` and
-  `landing-builder` invoke it for the concrete recipe.
+  Lucide as the pinned icon source. `landing-builder` points into it
+  when naming the signature element's family at its systems stage, and
+  invokes it for the concrete recipe at its sequencing and build stages.
 - **`landing-copy-headline`, `landing-copy-hero`, `landing-copy-problem`,
   `landing-copy-mechanism`, `landing-copy-proof`, `landing-copy-objection`,
   `landing-copy-cta`** — the per-archetype copywriting algorithms: what
   question each section type answers, what order to answer it in, and its
-  own self-test. `landing-headline-writer` invokes `landing-copy-headline`
-  for the headline; `landing-copywriter` invokes whichever of the other
-  six matches the section's role, as assigned by `landing-sequencer`.
+  own self-test. `landing-copywriter` invokes `landing-copy-headline` at
+  its headline stage, then whichever of the other six matches each
+  section's role, as assigned at `landing-builder`'s sequencing stage.
 - **`conventional-commits`** — when a change spans several phases in one
   working-tree pass and needs splitting back into per-phase commits
   (mainly Correction Protocol cleanups).
@@ -66,49 +66,37 @@ pinned icon source. Neither restates the other's decision.
 - **`bootstrap`** — runs `hedgehog-bootstrap-landing-page-core`'s steps.
   Triggered automatically by `planner` after its first run; skip if
   `astro.config.mjs` already exists.
-- **`landing-strategist`** — subject statement → adjective pairs →
-  visceral/behavioral/reflective sort → top/heart/base note timing and
-  the page's single peak moment. One context, one artifact: the
-  emotional target spec.
-- **`landing-systems`** — the ingredient dial table, the copy voice spec,
-  the token system that reconciles them, and the signature element. Owns
-  everything that becomes a Tailwind token or a copy rule.
-- **`landing-sequencer`** — per-section transition type, weight, spacing,
-  beat structure, and copy archetype role (Hero/Problem/Mechanism/Proof/
-  Objection/CTA) — the Motion/Lenis pacing spec, plus the taxonomy
-  `landing-copywriter` reads to pick its per-section skill, the Builder
-  implements against.
-- **`landing-headline-writer`** — the headline, plus 2 backups from
-  distinct rhetorical mechanisms (via the `landing-copy-headline` skill),
-  written to the voice spec. Presented as its own artifact and locked by
-  the user before any section's body copy is drafted.
-- **`landing-copywriter`** — every section's body text and CTA text, one
-  section per invocation, in the sequence's order — each section written
-  to its archetype role's dedicated skill and a fixed paragraph-count
-  algorithm (one paragraph per beat `landing-sequencer` assigned it),
-  to the voice spec, and presented as its own artifact for the user to
-  read, edit, and lock before the next section is drafted. Output is
-  semantic markdown (paragraph/list/blockquote) so `landing-builder`
-  reads section structure directly.
-- **`landing-humanizer`** — runs immediately after each section locks in
-  `landing-copywriter`, before the next section is drafted: an
-  independent AI-tell audit of that section's actual locked text (banned
-  vocabulary, punctuation fingerprint, hedges, rhetorical scaffolding,
-  burstiness) distinct from `landing-copywriter`'s own self-graded
-  Writing standard. Redlines route back to `landing-copywriter`; cannot
-  rewrite.
-- **`landing-critic`** — the reconciled traceability/distinctiveness
-  audit (does every choice, including the headline and every section's
-  copy, trace to the subject statement, does anything match a known
-  AI-default cluster) and the usability pass (Fitts's Law on the CTA,
-  affordance/signifier check). Has veto power; cannot rewrite, only
-  redline back to the owning agent.
-- **`landing-builder`** — builds the audited spec exactly in Astro,
-  placing `landing-headline-writer`'s locked headline and
-  `landing-copywriter`'s section copy verbatim, mapping each section's
-  markdown structure to the matching markup. Anything that can't be
-  built as specified is flagged back up the chain, never silently
-  improvised around.
+- **`landing-builder`** — runs the Chain Method's structural spine as
+  one continuous session, in five stages, delegating the other two to
+  `landing-copywriter`: the subject/audience/job statement → adjective
+  pairs → visceral/behavioral/reflective sort → top/heart/base note
+  timing and the page's single peak moment (Stage 1, the emotional
+  target spec, confirmed by the user); the ingredient dial table, the
+  copy voice spec, the token system that reconciles them, and the
+  signature element (Stage 2, everything that becomes a Tailwind token
+  or a copy rule); per-section transition type, weight, spacing, beat
+  structure, and copy archetype role — Hero/Problem/Mechanism/Proof/
+  Objection/CTA — the Motion/Lenis pacing spec (Stage 3); a
+  traceability, default-cluster, swap test, BMAD-fidelity, Chanel cut,
+  Fitts's Law, affordance, and gutter self-check against the whole
+  chain before building (Stage 6); and the Astro/Tailwind/Motion
+  implementation itself, placing the locked headline and every
+  section's copy verbatim and mapping each section's markdown structure
+  to the matching markup (Stage 7). Anything that can't be built as
+  specified, or a stage's output that seems wrong once a later stage
+  depends on it, is flagged and resolved at its source stage, never
+  silently improvised around downstream.
+- **`landing-copywriter`** — runs the Chain Method's two copy stages,
+  handed off from `landing-builder` after Stage 3 locks and handed back
+  once every section is locked: the headline plus 2 backups from
+  distinct rhetorical mechanisms via the `landing-copy-headline` skill,
+  locked by the user before any section's body copy is drafted
+  (Stage 4); and every section's body text and CTA text, one section
+  per invocation in sequence order, each written to its archetype
+  role's dedicated skill, a fixed paragraph-count algorithm, and the
+  voice spec, with an AI-tell self-check run against the actual locked
+  text immediately after each section locks, before the next is drafted
+  (Stage 5).
 - **Polish Loop** (`landing-executor`, `landing-visual-reviewer`,
   `landing-ux-reviewer`) — runs after `landing-builder`, uncompiled (no
   graph task, no `hedgehog verify` gate). All three work on their own
@@ -118,8 +106,8 @@ pinned icon source. Neither restates the other's decision.
   build, screenshot, and interact with the rendered page, redlining
   AI-tell patterns, dead/uneven gaps, scan-pattern and interaction
   friction, and taste, on their own judgment rather than a fixed
-  checklist — independent of `landing-critic`'s traceability/usability
-  audit, which already ran before the page existed. `landing-executor`
+  checklist — independent of `landing-builder`'s traceability/usability
+  self-check, which already ran before the page existed. `landing-executor`
   has full license over the rendered page's markup, styling, and copy
   substance to fix each redline (a rewritten sentence or cut paragraph,
   not just a word swap), bounded only by the locked stack/token system
@@ -135,7 +123,7 @@ pinned icon source. Neither restates the other's decision.
 genuinely needed) · **Tailwind v4, CSS-first** (config as token layer
 only — no component library on top) · **Motion**, scoped to
 CSS/transform targets only, no plugins (primary animation engine; owns
-Sequencer pacing and top/heart/base fade timing) · **Lenis**
+the sequencing pacing and top/heart/base fade timing) · **Lenis**
 (smooth-scroll feel, the "weight and suspension" dial) · **SplitType**
 (line/word/char copy-reveal splitting) · **Signature element & shape
 construction** — the `landing-shapes` skill: geometry personality, the
@@ -154,9 +142,9 @@ layer) · **React Three Fiber** (rare — only when the subject is
 genuinely spatial; default is to skip it).
 
 This core has no design-handoff tool. All visual decisions are derived
-directly through the Systems Designer's token system (step 5) and the
-`landing-shapes` techniques — never imported from an external design
-file.
+directly through `landing-builder`'s token system (its systems stage)
+and the `landing-shapes` techniques — never imported from an external
+design file.
 
 Don't substitute libraries. If a package name changed upstream, verify
 against current docs before running — don't swap in a different one, and
@@ -176,39 +164,41 @@ skill for the technique.
 astro.config.mjs     Astro workspace root
 src/
   pages/              one file per page (usually just index.astro)
-  sections/           one component per page section, in Sequencer order
+  sections/           one component per page section, in sequencing order
   shapes/             the signature element + any other section shapes/dividers, built via landing-shapes
   assets/             raster images, imported as modules and rendered through astro:assets `<Image />`
-  styles/             global.css — @fontsource-variable imports + Tailwind v4 CSS-first import + the `@theme` token layer (hex values, font families, `--text-*` scale, spacing unit, easing family from Step 5)
+  styles/             global.css — @fontsource-variable imports + Tailwind v4 CSS-first import + the `@theme` token layer (hex values, font families, `--text-*` scale, spacing unit, easing family from the systems stage)
 .hedgehog/
   hedgehog.db         the build graph — the landing intent, its five compiled tasks, verifications, committed to git
   BMAD/               vendored BMAD-METHOD shelf's raw output (brief, PR-FAQ, PRD, UX spec, research) —
                        write-once, from planner
   chain/              this core's own archival planning intake output — subject statement, adjective tables,
-                       token system, signature element spec, sequence spec — write-once, from planner + pipeline agents
+                       token system, signature element spec, sequence spec — write-once, from planner and landing-builder
 docs/
-  design/              audited spec (Critic + Usability Auditor reconciled) the Builder builds from
+  design/              the reconciled traceability and usability self-check landing-builder builds from
 ```
 
 ### Core rules
 
-- **One page, one job.** The Strategist's subject statement names it;
-  every downstream choice traces back to that sentence or gets cut.
-- **No agent introduces a choice that doesn't originate in the previous
-  agent's output.** A signature element the Systems phase didn't source
-  from the subject, a color the Ingredient Director didn't derive from
-  an adjective — both get redlined by the Critic, not waved through.
+- **One page, one job.** The subject statement names it; every
+  downstream choice traces back to that sentence or gets cut.
+- **No stage introduces a choice that doesn't originate in an earlier
+  stage's output.** A signature element the systems stage didn't source
+  from the subject, a color the dial table didn't derive from an
+  adjective — both get flagged by the traceability self-check, not
+  waved through.
 - **Ingredients move in agreement.** Color, type, space, motion, copy
-  rhythm, and pacing are one system reconciled at step 5 — a page warm
-  in color but cold in type is a defect, not a style choice.
-- **Sequential through the pipeline.** A phase starts only once the
-  phase before it is checkpointed and committed — steps 4a/4b/4c run in
-  parallel (same input), everything else is strictly sequential.
+  rhythm, and pacing are one system reconciled at the systems stage — a
+  page warm in color but cold in type is a defect, not a style choice.
+- **Sequential through the pipeline.** A stage starts only once the
+  stage before it is checkpointed and committed — the systems stage's
+  dial table and voice spec run in parallel (same input), everything
+  else is strictly sequential.
 - **One phase = one commit**, in the exact Conventional Commit format
   from `hedgehog-landing-loop`.
 - **Fix wrong phases at the source** via the Correction Protocol — never
-  a downstream workaround (e.g. don't patch the Builder's output to fix
-  a token that's wrong at the Systems Designer's level).
-- **The Critic's veto is real.** A traceability or default-cluster
-  failure blocks the Builder from starting, the same way a failing gate
-  blocks a commit elsewhere in Hedgehog.
+  a downstream workaround (e.g. don't patch the build stage's output to
+  fix a token that's wrong at the systems stage).
+- **The traceability self-check is real.** A traceability or
+  default-cluster failure blocks the build stage from starting, the same
+  way a failing gate blocks a commit elsewhere in Hedgehog.

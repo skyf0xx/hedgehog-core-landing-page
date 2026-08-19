@@ -16,8 +16,8 @@ the source of truth) are the degenerate one-module case of the layer
 graph: one task per phase, each depending on the one before it.
 
 This is the **Chain Method**: a pipeline where every visual choice traces
-back to a reason. No agent may introduce a choice that doesn't originate
-in the previous agent's output — that discipline is what this skill
+back to a reason. No stage may introduce a choice that doesn't originate
+in an earlier stage's output — that discipline is what this skill
 enforces mechanically, the same role Nx module boundaries play for
 `full-stack-app`.
 
@@ -60,17 +60,16 @@ back at Confirm & Lock for the user to accept or correct.
    one-page subject/audience/job). `00-brief.md` itself stays this thin
    by design — it's the root traceability walks back to, not a copy of
    BMAD's full archive. The PRD's Features/FRs and the UX spec
-   (`05-ux-spec/DESIGN.md`/`EXPERIENCE.md`), where BMAD produced them,
-   are read directly by `landing-strategist`, `landing-systems`,
-   `landing-sequencer`, and `landing-headline-writer` later in the chain
-   (see each agent's own Workflow) rather than mined into the brief here
-   — a locked color, typeface, mascot requirement, or section list is
-   BMAD's own committed material, not something this mining step
-   compresses into one paragraph and the rest of the chain then works
-   without. Where BMAD's material leaves any of the subject/audience/job
-   three genuinely unresolved, ask directly — don't proceed on
-   vagueness, and don't invent an audience or job that wasn't stated,
-   mined, or confirmed.
+   (`05-ux-spec/DESIGN.md`/`EXPERIENCE.md`), where BMAD produced them, are
+   read directly by `landing-builder`, at the corresponding stage of its
+   run (see that agent's own file for which stage reads which file),
+   rather than mined into the brief here — a locked color, typeface,
+   mascot requirement, or section list is BMAD's own committed material,
+   not something this mining step compresses into one paragraph and the
+   rest of the chain then works without. Where BMAD's material leaves any
+   of the subject/audience/job three genuinely unresolved, ask directly —
+   don't proceed on vagueness, and don't invent an audience or job that
+   wasn't stated, mined, or confirmed.
 3. **Write `.hedgehog/chain/00-brief.md`** — the mined subject statement,
    one paragraph, plus the audience and single job named explicitly.
    This is the root every downstream phase's traceability audit walks
@@ -84,11 +83,11 @@ back at Confirm & Lock for the user to accept or correct.
    in the brief, adds the `landing` intent to the build graph
    (`hedgehog intent add`), compiles it into the five-phase chain
    (`hedgehog plan`), commits (`chore(planning): intake`), and hands off
-   to `bootstrap` to scaffold the Astro workspace. The Strategist phase
-   starts once that closes. Anything wrong or missing — say so now."*
-   Wait for explicit go-ahead — a revision here is just another mining
-   pass against the same BMAD archive, not a Correction Protocol entry,
-   since nothing downstream exists yet.
+   to `bootstrap` to scaffold the Astro workspace. `landing-builder`'s
+   Stage 1 starts once that closes. Anything wrong or missing — say so
+   now."* Wait for explicit go-ahead — a revision here is just another
+   mining pass against the same BMAD archive, not a Correction Protocol
+   entry, since nothing downstream exists yet.
 5. **Add the intent and compile the graph**: `hedgehog intent add --id
    landing --goal "<subject statement>" --outcome "<audience + single
    job>"` — one call, no `--rule`/`--depends-on` needed; landing-page has
@@ -107,60 +106,56 @@ back at Confirm & Lock for the user to accept or correct.
 
 `planner` owns this section; see that agent for when it runs.
 
-## The Chain Method phases
+## The Chain Method stages
 
-Every phase's input is the prior phase's output, in this exact order — no
-agent works from anything but what was actually handed to it. Steps 4a
-(inside `landing-systems`) and 4c (inside `landing-strategist`) are the
-only parallel-input point in the chain, both reading the same upstream
-artifact; everything else is strictly sequential.
+`landing-builder` runs Stages 1–3 and 6–7, and delegates Stages 4–5 to
+`landing-copywriter` — every stage below runs in this exact order, in
+one continuous session across the two agents, from the confirmed
+subject statement through the built page. Every stage's input is the
+prior stage's output; no stage works from anything but what was actually
+produced before it. Two sub-steps inside Stage 2 (the dial table and the
+voice spec) are the only parallel-input point in the chain, both reading
+the same upstream artifact; everything else is strictly sequential.
 
-This table's 13 rows are the fine-grained, per-agent-dispatch view. The
-compiled build graph (this core's `workspace/core.yaml`) has only
-5 layers — `brief`/`feeling`/`tokens`/`sequence`/`artifact` — because it's
-the coarser, one-task-per-commit view: rows 1–4 compile into one `feeling`
-task, 5–7 into one `tokens` task, 8–10a into one `sequence` task, 11–12
-into one `artifact` task. These are intentionally not 1:1; don't "fix"
-either one to match the other's granularity — see The Loop below for how
-one delegated phase relates to one compiled task.
+This table maps `landing-builder`'s stages against the compiled build
+graph's 5 layers (this core's `workspace/core.yaml`) — the coarser,
+one-task-per-commit view. The two views are intentionally not the same
+granularity: don't "fix" either one to match the other's — see The Loop
+below for how the stages inside one compiled layer relate to that
+layer's single commit.
 
-| # | Phase | Agent | Produces | Commit |
+| Stage | Runs | Produces | Compiled layer | Commit |
 |---|---|---|---|---|
-| 1 | Strategist | `landing-strategist` | Subject/audience/job statement (from planning intake — restated here as this phase's formal output) | `feat(landing): strategy` |
-| 2 | Brand Anthropologist | `landing-strategist` | 3–5 adjective pairs (each with a named opposite) | bundled into `feat(landing): strategy` |
-| 3 | Psychologist | `landing-strategist` | Adjectives sorted visceral / behavioral / reflective | bundled into `feat(landing): strategy` |
-| 4 | Perfumer | `landing-strategist` | Top/heart/base note timing per adjective, the page's peak moment, the ending treatment | bundled into `feat(landing): strategy` |
-| 5 | Ingredient Director + Copywriter | `landing-systems` | Dial table (color/type/form/space/motion) + voice spec, run against the same sorted-adjectives input | `feat(landing): systems` |
-| 6 | Systems Designer | `landing-systems` | The token system (hex values, type roles, spacing unit, easing family, copy voice, with note timing attached) | bundled into `feat(landing): systems` |
-| 7 | Signature Element | `landing-systems` | Signature element (source, persistence, continuity, scale range, literalness) | bundled into `feat(landing): systems` |
-| 8 | Sequencer | `landing-sequencer` | Per-section transition type, weight, spacing, beat structure | `feat(landing): sequence` |
-| 9 | Headline | `landing-headline-writer` | The headline plus 2 backups, from 3 distinct rhetorical mechanisms, reviewed and locked by the user | `feat(landing): headline` |
-| 10a | Copywriter (one invocation per section) | `landing-copywriter` | One section's body text and CTA copy per invocation, to the fixed paragraph algorithm, reviewed and locked by the user before the next section starts | `feat(landing): copy` (one commit once every section locks, or extended per section — never split across an unlocked section) |
-| 10b | Humanizer (one invocation per locked section) | `landing-humanizer` | Redlines, or a pass — AI-tell audit (banned vocabulary, punctuation fingerprint, hedges, rhetorical scaffolding, burstiness) against the section `landing-copywriter` just locked | bundled into `feat(landing): copy` (redline routes back to 10a before the next section starts; no separate commit) |
-| 11 | Critic + Usability Auditor | `landing-critic` | Redlines, or a pass — reconciled traceability/distinctiveness + usability audit | `feat(landing): audit` (no commit if redlined — see Correction Protocol) |
-| 12 | Builder | `landing-builder` | The built page, in Astro | `feat(landing): build` |
+| 1 | Subject/audience/job statement, adjective pairs, emotional sort, note timing | The emotional target spec, confirmed by the user | `feeling` | `feat(landing): strategy` |
+| 2 | Dial table + voice spec, token system, signature element | The token system (`src/styles/global.css`) and signature element (`src/shapes/`) | `tokens` | `feat(landing): systems` |
+| 3 | Per-section transition, weight, spacing, beat structure, archetype role | The pacing spec | `sequence` | `feat(landing): sequence` |
+| 4 | Headline generation (via `landing-copy-headline`), run by `landing-copywriter` | The locked headline plus 2 backups | `sequence` | bundled into `feat(landing): sequence` |
+| 5 | Per-section copy, run once per section by `landing-copywriter`, each with an AI-tell self-check | Every section's locked body and CTA copy | `sequence` | bundled into `feat(landing): sequence` |
+| 6 | Traceability, default-cluster, swap test, BMAD-fidelity, Chanel cut, Fitts's Law, affordance, gutter checks | Findings resolved against the chain, before building | `artifact` | bundled into `feat(landing): build` |
+| 7 | The Astro/Tailwind/Motion implementation | The built page | `artifact` | `feat(landing): build` |
 
-Phases 1 through 4 are one agent's context (`landing-strategist`)
-because they're one continuous judgment call — subject into feeling into
-timing — not separable artifacts with different tool footprints. Same
-reasoning collapses 5–7 into `landing-systems` (everything that becomes
-a Tailwind token or a copy rule) and 11's reconciliation into a single
-`landing-critic` pass. The headline is its own phase (9), one agent, one
-artifact, one review checkpoint, because it's the single highest-leverage
-line on the page — every section beneath it either delivers on its
-promise or doesn't, so it locks before any section body is drafted. Copy
-(10a) is its own phase too, run once per section rather than once for the
-whole page, specifically so the user reads and confirms each section's
-actual words before the next section is drafted, and before either the
-audit or the build runs — see `landing-headline-writer`'s and
-`landing-copywriter`'s own files for their writing standards, the
-paragraph algorithm, and their self-tests. Humanizer (10b) runs
-immediately after each section locks, still inside the same `sequence`
-task — an independent AI-tell check against the section's actual locked
-text, distinct from `landing-copywriter`'s own self-graded Writing
-standard and from `landing-critic`'s traceability scope; see
-`landing-humanizer`'s own file for what it checks and why it's a
-separate pass rather than folded into either neighbor.
+Stages 1 and 2 are each one continuous judgment call — subject into
+feeling into timing (Stage 1), then dial table into voice spec into
+token system into signature element (Stage 2) — not separable steps
+with different tool footprints, which is why each is one stage rather
+than several. `landing-builder` runs both directly. The headline is its
+own stage (4), one artifact, one review checkpoint, because it's the
+single highest-leverage line on the page — every section beneath it
+either delivers on its promise or doesn't, so it locks before any
+section body is drafted. Copy (Stage 5) runs once per section rather
+than once for the whole page, specifically so the user reads and
+confirms each section's actual words before the next section is
+drafted, and before either the traceability self-check or the build
+runs — see `landing-copywriter`'s own file for the writing standard, the
+paragraph algorithm, and each stage's self-test; both Stages 4 and 5 run
+inside `landing-copywriter`, not `landing-builder`, since they share a
+tool footprint (pure prose, no code) distinct from the rest of the
+chain. The AI-tell self-check runs immediately after each section is
+drafted, inside the same Stage 5 pass — a second read against the
+section's actual locked text, distinct from applying the Writing
+standard while drafting; see `landing-copywriter`'s Stage 5 for what it
+checks and why it runs as a distinct pass rather than being assumed to
+be caught while writing.
 
 ## The Loop (every unit of work)
 
@@ -173,41 +168,50 @@ separate pass rather than folded into either neighbor.
    no separate gate check to run by hand. This core's chain is linear, so
    `--count N` always returns 1 task, never more — see Rules below.
    `hedgehog ready` previews the same decision without claiming anything.
-2. **Map the packet's layer to the fine-grained phases it bundles**, per
-   the table above (`feeling` = phases 1–4, `tokens` = 5–7, `sequence` =
-   8–10b, `artifact` = 11–12), and **delegate to that layer's owning
-   agent(s)**, passing the full chain so far (every upstream artifact,
-   not just the immediately prior one) — an agent that only sees its
-   direct input can't verify its own traceability back to the subject
-   statement. Within a bundled layer, run its phases in order and in one
-   continuous pass: phase 10a (`landing-copywriter`) still runs once per
-   section, in `landing-sequencer`'s order, and phase 10b
-   (`landing-humanizer`) runs immediately after each section locks,
-   before the next section is drafted — every section reviewed, locked,
-   and humanizer-passed before the next starts, all still inside the one
-   `sequence` task.
+2. **Map the packet's layer to the stages it bundles**, per the table
+   above (`feeling` = Stage 1, `tokens` = Stage 2, `sequence` = Stages
+   3–5, `artifact` = Stages 6–7), and **delegate to `landing-builder`,
+   which runs every stage inside the claimed layer in one continuous
+   session**, passing the full chain so far (every upstream artifact, not
+   just the immediately prior one) — an agent that only sees its direct
+   input can't verify its own traceability back to the subject statement.
+   For the `sequence` layer, `landing-builder` runs Stage 3 itself, then
+   hands off to `landing-copywriter` for Stages 4–5, passing it the same
+   full chain plus Stage 3's own output, and resumes only once
+   `landing-copywriter` reports the headline and every section locked —
+   `landing-builder` still presents the whole layer's artifact and runs
+   its own self-test against `landing-copywriter`'s output before the
+   task is ready for `hedgehog verify`. Within a bundled layer, its
+   stages run in order and in one continuous pass: Stage 5 still runs
+   once per section, in Stage 3's order, with the AI-tell self-check
+   immediately after each section locks, before the next section is
+   drafted — every section reviewed, locked, and self-checked before the
+   next starts, all still inside the one `sequence` task.
 
    **Relaying a live user-confirmation checkpoint to a delegated
-   subagent.** Phase 1 (Strategist) carries a hard-stop checkpoint per
-   Phase Transition Checks below, and a delegated subagent instance has no
-   channel for the user to address it directly. The orchestrating session
-   relays the confirmation instead, and the relay is sufficient only if it
-   quotes the user's actual words with its provenance stated plainly
-   (*"Relaying the user's own confirmation, verbatim — user said:
-   '\<exact words\>'"*) rather than asserting the outcome ("the user
-   approved"). This trusts the orchestrator's honesty about provenance,
-   the same trust the rest of this discipline already places in it for
-   relaying artifacts and task packets.
-3. Each agent **runs its own self-test** (see that agent's own file for
-   what it checks) before presenting its artifact — necessary, not
-   sufficient. This is a sanity check the agent does for itself; it does
-   not move the task and the agent does not commit its own work, whether
-   run directly or delegated to a subagent instance. `landing-strategist`,
-   `landing-systems`, `landing-sequencer`, and `landing-headline-writer`
-   carry no Bash tool at all (`capabilities.mjs`), so the commit is always
-   the orchestrating session's act via `hedgehog verify`, never the phase
-   agent's own.
-4. Once every phase inside the packet's layer has been presented and
+   subagent.** Stage 1 carries a hard-stop checkpoint per Phase
+   Transition Checks below, and a delegated `landing-builder` subagent
+   instance has no channel for the user to address it directly. The
+   orchestrating session relays the confirmation instead, and the relay
+   is sufficient only if it quotes the user's actual words with its
+   provenance stated plainly (*"Relaying the user's own confirmation,
+   verbatim — user said: '\<exact words\>'"*) rather than asserting the
+   outcome ("the user approved"). This trusts the orchestrator's honesty
+   about provenance, the same trust the rest of this discipline already
+   places in it for relaying artifacts and task packets.
+3. `landing-builder` and `landing-copywriter` each **run their own
+   self-test** at every stage they own (see each agent's own file for
+   what each stage checks) before presenting its artifact — necessary,
+   not sufficient. This is a sanity check the owning agent does for
+   itself; neither moves the task and neither commits its own work,
+   whether run directly or delegated to a subagent instance. Committing
+   is always the orchestrating session's act via `hedgehog verify`,
+   regardless of which agent or stage produced the artifact —
+   `landing-builder` carries `Bash` for running dev/build/lint commands
+   during Stage 7, and `landing-copywriter` carries it only for
+   reading/opening files, neither for writing commits itself, so this
+   stays consistent with every earlier stage's commit path.
+4. Once every stage inside the packet's layer has been presented and
    locked by the user, **run `hedgehog verify <task-id> --owner
    <owner>`.** It checks the touched files against the packet's ALLOWED
    SCOPE, runs the layer's `VERIFICATION` command, and on a pass writes
@@ -233,45 +237,47 @@ separate pass rather than folded into either neighbor.
    the following layer.
 
 Each `hedgehog verify` call commits exactly one compiled layer's
-artifact; a wrong phase is fixed forward later via the Correction
+artifact; a wrong stage is fixed forward later via the Correction
 Protocol.
 
 ## Friction log
 
 Same mechanic as `hedgehog-loop`'s Friction log — log real friction (a
-phase's instructions unclear, `landing-critic` redlining the same
-underlying gap twice, a repeated user correction) via `hedgehog friction
-add "<note>" [--task <task-id>]`, `tweaker` reads it at the Stop
-Condition.
+stage's instructions unclear, the traceability self-check redlining the
+same underlying gap twice, a repeated user correction) via `hedgehog
+friction add "<note>" [--task <task-id>]`, `tweaker` reads it at the
+Stop Condition.
 
 ## Correction Protocol
 
 Same core mechanic as `hedgehog-loop`'s Correction Protocol (stop, patch
 the upstream step in place, fast-forward every dependent step as its own
 commit, commit messages as the explanation, resume the loop), triggered
-most often by `landing-critic` redlining something that doesn't trace
-back to the subject statement or matches a known AI-default cluster. Two
-differences for this core:
+most often by Stage 6's traceability self-check surfacing something
+that doesn't trace back to the subject statement or matches a known
+AI-default cluster. Two differences for this core:
 
-- **Fast-forwarding ripples further.** A token system change (phase 6)
-  ripples through the signature element (7), the sequence (8), the
-  headline (9, if the voice spec shifted) and every locked section of
-  copy (10a, re-run per affected section, not the whole phase over again,
-  each re-run still passing through 10b's humanizer check before it
-  counts as locked again), and the build (12) — each its own small
-  commit, in order.
-- **Re-run `landing-critic` against the patched chain before resuming** —
-  an extra step this core adds, since traceability is what the whole
-  chain rests on.
+- **Fast-forwarding ripples further.** A token system change (Stage 2)
+  ripples through the signature element (same stage), the sequence
+  (Stage 3), the headline (Stage 4, if the voice spec shifted, re-run by
+  `landing-copywriter`) and every locked section of copy (Stage 5,
+  re-run per affected section by `landing-copywriter`, not the whole
+  stage over again, each re-run still passing through its own AI-tell
+  self-check before it counts as locked again), and the build (Stage 7)
+  — each its own small commit, in order.
+- **Re-run Stage 6's traceability self-check against the patched chain
+  before resuming** — an extra step this core adds, since traceability
+  is what the whole chain rests on.
 
-The orchestrating session runs this protocol and owns every commit in it.
-A phase agent re-runs its own phase when the patch is to that phase's
-artifact, but most of these agents carry no `Bash` tool at all
-(`capabilities.mjs`), so the commits are always the session's act — the
-same way `hedgehog verify` always is.
+The orchestrating session runs this protocol and owns every commit in
+it. `landing-builder` re-runs the affected stage when the patch is to a
+stage it owns directly (1, 2, 3, 6, 7); `landing-copywriter` re-runs
+Stage 4 or the affected Stage 5 sections when the patch touches those.
+Commits are always the session's act via `hedgehog verify` — the same
+way they are for every other pass through The Loop.
 
-Use `conventional-commits` when a correction touches several phases in
-one working-tree pass and needs splitting back into per-phase commits.
+Use `conventional-commits` when a correction touches several stages in
+one working-tree pass and needs splitting back into per-stage commits.
 
 ### Post-build entry
 
@@ -283,56 +289,52 @@ two distinct reasons: something structural is wrong rather than small
 genuinely additive but has nowhere else to go — a new section under a
 brief that still holds, since this core has no module axis for
 `planner`'s Re-entry pass to add an intent to. Either way, the protocol's
-"patch" step reads as "add" in the additive case, and re-running
-`landing-critic` against the patched chain still holds before handing
-back, since traceability is what the whole core rests on.
+"patch" step reads as "add" in the additive case, and re-running Stage
+6's traceability self-check against the patched chain still holds before
+handing back, since traceability is what the whole core rests on.
 
 ## Phase Transition Checks
 
-Before `landing-strategist`'s step 2 (Brand Anthropologist) starts,
-confirm step 1's subject/audience/job statement has been shown to and
-confirmed by the user — not just drafted. This is the cheapest point in
-the whole chain to correct the core framing (nothing downstream exists
-yet); every phase after it inherits that framing silently, and by the
-time copy is reviewed at phases 9–10, a wrong framing means unwinding
-several committed phases via the Correction Protocol instead of one free
-revision here. If step 1 was run by a delegated `landing-strategist`
-subagent instance, the confirmation reaches it as a relay from the
-orchestrating session — see The Loop above for the provenance statement
-that relay must carry.
+Before `landing-builder`'s Stage 2 starts, confirm Stage 1's subject/
+audience/job statement has been shown to and confirmed by the user — not
+just drafted. This is the cheapest point in the whole chain to correct
+the core framing (nothing downstream exists yet); every stage after it
+inherits that framing silently, and by the time copy is reviewed at
+Stages 4–5, a wrong framing means unwinding several committed stages via
+the Correction Protocol instead of one free revision here. If Stage 1
+was run by a delegated `landing-builder` subagent instance, the
+confirmation reaches it as a relay from the orchestrating session — see
+The Loop above for the provenance statement that relay must carry.
 
-Before `landing-copywriter` starts (phase 10), confirm
-`landing-headline-writer`'s headline has been presented to and locked by
-the user, not just drafted — every section's copy is written against
-whichever headline is locked at phase 9, so an unlocked headline means
-every section written against it is provisional too.
+Before Stage 5 starts, confirm Stage 4's headline has been presented to
+and locked by the user, not just drafted — every section's copy is
+written against whichever headline is locked at Stage 4, so an unlocked
+headline means every section written against it is provisional too.
+Both checkpoints run inside `landing-copywriter`'s own session, since it
+owns both stages.
 
-Before each `landing-copywriter` invocation after the first, confirm the
-previous section is locked and has passed `landing-humanizer`, not just
+Before each Stage 5 invocation after the first, confirm the previous
+section is locked and has passed its own AI-tell self-check, not just
 presented — the next section's continuity check (no repeated claims, no
 synonym drift) reads the prior section's actual locked text, and a
-section still carrying an open humanizer redline isn't final text to
+section still carrying an open self-check finding isn't final text to
 check continuity against.
 
-Before `landing-humanizer` starts on a section, confirm that section is
-locked, not just presented — it audits the actual locked text, not a
-draft still awaiting the user's edits.
+Before Stage 6 starts, confirm every section from Stage 5 has been
+presented to, locked by the user, and passed its AI-tell self-check —
+Stage 6's traceability check reads confirmed, self-checked copy, not a
+draft still awaiting review or still carrying an open finding.
 
-Before `landing-critic` starts, confirm every section `landing-copywriter`
-wrote has been presented to, locked by the user, and passed
-`landing-humanizer` — `landing-critic`'s traceability audit reads
-confirmed, humanizer-clean copy, not a draft still awaiting review or
-still carrying an open AI-tell redline.
+Before Stage 7 starts, confirm:
 
-Before `landing-builder` starts, confirm:
-
-- `landing-critic` returned a pass, not a redline — a redlined spec never
-  reaches the Builder; it goes back to the phase the redline names.
-- `hedgehog status` shows the `sequence` task `complete` (phases 1–11's
+- Stage 6 resolved clean, not with an open finding — a chain that hasn't
+  cleared Stage 6 never reaches Stage 7; an open finding routes back to
+  the stage it names.
+- `hedgehog status` shows the `sequence` task `complete` (Stages 1–5's
   commits have landed).
 
-Before `landing-strategist` starts, confirm planning intake's Confirm &
-Lock has held and its commit has landed. If not, stop and ask.
+Before `landing-builder`'s Stage 1 starts, confirm planning intake's
+Confirm & Lock has held and its commit has landed. If not, stop and ask.
 
 Before the Polish Loop starts, confirm `hedgehog status` shows the
 `artifact` task `complete` — `landing-builder`'s initial build has
@@ -352,20 +354,20 @@ Protocol's post-build entry does, driven directly by the orchestrating
 session, because it operates on the built page after the graph's own
 Stop Condition has already been reached.
 
-**Why this is separate from `landing-critic`.** Phase 11 gates whether
-the page traces back to the subject statement and clears the usability
-formulas, before a single line of Astro exists. The Polish Loop runs
-after the page is actually rendered and interactive, catching what only
-shows up once it's real: AI-tell visual patterns, dead or uneven gaps,
-scan-pattern and interaction friction, and a general taste pass — none
-of which `landing-critic` checks and none of which require re-opening
+**Why this is separate from `landing-builder`'s Stage 6.** Stage 6 gates
+whether the page traces back to the subject statement and clears the
+usability formulas, before a single line of Astro exists. The Polish
+Loop runs after the page is actually rendered and interactive, catching
+what only shows up once it's real: AI-tell visual patterns, dead or
+uneven gaps, scan-pattern and interaction friction, and a general taste
+pass — none of which Stage 6 checks and none of which require re-opening
 the chain's own artifacts.
 
 All three Polish Loop agents work on their own editorial judgment, not a
 fixed checklist derived from the chain's generation-time rules — a
 finished page invites critique-and-improve the way a human editor or
 designer gives it, which is a different, often sharper instinct than the
-constrained judgment calls phases 1–11 make while generating the first
+constrained judgment calls Stages 1–6 make while generating the first
 draft from nothing. `landing-executor` in particular has full license
 over the rendered page's markup, styling, and copy substance — it can
 rewrite a sentence, cut a paragraph, or restructure a section, not just
@@ -395,8 +397,8 @@ something a later pass edits to match a rewrite).
      hit its cap with redlines still open.
 5. **Commit each iteration separately** as `feat(landing): polish
    iteration <n>` (`landing-executor`'s own act — it carries `Bash`
-   unlike most phase agents) — one commit per pass through steps 1–3,
-   not one squashed commit at the end.
+   unlike most agents in this loop) — one commit per pass through steps
+   1–3, not one squashed commit at the end.
 
 The loop's iteration count resets per Polish Loop run — a later
 `tweaker` session or Correction Protocol post-build entry that touches
@@ -405,48 +407,53 @@ rather than inheriting a prior run's count.
 
 ## Rules
 
-- **No agent introduces a choice that doesn't originate in the previous
-  agent's output.** This is the chain's core discipline — enforced by
-  `landing-critic`'s traceability audit, not by tooling, so treat a
-  critic redline with the same weight a failed typecheck gets elsewhere
-  in Hedgehog.
+- **No stage introduces a choice that doesn't originate in an earlier
+  stage's output.** This is the chain's core discipline — enforced by
+  Stage 6's traceability self-check, not by tooling, so treat a Stage 6
+  finding with the same weight a failed typecheck gets elsewhere in
+  Hedgehog.
 - **Ingredients move in agreement.** Color, type, space, motion, copy
-  rhythm, and pacing are reconciled into one system at phase 6 — a
-  mismatch (warm color, cold type) is a defect `landing-systems` owns
-  fixing, not a later polish pass.
-- **Sequential except phases 5's two parallel inputs.** The Ingredient
-  Director and Copywriter sub-steps inside `landing-systems` read the
-  same sorted-adjectives input and can run together; every other phase
-  waits on the one before it. This is design, not a gap to close: the
-  chain is a linear sequence (this core's `workspace/core.yaml`),
-  so `hedgehog claim --count N` always returns one task — there is no
-  scheduler fan-out to reason about here, and this core's docs stay free
-  of the conflict-predicate machinery that `full-stack-app` needs.
-- **A wrong phase gets fixed at its source** — the Correction Protocol,
-  not a downstream workaround (e.g. don't patch the Builder's output to
-  fix a token that's wrong at the Systems Designer level).
-- **The Critic's veto is real.** `landing-critic` can send any phase back
-  to its owning agent, citing which audit failed; it cannot rewrite the
-  artifact itself.
+  rhythm, and pacing are reconciled into one system at Stage 2 — a
+  mismatch (warm color, cold type) is a defect fixed there, not in a
+  later polish pass.
+- **Sequential except Stage 2's two parallel inputs.** The dial table
+  and the voice spec, inside Stage 2, read the same sorted-adjectives
+  input and can be produced together; every other stage waits on the one
+  before it. This is design, not a gap to close: the chain is a linear
+  sequence (this core's `workspace/core.yaml`), so `hedgehog claim
+  --count N` always returns one task — there is no scheduler fan-out to
+  reason about here, and this core's docs stay free of the
+  conflict-predicate machinery that `full-stack-app` needs.
+- **A wrong stage gets fixed at its source** — the Correction Protocol,
+  not a downstream workaround (e.g. don't patch Stage 7's output to fix
+  a token that's wrong at Stage 2).
+- **The traceability self-check is real, and it blocks the build.**
+  Stage 6 can send the chain back to any earlier stage, naming which
+  check failed, before Stage 7 starts — a finding there stops the build
+  the same way a failed gate stops a commit elsewhere in Hedgehog. It's
+  `landing-builder` checking its own work at the same self-graded trust
+  level every self-test in this discipline carries, not a second agent's
+  veto — there is no separate agent positioned to check this chain from
+  outside it, and this core doesn't claim otherwise.
 
 ## Core Reference Points
 
-The chain's judgment calls, across every phase, are grounded in these —
-not restated per-agent since they're shared foundation, not one phase's
+The chain's judgment calls, across every stage, are grounded in these —
+not restated per-stage since they're shared foundation, not one stage's
 procedure:
 
 - Donald Norman, *Emotional Design* — visceral / behavioral / reflective
-  (`landing-strategist`'s step 3)
+  (Stage 1's emotional sort)
 - Scott McCloud, *Understanding Comics* — panel transition taxonomy,
-  closure (`landing-sequencer`'s step 7)
+  closure (Stage 3's sequencing)
 - Will Eisner, *Comics and Sequential Art* — page as one composition
-  before it's a sequence (`landing-sequencer`'s step 7)
+  before it's a sequence (Stage 3's sequencing)
 - Rudolf Arnheim, *Art and Visual Perception* — visual weight, tension,
-  balance (`landing-systems`'s step 4a/5 dial reconciliation)
+  balance (Stage 2's dial reconciliation)
 - Josef Albers, *Interaction of Color* — color as relational, not
-  absolute (`landing-systems`'s step 4a color dial)
+  absolute (Stage 2's color dial)
 - Dieter Rams / Massimo Vignelli — restraint as an emotional register
-  (`landing-critic`'s Chanel cut, step 8)
+  (Stage 6's Chanel cut)
 
 ## Stop Condition
 
@@ -482,11 +489,12 @@ session needs. Name **both** ways forward:
   close this chat window and open a new one, then paste this to start
   it:
 
-  > The build is complete — `landing-builder` built the page and the
-  > Polish Loop (`landing-executor` plus `landing-visual-reviewer` and
-  > `landing-ux-reviewer`) has finished polishing it. Use the tweaker
-  > agent: first review the friction log and ask me for feedback on the
-  > build, then take my tweak requests one at a time.
+  > The build is complete — `landing-builder` and `landing-copywriter`
+  > built the page and its copy, and the Polish Loop (`landing-executor`
+  > plus `landing-visual-reviewer` and `landing-ux-reviewer`) has
+  > finished polishing it. Use the tweaker agent: first review the
+  > friction log and ask me for feedback on the build, then take my
+  > tweak requests one at a time.
 
   If the Polish Loop exited at its 10-iteration cap with redlines still
   open, say so explicitly in this handoff too, so the fresh `tweaker`
@@ -502,17 +510,17 @@ still holds:
   to — the `landing` intent already compiles into the fixed five-phase
   chain, and a section is new content inside phases already `complete`,
   not a new graph row. Route it to the Correction Protocol's post-build
-  entry instead of `planner`: re-run `landing-sequencer` to place the
-  new section in the beat structure, then `landing-headline-writer` and
-  `landing-copywriter` for that section only (locked only once
-  `landing-humanizer` passes it), `landing-critic` against the full
-  patched chain, then `landing-builder` to rebuild the artifact — each
-  its own small commit, same as any other correction.
+  entry instead of `planner`: run `landing-builder` again to place the
+  new section in the beat structure (Stage 3), hand off to
+  `landing-copywriter` to draft its copy (Stage 5, locked only once its
+  AI-tell self-check passes), re-run the traceability self-check
+  (Stage 6) against the full patched chain, then rebuild (Stage 7) —
+  each its own small commit, same as any other correction.
 - **It doesn't hold** (a different subject, audience, or job): that's a
   different page, and belongs in its own landing-page project via
   `planner`'s first run there, not an edit to this one's locked brief.
   Never rewrite `00-brief.md` to accommodate new scope — it's the root
-  every phase's traceability audit walks back to.
+  every stage's traceability audit walks back to.
 
 Don't start making tweaks or planning new scope in the current,
 already-large context; that's what the fresh session is for.

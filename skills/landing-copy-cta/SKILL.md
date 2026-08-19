@@ -1,6 +1,6 @@
 ---
 name: landing-copy-cta
-description: Use whenever `landing-copywriter` drafts the CTA/close — the final ask, or any mid-page section `landing-sequencer` assigned the CTA. Trigger when a section carries the token system's CTA styling intent, distinct from every other archetype (which build the case, not make the ask).
+description: Use whenever `landing-builder` drafts the CTA/close — the final ask, or any mid-page section the sequencing stage assigned the CTA. Trigger when a section carries the token system's CTA styling intent, distinct from every other archetype (which build the case, not make the ask).
 ---
 
 # Landing Copy: CTA / Close
@@ -19,9 +19,9 @@ action, named as an action.
 
 ## The algorithm
 
-Per `landing-copywriter`'s paragraph algorithm, a CTA-only section gets
+Per `landing-builder`'s paragraph algorithm, a CTA-only section gets
 **0 paragraphs — 1 line**, rendered as a `>` blockquote per the output
-format. Where `landing-sequencer` assigns the CTA to a section that also
+format. Where the sequencing stage assigns the CTA to a section that also
 carries a beat (a closing section with both a payoff paragraph and the
 ask), the CTA line still stays separate from the paragraph — never
 merged into the last sentence of prose.
@@ -32,7 +32,7 @@ The line itself, in order:
    started" if there's a more specific verb available — "Get started" is
    correct only when it's genuinely the most specific true description
    of the action.
-2. **Match the token system's urgency.** If `landing-systems` marked the
+2. **Match the token system's urgency.** If the systems stage marked the
    CTA high-urgency, the verb mode carries that (imperative, immediate:
    "Start now"). If low-pressure, the verb mode matches (invitational,
    unhurried: "See how it works"). A CTA whose verb mode contradicts the
@@ -43,7 +43,7 @@ The line itself, in order:
    CTA line itself; if that reassurance is load-bearing, it's a
    fragment of copy just below the button, not inside the CTA text.
 
-## Writing standard (this section's delta from `landing-copywriter`'s full standard)
+## Writing standard (this section's delta from `landing-builder`'s full standard)
 
 - **No stock closers.** Never end the page on "the future looks bright"
   or "join us on this journey" — the CTA is the specific action, not a

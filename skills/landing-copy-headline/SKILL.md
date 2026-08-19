@@ -1,34 +1,34 @@
 ---
 name: landing-copy-headline
-description: Use whenever `landing-headline-writer` drafts the page headline (Chain Method step 9). Gives the 8 named rhetorical mechanisms, the outcome-subject test, the first-time-reader (curse-of-knowledge) test, and the selection procedure for generating 3 distinct-mechanism candidates and presenting them for the user's lock. Trigger on "write the headline", "headline candidates", or the start of `landing-headline-writer`'s own workflow.
+description: Use whenever `landing-builder` drafts the page headline (Chain Method Stage 4). Gives the 8 named rhetorical mechanisms, the outcome-subject test, the first-time-reader (curse-of-knowledge) test, and the selection procedure for generating 3 distinct-mechanism candidates and presenting them for the user's lock. Trigger on "write the headline", "headline candidates", or the start of `landing-builder`'s headline stage.
 ---
 
 # Landing Copy: Headline
 
 The headline is the single highest-leverage line on the page — every
 section beneath it either delivers on its promise or doesn't. This skill
-is the algorithm `landing-headline-writer` runs to generate it: don't
+is the algorithm `landing-builder` runs to generate it: don't
 draft headline wording by feel, run the mechanism generation and the
 outcome-subject test below every time.
 
 This skill covers the headline only. The subhead or lede immediately
-beneath it, if the page has one, is `landing-copywriter`'s
+beneath it, if the page has one, is drafted at a later stage using
 `landing-copy-hero` skill — a different section, a different algorithm.
 
 ## Step 1: Pull the raw material, don't invent it
 
 Read, don't re-derive:
 
-- `landing-strategist`'s subject/audience/job statement — the concrete
-  claim available to make
+- The subject/audience/job statement — the concrete claim available to
+  make
 - The adjective pairs and their named opposites — what the headline is
   allowed to promise emotionally
-- `landing-systems`'s voice spec — sentence rhythm, verb mode, user-side
+- The voice spec — sentence rhythm, verb mode, user-side
   naming
 
 Every candidate below is generated from this material. A headline that
 doesn't trace to a specific adjective or the subject statement fails
-`landing-critic`'s traceability audit later — catch that here, not there.
+the traceability self-check later — catch that here, not there.
 
 ## Step 2: Generate one candidate per mechanism
 
@@ -125,7 +125,7 @@ indistinguishable in risk from one that passes it.
 
 ## Step 4: Apply the writing standard
 
-Scoped to a single line — the same bar `landing-copywriter` holds section
+Scoped to a single line — the same bar `landing-builder` holds section
 copy to:
 
 - **Cut inflated words.** No "delve," "landscape," "robust,"
@@ -147,7 +147,7 @@ user — this is a hard stop; wait for an explicit pick (the other 2 stand
 as backups) or a redirect. Where a presented candidate failed Step 3.5
 and was kept anyway (rewrite wasn't viable, or the indirect mechanism
 genuinely fit the subject statement best), flag that plainly alongside
-it, not silently. Every section `landing-copywriter` writes afterward is
+it, not silently. Every section written afterward is
 checked against whichever headline locks here, so an unconfirmed pick
 compounds the same way an unconfirmed subject statement does at strategy
 step 1.
@@ -158,8 +158,8 @@ step 1.
   phrasings of the same one.
 - Every candidate traces to a named adjective or the subject statement —
   a line that could run on a competitor's page unchanged (the swap test)
-  was rewritten before presenting, not left for `landing-critic` to
-  catch.
+  was rewritten before presenting, not left for the traceability
+  self-check to catch.
 - Every candidate was run through the first-time-reader test
   individually (Step 3.5), not waved through because the outcome-subject
   test already passed — the two check different failure modes. Any
@@ -175,5 +175,5 @@ step 1.
   user must be shown all 3, labeled by mechanism, and explicitly pick or
   redirect, not be assumed to have chosen.
 - Never draft the subhead, section body, or CTA copy here — that's
-  `landing-copywriter`'s `landing-copy-hero` and other section skills,
-  run only after this one locks.
+  the `landing-copy-hero` and other section skills, run only after this
+  one locks.

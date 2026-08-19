@@ -1,6 +1,6 @@
 ---
 name: landing-copy-mechanism
-description: Use whenever `landing-copywriter` drafts a mechanism/how-it-works section — the section that resolves the problem section's tension by explaining how the product changes the situation. Trigger when the section's role in `landing-sequencer`'s list is to earn the headline's claim through explanation, distinct from proof (evidence the claim is true) or pricing (tiers and plans).
+description: Use whenever `landing-builder` drafts a mechanism/how-it-works section — the section that resolves the problem section's tension by explaining how the product changes the situation. Trigger when the section's role in the sequencing stage's list is to earn the headline's claim through explanation, distinct from proof (evidence the claim is true) or pricing (tiers and plans).
 ---
 
 # Landing Copy: Mechanism (how it works)
@@ -22,7 +22,7 @@ test the same way an ungrounded adjective does.
 
 ## The algorithm
 
-Paragraph count from the beat count `landing-sequencer` assigned. Order
+Paragraph count from the beat count the sequencing stage assigned. Order
 within budget:
 
 1. **State the mechanism directly.** The specific thing the product does
@@ -43,13 +43,13 @@ A 1-beat mechanism section compresses all three (state it, connect it,
 land the change) into one paragraph; a 3-beat section earns each its own
 paragraph. Where the mechanism has real internal steps that happen in
 order — claim, build, verify, commit — that sequence is a numbered list
-per `landing-copywriter`'s output format, sitting alongside the
+per `landing-builder`'s output format, sitting alongside the
 connecting prose, not narrated as a single sentence chaining each step
 with commas and "and." A sequence written as one long sentence is the
 paragraph algorithm's sentence-density ceiling failing quietly; pull it
 into the list instead of compressing it.
 
-## Writing standard (this section's delta from `landing-copywriter`'s full standard)
+## Writing standard (this section's delta from `landing-builder`'s full standard)
 
 - **No unnamed authority, here specifically.** A mechanism section is the
   easiest place to reach for "proven approach" or "industry-standard
@@ -58,21 +58,21 @@ into the list instead of compressing it.
   authority.
 - **List-shaped content only for genuine steps.** If the mechanism has 3+
   discrete, ordered steps, a numbered or bulleted list is correct per
-  `landing-copywriter`'s output format. If it's one continuous idea, keep
+  `landing-builder`'s output format. If it's one continuous idea, keep
   it prose — don't force steps that don't exist to make the section look
   more substantial.
 - **No proof creep, not even as a callout.** A specific number, a named
   customer, a benchmark — all belong to a Proof section. A checkable fact
   set apart as a callout line is still Proof's job wearing a different
   markdown shape; if the mechanism's logic needs backing up, that's a gap
-  to flag back to `landing-sequencer` for a real Proof section, not
+  to flag back to the sequencing stage for a real Proof section, not
   something to resolve inside Mechanism with a bolded line.
 
 ## Self-test
 
 - The mechanism is named specifically enough to explain back in one
   sentence — not a category noun standing in for the actual thing (the
-  same plain-verb discipline from `landing-strategist`'s step 1).
+  same plain-verb discipline from the subject-statement stage).
 - This section's central claim connects directly to the specific
   friction the problem section named, not a generic benefit.
 

@@ -1,6 +1,6 @@
 ---
 name: landing-copy-problem
-description: Use whenever `landing-copywriter` drafts a problem/agitation section — the section that names what currently prevents the reader from having the headline's outcome. Trigger when the section's role in `landing-sequencer`'s list is to establish stakes or friction before the mechanism section resolves it.
+description: Use whenever `landing-builder` drafts a problem/agitation section — the section that names what currently prevents the reader from having the headline's outcome. Trigger when the section's role in the sequencing stage's list is to establish stakes or friction before the mechanism section resolves it.
 ---
 
 # Landing Copy: Problem / Agitation
@@ -15,15 +15,15 @@ section that starts explaining the solution has skipped ahead.
 
 One question: **what, specifically, is stopping the reader from already
 having what the headline promised?** Not a generic industry pain point —
-the specific friction `landing-strategist`'s subject statement and
+the specific friction the subject statement and
 adjective pairs point to. A problem statement that could open a
 competitor's page unchanged (the swap test) hasn't located the real
 friction yet.
 
 ## The algorithm
 
-Paragraph count from the beat count `landing-sequencer` assigned (1–3
-paragraphs, per `landing-copywriter`'s ceiling). Order the content within
+Paragraph count from the beat count the sequencing stage assigned (1–3
+paragraphs, per `landing-builder`'s ceiling). Order the content within
 that budget:
 
 1. **Name the current state.** What the reader is actually doing today,
@@ -44,7 +44,7 @@ A 1-beat problem section compresses all three into one paragraph (state
 plus cost in the same breath, sharpened in the closing clause); a 3-beat
 section gets a full paragraph each.
 
-## Writing standard (this section's delta from `landing-copywriter`'s full standard)
+## Writing standard (this section's delta from `landing-builder`'s full standard)
 
 - **Create contrast that clarifies, not drama that manufactures it.**
   "Most AI tools help you generate more code. Hedgehog helps you keep
@@ -74,4 +74,4 @@ section gets a full paragraph each.
   defect here, not a bonus.
 - Never inflate the paragraph count past what the assigned beat count
   allows to fit in more agitation — flag a genuinely thin beat back to
-  `landing-sequencer` instead.
+  the sequencing stage instead.

@@ -1,6 +1,6 @@
 ---
 name: landing-copy-objection
-description: Use whenever `landing-copywriter` drafts an objection-handling section — FAQ, risk-reversal, or direct address of the reader's stated hesitation. Trigger when the section's role in `landing-sequencer`'s list is to remove a specific, nameable doubt before the CTA, distinct from proof (backs up a claim already made) or the CTA section itself (the ask).
+description: Use whenever `landing-builder` drafts an objection-handling section — FAQ, risk-reversal, or direct address of the reader's stated hesitation. Trigger when the section's role in the sequencing stage's list is to remove a specific, nameable doubt before the CTA, distinct from proof (backs up a claim already made) or the CTA section itself (the ask).
 ---
 
 # Landing Copy: Objection handling
@@ -24,7 +24,7 @@ license to invent a generic FAQ to fill the section.
 
 ## The algorithm
 
-Paragraph count from the beat count `landing-sequencer` assigned, with
+Paragraph count from the beat count the sequencing stage assigned, with
 one addition specific to this archetype: **one objection per beat**, not
 one paragraph of general reassurance. A 3-beat objection section handles
 3 distinct, named objections, not one objection developed across 3
@@ -38,16 +38,16 @@ Per objection:
    "well, actually" — a direct answer or, if the honest answer is a
    limitation, a direct acknowledgment of the limitation and why it
    doesn't undermine the reader's specific job (from
-   `landing-strategist`'s subject statement).
+   the subject statement).
 3. **Don't re-litigate proof or mechanism here.** If the honest answer to
    an objection is "see the proof section above," reference it briefly
    rather than restating the evidence.
 
 If genuinely FAQ-shaped (3+ parallel question/answer pairs), render as a
-list per `landing-copywriter`'s output format — each item a
+list per `landing-builder`'s output format — each item a
 question-plus-answer pair, not a bare noun phrase.
 
-## Writing standard (this section's delta from `landing-copywriter`'s full standard)
+## Writing standard (this section's delta from `landing-builder`'s full standard)
 
 - **Answer honestly, including real limitations.** A section that only
   handles softball objections ("Is it easy to use? Yes!") reads as

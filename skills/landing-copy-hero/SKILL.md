@@ -1,6 +1,6 @@
 ---
 name: landing-copy-hero
-description: Use whenever `landing-copywriter` drafts the section directly beneath the locked headline — the subhead/lede that makes the headline's claim credible. Trigger when the section's role is "hero support" in `landing-sequencer`'s list, distinct from the headline itself (`landing-copy-headline`) or the problem/agitation section (`landing-copy-problem`).
+description: Use whenever `landing-builder` drafts the section directly beneath the locked headline — the subhead/lede that makes the headline's claim credible. Trigger when the section's role is "hero support" in the sequencing stage's list, distinct from the headline itself (`landing-copy-headline`) or the problem/agitation section (`landing-copy-problem`).
 ---
 
 # Landing Copy: Hero (subhead/lede)
@@ -12,8 +12,9 @@ section that tries to argue, prove, or handle objections has taken on a
 different section's job.
 
 This skill covers the section immediately beneath the locked headline
-only. The headline itself is `landing-headline-writer`'s
-`landing-copy-headline` skill.
+only. The headline itself is drafted using the
+`landing-copy-headline` skill, at an earlier stage of `landing-builder`'s
+run.
 
 ## What this section answers
 
@@ -32,15 +33,14 @@ One question, in this order:
 
 ## The algorithm
 
-Per this core's fixed paragraph algorithm (`landing-copywriter`'s own
-file): this section's paragraph count is set by however many beats
-`landing-sequencer` assigned it, almost always 1 (a hero is rarely a
+Per this core's fixed paragraph algorithm (`landing-builder`'s own
+file): this section's paragraph count is set by however many beats the
+sequencing stage assigned it, almost always 1 (a hero is rarely a
 multi-beat section). Within that single paragraph:
 
 1. **Sentence 1 — name the mechanism.** Plain verb, plain noun. No
    abstraction standing in for the thing itself (the same plain-verb
-   discipline `landing-strategist` applies at the subject-statement
-   stage).
+   discipline applied at the subject-statement stage).
 2. **Sentence 2 (only if the beat has room) — the credibility bridge.**
    One sentence connecting the mechanism to the headline's promise: how
    doing this thing gets the reader that outcome. Not evidence, not a
@@ -63,7 +63,7 @@ the register calls for short and direct. Neither is a Writing standard
 violation to route around; both are the same instruction applied more
 literally.
 
-## Writing standard (this section's delta from `landing-copywriter`'s full standard)
+## Writing standard (this section's delta from `landing-builder`'s full standard)
 
 - **No proof, no numbers, no named evidence here.** A stat or case study
   in the hero section is `landing-copy-proof`'s content pulled forward —
@@ -81,7 +81,7 @@ literally.
   neutral procedural default — read it cold: does it sound like the
   target register, or like a specification restated in prose? The
   latter fails even if the mechanism is technically named plainly.
-- Paragraph count matches the beat count `landing-sequencer` assigned —
+- Paragraph count matches the beat count the sequencing stage assigned —
   1 paragraph for a single beat, not padded to 2 for weight.
 - Read against the locked headline: does this section make the headline
   more believable, or does it just restate the headline in different

@@ -1,6 +1,6 @@
 ---
 name: landing-copy-proof
-description: Use whenever `landing-copywriter` drafts a proof/evidence section — social proof, numbers, case studies, benchmarks, testimonials. Trigger when the section's role in `landing-sequencer`'s list is to make an already-explained claim believable, distinct from the mechanism section (explains the how) or the objection section (handles doubt directly).
+description: Use whenever `landing-builder` drafts a proof/evidence section — social proof, numbers, case studies, benchmarks, testimonials. Trigger when the section's role in the sequencing stage's list is to make an already-explained claim believable, distinct from the mechanism section (explains the how) or the objection section (handles doubt directly).
 ---
 
 # Landing Copy: Proof
@@ -22,7 +22,7 @@ wearing this section's placement as false credibility.
 
 ## The algorithm
 
-Paragraph count from the beat count `landing-sequencer` assigned, but
+Paragraph count from the beat count the sequencing stage assigned, but
 proof content is the one archetype most likely to need a shape other
 than prose. Decide the shape first:
 
@@ -32,10 +32,10 @@ than prose. Decide the shape first:
    it's proving.
 2. **Single strong proof point, freestanding** (1 headline stat that
    needs no surrounding narrative) → a callout line per
-   `landing-copywriter`'s output format: the number or comparison,
+   `landing-builder`'s output format: the number or comparison,
    bolded, one sentence, no paragraph built around it.
 3. **Multiple parallel proof points** (3+ stats, logos, or quotes of
-   equal weight) → a `-` list per `landing-copywriter`'s output format,
+   equal weight) → a `-` list per `landing-builder`'s output format,
    each item a specific, named data point — not restated as full
    sentences if a short parallel phrase does the job.
 4. **Mixed** (one lead proof point plus supporting parallel evidence) →
@@ -45,10 +45,10 @@ than prose. Decide the shape first:
 Every item, in either shape, names its source: a specific number, a
 named customer, a dated benchmark, a quoted individual — never "users
 report" or "studies show" without the name attached (per
-`landing-copywriter`'s no-unnamed-authority rule, which applies with
+`landing-builder`'s no-unnamed-authority rule, which applies with
 extra weight here since this entire section exists to be checkable).
 
-## Writing standard (this section's delta from `landing-copywriter`'s full standard)
+## Writing standard (this section's delta from `landing-builder`'s full standard)
 
 - **No unnamed authority — this is the section's core failure mode.** If
   a proof point has no name, number, or date attached, it doesn't ship in

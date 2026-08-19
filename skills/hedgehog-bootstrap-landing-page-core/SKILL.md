@@ -35,7 +35,7 @@ Everything under this package's `workspace/`, copied to the repo root:
   `@theme` token block: no component classes, no plugin beyond the base.
   Ships with placeholder tokens (a neutral starting palette, a system
   type stack, a 1.25-ratio `--text-*` scale, a 4px spacing unit) that
-  `landing-systems` overwrites entirely at its own phase — including
+  `landing-builder` overwrites entirely at its systems stage — including
   swapping the system type stack for real `@fontsource-variable` faces.
   This block existing and being wired into the build is what core
   guarantees, not any specific token values.
@@ -150,5 +150,4 @@ done.
   **If verification fails**).
 - Don't write any Chain Method phase content (adjectives, tokens,
   signature element, sequence, or the built page) — that's
-  `landing-strategist` through `landing-builder`'s work, after this
-  Bootstrap box is checked.
+  `landing-builder`'s work, after this Bootstrap box is checked.

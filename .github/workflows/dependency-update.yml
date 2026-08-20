@@ -45,7 +45,7 @@ jobs:
         run: cd workspace && pnpm run build
 
       - if: steps.diff.outputs.changed == 'true'
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           commit-message: "chore(workspace): update dependencies"
           title: "chore(workspace): update dependencies"

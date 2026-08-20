@@ -11,6 +11,8 @@ updates:
           - "patch"
     labels:
       - "risk:dependencies"
+    commit-message:
+      prefix: "chore"
 
   - package-ecosystem: "npm"
     directory: "/workspace"
@@ -23,6 +25,8 @@ updates:
           - "patch"
     labels:
       - "risk:dependencies"
+    commit-message:
+      prefix: "chore"
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -36,3 +40,5 @@ updates:
     labels:
       - "risk:dependencies"
       - "risk:ci"
+    commit-message:
+      prefix: "chore"

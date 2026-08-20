@@ -10,7 +10,7 @@
 #   tokens   — Systems: dial table, voice spec, token system, signature
 #              element (landing-builder Stage 2)
 #   sequence — Sequence (landing-builder Stage 3), then headline and
-#              per-section copy with its AI-tell self-check
+#              section copy with its AI-tell self-check
 #              (landing-copywriter Stages 4-5)
 #   artifact — Traceability self-check and build (landing-builder
 #              Stages 6-7)

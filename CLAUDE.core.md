@@ -34,13 +34,13 @@ pinned icon source. Neither restates the other's decision.
   Lucide as the pinned icon source. `landing-builder` points into it
   when naming the signature element's family at its systems stage, and
   invokes it for the concrete recipe at its sequencing and build stages.
-- **`landing-copy-headline`, `landing-copy-hero`, `landing-copy-problem`,
-  `landing-copy-mechanism`, `landing-copy-proof`, `landing-copy-objection`,
-  `landing-copy-cta`** — the per-archetype copywriting algorithms: what
-  question each section type answers, what order to answer it in, and its
-  own self-test. `landing-copywriter` invokes `landing-copy-headline` at
-  its headline stage, then whichever of the other six matches each
-  section's role, as assigned at `landing-builder`'s sequencing stage.
+- **`landing-copy`** — the copywriting pipeline: a fact ledger pulled from
+  source material, a role-by-role drafting pass (problem, mechanism,
+  proof, objection, CTA), the Writing standard, and an AI-tell
+  self-check. `landing-copywriter` invokes it once for the headline (its
+  Stage 4) and once for the full page's section copy (Stage 5), mapped
+  onto the section list and archetype roles `landing-builder` assigned at
+  its sequencing stage.
 - **`conventional-commits`** — when a change spans several phases in one
   working-tree pass and needs splitting back into per-phase commits
   (mainly Correction Protocol cleanups).
@@ -88,15 +88,13 @@ pinned icon source. Neither restates the other's decision.
   silently improvised around downstream.
 - **`landing-copywriter`** — runs the Chain Method's two copy stages,
   handed off from `landing-builder` after Stage 3 locks and handed back
-  once every section is locked: the headline plus 2 backups from
-  distinct rhetorical mechanisms via the `landing-copy-headline` skill,
-  locked by the user before any section's body copy is drafted
-  (Stage 4); and every section's body text and CTA text, one section
-  per invocation in sequence order, each written to its archetype
-  role's dedicated skill, a fixed paragraph-count algorithm, and the
-  voice spec, with an AI-tell self-check run against the actual locked
-  text immediately after each section locks, before the next is drafted
-  (Stage 5).
+  once the headline and section copy are locked: the headline plus
+  backups from distinct rhetorical patterns via the `landing-copy`
+  skill, locked by the user before section copy is drafted (Stage 4);
+  and the full page's section body and CTA text, drafted in one pass via
+  `landing-copy` against the voice spec and Stage 3's section list, beat
+  structure, and archetype roles, with an AI-tell self-check run against
+  the full draft before it's presented for lock (Stage 5).
 - **Polish Loop** (`landing-executor`, `landing-visual-reviewer`,
   `landing-ux-reviewer`) — runs after `landing-builder`, uncompiled (no
   graph task, no `hedgehog verify` gate). All three work on their own

@@ -16,10 +16,8 @@ Hedgehog project built on it.
   page) and its Polish Loop agents (`landing-executor`,
   `landing-visual-reviewer`, `landing-ux-reviewer`).
 - `skills/` — `hedgehog-landing-loop`,
-  `hedgehog-bootstrap-landing-page-core`, `landing-shapes`, and the
-  per-section copy archetype skills (`landing-copy-hero`,
-  `landing-copy-problem`, `landing-copy-mechanism`, `landing-copy-proof`,
-  `landing-copy-objection`, `landing-copy-headline`, `landing-copy-cta`).
+  `hedgehog-bootstrap-landing-page-core`, `landing-shapes`, and
+  `landing-copy` (the headline and section copywriting skill).
 - `CLAUDE.core.md` — fills a Hedgehog project's root `CLAUDE.md`
   `{{CORE_SECTION}}` placeholder for this core.
 - `hedgehog-core.yaml` — this package's manifest: name, flag, the

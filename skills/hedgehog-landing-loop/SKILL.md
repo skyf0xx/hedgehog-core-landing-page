@@ -129,8 +129,8 @@ layer's single commit.
 | 1 | Subject/audience/job statement, adjective pairs, emotional sort, note timing | The emotional target spec, confirmed by the user | `feeling` | `feat(landing): strategy` |
 | 2 | Dial table + voice spec, token system, signature element | The token system (`src/styles/global.css`) and signature element (`src/shapes/`) | `tokens` | `feat(landing): systems` |
 | 3 | Per-section transition, weight, spacing, beat structure, archetype role | The pacing spec | `sequence` | `feat(landing): sequence` |
-| 4 | Headline generation (via `landing-copy-headline`), run by `landing-copywriter` | The locked headline plus 2 backups | `sequence` | bundled into `feat(landing): sequence` |
-| 5 | Per-section copy, run once per section by `landing-copywriter`, each with an AI-tell self-check | Every section's locked body and CTA copy | `sequence` | bundled into `feat(landing): sequence` |
+| 4 | Headline generation (via the `landing-copy` skill), run by `landing-copywriter` | The locked headline plus backups | `sequence` | bundled into `feat(landing): sequence` |
+| 5 | Section copy, drafted in one pass by `landing-copywriter` via `landing-copy`, mapped onto Stage 3's section list, then an AI-tell self-check | Every section's locked body and CTA copy | `sequence` | bundled into `feat(landing): sequence` |
 | 6 | Traceability, default-cluster, swap test, BMAD-fidelity, Chanel cut, Fitts's Law, affordance, gutter checks | Findings resolved against the chain, before building | `artifact` | bundled into `feat(landing): build` |
 | 7 | The Astro/Tailwind/Motion implementation | The built page | `artifact` | `feat(landing): build` |
 
@@ -142,20 +142,13 @@ than several. `landing-builder` runs both directly. The headline is its
 own stage (4), one artifact, one review checkpoint, because it's the
 single highest-leverage line on the page — every section beneath it
 either delivers on its promise or doesn't, so it locks before any
-section body is drafted. Copy (Stage 5) runs once per section rather
-than once for the whole page, specifically so the user reads and
-confirms each section's actual words before the next section is
-drafted, and before either the traceability self-check or the build
-runs — see `landing-copywriter`'s own file for the writing standard, the
-paragraph algorithm, and each stage's self-test; both Stages 4 and 5 run
-inside `landing-copywriter`, not `landing-builder`, since they share a
-tool footprint (pure prose, no code) distinct from the rest of the
-chain. The AI-tell self-check runs immediately after each section is
-drafted, inside the same Stage 5 pass — a second read against the
-section's actual locked text, distinct from applying the Writing
-standard while drafting; see `landing-copywriter`'s Stage 5 for what it
-checks and why it runs as a distinct pass rather than being assumed to
-be caught while writing.
+section copy is drafted. Copy (Stage 5) is drafted for the whole page in
+one pass, mapped onto Stage 3's locked section list, beats, and
+archetype roles, then read once against the AI-tell self-check before
+the user reviews and locks it — see `landing-copywriter`'s own file for
+the writing standard and self-test; both Stages 4 and 5 run inside
+`landing-copywriter`, not `landing-builder`, since they share a tool
+footprint (pure prose, no code) distinct from the rest of the chain.
 
 ## The Loop (every unit of work)
 
@@ -178,15 +171,15 @@ be caught while writing.
    For the `sequence` layer, `landing-builder` runs Stage 3 itself, then
    hands off to `landing-copywriter` for Stages 4–5, passing it the same
    full chain plus Stage 3's own output, and resumes only once
-   `landing-copywriter` reports the headline and every section locked —
-   `landing-builder` still presents the whole layer's artifact and runs
-   its own self-test against `landing-copywriter`'s output before the
-   task is ready for `hedgehog verify`. Within a bundled layer, its
-   stages run in order and in one continuous pass: Stage 5 still runs
-   once per section, in Stage 3's order, with the AI-tell self-check
-   immediately after each section locks, before the next section is
-   drafted — every section reviewed, locked, and self-checked before the
-   next starts, all still inside the one `sequence` task.
+   `landing-copywriter` reports the headline and the full set of section
+   copy locked — `landing-builder` still presents the whole layer's
+   artifact and runs its own self-test against `landing-copywriter`'s
+   output before the task is ready for `hedgehog verify`. Within a
+   bundled layer, its stages run in order and in one continuous pass:
+   Stage 4 locks the headline first, then Stage 5 drafts every section's
+   copy in one pass against Stage 3's locked section list and runs the
+   AI-tell self-check on the full draft before it's presented for lock,
+   all still inside the one `sequence` task.
 
    **Relaying a live user-confirmation checkpoint to a delegated
    subagent.** Stage 1 carries a hard-stop checkpoint per Phase
@@ -260,11 +253,11 @@ AI-default cluster. Two differences for this core:
 - **Fast-forwarding ripples further.** A token system change (Stage 2)
   ripples through the signature element (same stage), the sequence
   (Stage 3), the headline (Stage 4, if the voice spec shifted, re-run by
-  `landing-copywriter`) and every locked section of copy (Stage 5,
-  re-run per affected section by `landing-copywriter`, not the whole
-  stage over again, each re-run still passing through its own AI-tell
-  self-check before it counts as locked again), and the build (Stage 7)
-  — each its own small commit, in order.
+  `landing-copywriter`) and the locked section copy (Stage 5, re-drafted
+  by `landing-copywriter` for whichever sections the patch actually
+  touches, still passing through the AI-tell self-check before it counts
+  as locked again), and the build (Stage 7) — each its own small commit,
+  in order.
 - **Re-run Stage 6's traceability self-check against the patched chain
   before resuming** — an extra step this core adds, since traceability
   is what the whole chain rests on.
@@ -272,9 +265,9 @@ AI-default cluster. Two differences for this core:
 The orchestrating session runs this protocol and owns every commit in
 it. `landing-builder` re-runs the affected stage when the patch is to a
 stage it owns directly (1, 2, 3, 6, 7); `landing-copywriter` re-runs
-Stage 4 or the affected Stage 5 sections when the patch touches those.
-Commits are always the session's act via `hedgehog verify` — the same
-way they are for every other pass through The Loop.
+Stage 4 or re-drafts the affected Stage 5 sections when the patch
+touches those. Commits are always the session's act via `hedgehog
+verify` — the same way they are for every other pass through The Loop.
 
 Use `conventional-commits` when a correction touches several stages in
 one working-tree pass and needs splitting back into per-stage commits.
@@ -307,20 +300,13 @@ confirmation reaches it as a relay from the orchestrating session — see
 The Loop above for the provenance statement that relay must carry.
 
 Before Stage 5 starts, confirm Stage 4's headline has been presented to
-and locked by the user, not just drafted — every section's copy is
+and locked by the user, not just drafted — the page's section copy is
 written against whichever headline is locked at Stage 4, so an unlocked
-headline means every section written against it is provisional too.
-Both checkpoints run inside `landing-copywriter`'s own session, since it
-owns both stages.
+headline means the copy written against it is provisional too. Both
+checkpoints run inside `landing-copywriter`'s own session, since it owns
+both stages.
 
-Before each Stage 5 invocation after the first, confirm the previous
-section is locked and has passed its own AI-tell self-check, not just
-presented — the next section's continuity check (no repeated claims, no
-synonym drift) reads the prior section's actual locked text, and a
-section still carrying an open self-check finding isn't final text to
-check continuity against.
-
-Before Stage 6 starts, confirm every section from Stage 5 has been
+Before Stage 6 starts, confirm Stage 5's full section copy has been
 presented to, locked by the user, and passed its AI-tell self-check —
 Stage 6's traceability check reads confirmed, self-checked copy, not a
 draft still awaiting review or still carrying an open finding.

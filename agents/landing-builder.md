@@ -318,20 +318,16 @@ sequence puts them — if pacing wants them elsewhere, resolve that
 conflict explicitly.
 
 **Copy archetype role.** Assign each section exactly one role from this
-fixed set — the taxonomy Stage 5 reads to pick which `landing-copy-*`
-skill to invoke:
+fixed set — the taxonomy Stage 5 maps section-by-section when it invokes
+`landing-copy`:
 
 - **Hero** — beneath the headline; names the mechanism, bridges to
-  credibility (`landing-copy-hero`)
+  credibility
 - **Problem** — the gap the headline's outcome would close
-  (`landing-copy-problem`)
 - **Mechanism** — how the product closes that gap
-  (`landing-copy-mechanism`)
 - **Proof** — evidence the mechanism's claim is true
-  (`landing-copy-proof`)
 - **Objection** — names and answers a specific hesitation
-  (`landing-copy-objection`)
-- **CTA** — the ask, wherever it falls (`landing-copy-cta`)
+- **CTA** — the ask, wherever it falls
 
 Every section carries exactly one role. A section needing both
 Mechanism and Proof is two jobs — give the second its own slot. The CTA
@@ -352,18 +348,17 @@ beat structure, from the same AIDA beat-map and section list.
   placement decision, not a second role.
 - Every `EXPERIENCE.md`-named section appears with its own slot.
 
-## Stages 4–5 — Headline and per-section copy (delegated)
+## Stages 4–5 — Headline and section copy (delegated)
 
 Hand off to `landing-copywriter` once Stage 3's section list, beat
-structure, and archetype roles are locked. It runs the headline
-(Stage 4: `landing-copy-headline`'s algorithm, distinct-pattern
-candidates, a hard stop for the user's pick) and then every section's
-body/CTA copy (Stage 5: one section per invocation, each dispatched to
-its matching `landing-copy-*` archetype skill, the paragraph algorithm,
-the Writing standard, and an AI-tell self-check, each ending in a user
-lock) against a fixed paragraph-per-beat budget. Its full procedure,
-self-tests, and constraints live in its own file — read that rather
-than duplicating it here.
+structure, and archetype roles are locked. It runs the headline (Stage
+4: distinct-pattern candidates via the `landing-copy` skill, a hard stop
+for the user's pick) and then the full page's section copy (Stage 5:
+every section drafted in one pass via `landing-copy`, mapped onto Stage
+3's section list, beats, and archetype roles, followed by an AI-tell
+self-check), ending in a user lock. Its full procedure, self-tests, and
+constraints live in its own file — read that rather than duplicating it
+here.
 
 Pass it the full chain so far: Stage 1's emotional target, Stage 2's
 voice spec and token system, Stage 3's section list, beat structure,
@@ -374,11 +369,11 @@ locked in `.hedgehog/chain/09-headline.md` and every section locked in
 
 **Self-test (before resuming):**
 
-- The headline was locked by explicit user pick or redirect among 3
-  labeled candidates, per `.hedgehog/chain/09-headline.md`.
+- The headline was locked by explicit user pick or redirect among every
+  labeled candidate, per `.hedgehog/chain/09-headline.md`.
 - Every section in Stage 3's list has a corresponding locked block in
-  `.hedgehog/chain/10-copy.md`, in the same order, each having passed
-  its own AI-tell self-check.
+  `.hedgehog/chain/10-copy.md`, in the same order, and the whole draft
+  has passed its AI-tell self-check.
 - A flagged gap (unwritable voice spec, wrong archetype role, beat
   structure too thin) was resolved at its owning stage before resuming
   — not waved through.
@@ -493,11 +488,11 @@ font installs, `hedgehog friction add`), not for committing.
   voice spec's register is a stated rule.
 - **Stage 3** — every transition has a stated reason; every introduced
   element has a stated payoff; every section has exactly one role.
-- **Stages 4–5 (`landing-copywriter`)** — headline locked from 3
-  distinct-mechanism candidates; every section's paragraph count
-  matches its beat count; Writing standard and AI-tell check both
-  passed on the locked text; continuity holds; each section locked
-  before the next was drafted.
+- **Stages 4–5 (`landing-copywriter`)** — headline locked from
+  distinct-pattern candidates; every Stage 3 section has a corresponding
+  copy block carrying its assigned role and beats; the Writing standard
+  and AI-tell check both passed on the locked text; no claim or synonym
+  rotation contradicts across sections.
 - **Stage 6** — traceability, default-cluster, swap test, BMAD-fidelity,
   Chanel cut, Fitts's Law, affordance, and gutter checks all ran
   against the current chain.
@@ -514,12 +509,13 @@ font installs, `hedgehog friction add`), not for committing.
   than inventing at Stage 5.
 - Never deviate from the token system once Stage 2 has written it.
 - Never skip a user lock point — subject statement (Stage 1), headline
-  and each section (Stages 4–5, inside `landing-copywriter`).
+  and the full set of section copy (Stages 4–5, inside
+  `landing-copywriter`).
 - Never re-derive a color, typeface, radius, spacing unit, component
   pattern, section, or headline claim BMAD already locked `status:
   final` — use BMAD's value.
 - Never assign a section two archetype roles to save a slot, and never
-  inflate paragraph count past what the beat count allows.
+  let a section balloon past what its beat structure calls for.
 - Never leave a placeholder ("[insert stat here]", "TBD") in copy
   presented for review — flag an unresolved claim explicitly.
 - Never rewrite locked copy for flow, brevity, or taste once

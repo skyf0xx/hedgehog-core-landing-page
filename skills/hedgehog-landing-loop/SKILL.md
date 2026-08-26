@@ -244,11 +244,13 @@ Stop Condition.
 ## Correction Protocol
 
 Same core mechanic as `hedgehog-loop`'s Correction Protocol (stop, patch
-the upstream step in place, fast-forward every dependent step as its own
-commit, commit messages as the explanation, resume the loop), triggered
-most often by Stage 6's traceability self-check surfacing something
-that doesn't trace back to the subject statement or matches a known
-AI-default cluster. Two differences for this core:
+the upstream step in place — for Stage 7's generated code, checking the
+LSP tool's findReferences/incomingCalls against a symbol before patching
+it — fast-forward every dependent step as its own commit, commit
+messages as the explanation, resume the loop), triggered most often by
+Stage 6's traceability self-check surfacing something that doesn't trace
+back to the subject statement or matches a known AI-default cluster. Two
+differences for this core:
 
 - **Fast-forwarding ripples further.** A token system change (Stage 2)
   ripples through the signature element (same stage), the sequence

@@ -168,6 +168,10 @@ footprint (pure prose, no code) distinct from the rest of the chain.
    session**, passing the full chain so far (every upstream artifact, not
    just the immediately prior one) — an agent that only sees its direct
    input can't verify its own traceability back to the subject statement.
+   If a dispatch by name reports `landing-builder` or `landing-copywriter`
+   as not found — expected right after `init`/`update` installed it this
+   same session — see root CLAUDE.md's "Delegating on this host" note
+   rather than treating it as fatal.
    For the `sequence` layer, `landing-builder` runs Stage 3 itself, then
    hands off to `landing-copywriter` for Stages 4–5, passing it the same
    full chain plus Stage 3's own output, and resumes only once

@@ -134,6 +134,8 @@ layer's single commit.
 | 6 | Traceability, default-cluster, swap test, BMAD-fidelity, Chanel cut, Fitts's Law, affordance, gutter checks | Findings resolved against the chain, before building | `artifact` | bundled into `feat(landing): build` |
 | 7 | The Astro/Tailwind/Motion implementation | The built page | `artifact` | `feat(landing): build` |
 
+This strict, no-branching sequence is what `workspace/core.yaml` declares as `pattern: layered` — no module axis, one dependent per layer, each stage building only on what actually came before it.
+
 `hedgehog-authored-loop`'s "Test depth follows verify radius" rule reads
 cadence off `verify_radius`/`exclusive: true` — this core's chain
 declares neither (`workspace/core.yaml`): every stage above already runs

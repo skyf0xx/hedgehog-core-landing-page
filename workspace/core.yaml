@@ -21,6 +21,7 @@
 # judgment inside it is sound; that judgment stays landing-builder's
 # Stage 6 traceability self-check, run at the artifact layer, unchanged.
 id: landing-page
+pattern: layered
 layers:
   - id: brief
     scope: [".hedgehog/chain/00-brief.md"]

@@ -134,6 +134,16 @@ layer's single commit.
 | 6 | Traceability, default-cluster, swap test, BMAD-fidelity, Chanel cut, Fitts's Law, affordance, gutter checks | Findings resolved against the chain, before building | `artifact` | bundled into `feat(landing): build` |
 | 7 | The Astro/Tailwind/Motion implementation | The built page | `artifact` | `feat(landing): build` |
 
+`hedgehog-authored-loop`'s "Test depth follows verify radius" rule reads
+cadence off `verify_radius`/`exclusive: true` — this core's chain
+declares neither (`workspace/core.yaml`): every stage above already runs
+its own self-test as a matter of course, and there is no module axis, so
+nothing ever builds concurrently for the radius/exclusivity distinction
+to protect against. The nearest thing this chain has to that rule's
+integration point is `artifact` — the widest scope (`src/**`) and the
+only layer whose verify (`pnpm build`) proves the whole page compiles,
+not just one stage's own output.
+
 Stages 1 and 2 are each one continuous judgment call — subject into
 feeling into timing (Stage 1), then dial table into voice spec into
 token system into signature element (Stage 2) — not separable steps

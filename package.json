@@ -1,6 +1,6 @@
 {
   "name": "@skyf0xx/hedgehog-core-landing-page",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Hedgehog's landing-page core: a pre-built Astro + Tailwind v4 workspace, the Chain Method's brief-to-artifact agent pipeline, and the skills that drive it.",
   "type": "module",
   "scripts": {

@@ -18,14 +18,12 @@ pinned icon source. Neither restates the other's decision.
 
 ### The skills — invoke these, don't improvise
 
-- **`hedgehog-landing-loop`** — every unit of work once bootstrapped:
-  `hedgehog next` emits the packet for one ready compiled layer, run the
-  fine-grained Chain Method phases it bundles through their owning
-  agents, gate the layer via `hedgehog verify`, which commits it on a
-  pass. Also holds the Correction Protocol for fixing a wrong upstream
-  phase (e.g. a signature element that doesn't trace back to the subject
-  statement). Invoke it at the start of any build session and for
-  "what's next".
+- **`hedgehog-landing-loop`** — the operating loop for this core, start
+  to finish: planning intake, the Chain Method's stage-by-stage build
+  through `landing-builder` and `landing-copywriter`, the Correction
+  Protocol, and the Polish Loop. Invoke it at the start of any build
+  session and for "what's next"; it owns which agent runs which stage
+  and in what order.
 - **`hedgehog-bootstrap-landing-page-core`** — run **once**, at project
   start, to land the pre-verified Astro + Tailwind workspace. Skip if
   `astro.config.mjs` already exists.
@@ -47,71 +45,14 @@ pinned icon source. Neither restates the other's decision.
 
 ### The agents — delegate the judgment calls
 
-- **`planner`** — planning intake (which core applies, then this core's
-  own brief intake: the vendored BMAD-METHOD shelf, run in full and
-  mined into subject, audience, single page job) at project start. Writes
-  the `landing` intent (`hedgehog intent add`, one call — this core has
-  no module axis), `.hedgehog/BMAD/`, and `.hedgehog/chain/00-brief.md`.
-  On first run, hands off to the `bootstrap` agent once Confirm & Lock
-  holds. This core has no module axis for a later `planner` run to add an
-  intent to, so new scope after the build is complete doesn't return to
-  `planner` at all: a new section on a page whose subject, audience, and
-  job are unchanged (`.hedgehog/chain/00-brief.md` still holds) is
-  additive work inside the existing chain, routed to
-  `hedgehog-landing-loop`'s Correction Protocol post-build entry instead.
-  A different subject, audience, or job is a different page and belongs
-  in its own landing-page project; `00-brief.md` is never rewritten to
-  fit new scope, since it's the root every phase's traceability audit
-  walks back to.
-- **`bootstrap`** — runs `hedgehog-bootstrap-landing-page-core`'s steps.
-  Triggered automatically by `planner` after its first run; skip if
-  `astro.config.mjs` already exists.
-- **`landing-builder`** — runs the Chain Method's structural spine as
-  one continuous session, in five stages, delegating the other two to
-  `landing-copywriter`: the subject/audience/job statement → adjective
-  pairs → visceral/behavioral/reflective sort → top/heart/base note
-  timing and the page's single peak moment (Stage 1, the emotional
-  target spec, confirmed by the user); the ingredient dial table, the
-  copy voice spec, the token system that reconciles them, and the
-  signature element (Stage 2, everything that becomes a Tailwind token
-  or a copy rule); per-section transition type, weight, spacing, beat
-  structure, and copy archetype role — Hero/Problem/Mechanism/Proof/
-  Objection/CTA — the Motion/Lenis pacing spec (Stage 3); a
-  traceability, default-cluster, swap test, BMAD-fidelity, Chanel cut,
-  Fitts's Law, affordance, and gutter self-check against the whole
-  chain before building (Stage 6); and the Astro/Tailwind/Motion
-  implementation itself, placing the locked headline and every
-  section's copy verbatim and mapping each section's markdown structure
-  to the matching markup (Stage 7). Anything that can't be built as
-  specified, or a stage's output that seems wrong once a later stage
-  depends on it, is flagged and resolved at its source stage, never
-  silently improvised around downstream.
-- **`landing-copywriter`** — runs the Chain Method's two copy stages,
-  handed off from `landing-builder` after Stage 3 locks and handed back
-  once the headline and section copy are locked: the headline plus
-  backups from distinct rhetorical patterns via the `landing-copy`
-  skill, locked by the user before section copy is drafted (Stage 4);
-  and the full page's section body and CTA text, drafted in one pass via
-  `landing-copy` against the voice spec and Stage 3's section list, beat
-  structure, and archetype roles, with an AI-tell self-check run against
-  the full draft before it's presented for lock (Stage 5).
-- **Polish Loop** (`landing-executor`, `landing-visual-reviewer`,
-  `landing-ux-reviewer`) — runs after `landing-builder`, uncompiled (no
-  graph task, no `hedgehog verify` gate). All three work on their own
-  editorial judgment, not the chain's generation-time constraints —
-  critiquing a finished page is a different instinct than building one
-  from a brief. `landing-visual-reviewer` and `landing-ux-reviewer`
-  build, screenshot, and interact with the rendered page, redlining
-  AI-tell patterns, dead/uneven gaps, scan-pattern and interaction
-  friction, and taste, on their own judgment rather than a fixed
-  checklist — independent of `landing-builder`'s traceability/usability
-  self-check, which already ran before the page existed. `landing-executor`
-  has full license over the rendered page's markup, styling, and copy
-  substance to fix each redline (a rewritten sentence or cut paragraph,
-  not just a word swap), bounded only by the locked stack/token system
-  and by never touching `.hedgehog/chain/*.md`. Loops until both reviewers return
-  clean or 10 iterations pass, one commit per iteration
-  (`feat(landing): polish iteration <n>`), then hands off to `tweaker`.
+`planner` runs planning intake and hands off to `bootstrap`, which lands
+the workspace. `landing-builder` and `landing-copywriter` then run the
+Chain Method's seven stages between them, and the Polish Loop
+(`landing-executor`, `landing-visual-reviewer`, `landing-ux-reviewer`)
+runs after the build lands. See `hedgehog-landing-loop` for exactly
+which agent owns which stage, the stage-to-compiled-layer mapping, and
+the Polish Loop's own sequencing — that skill is the source, not
+restated here.
 
 ## The constants (do not deviate)
 
@@ -174,27 +115,8 @@ src/
                        token system, signature element spec, sequence spec — write-once, from planner and landing-builder
 ```
 
-### Core rules
+### Core rule
 
-- **One page, one job.** The subject statement names it; every
-  downstream choice traces back to that sentence or gets cut.
-- **No stage introduces a choice that doesn't originate in an earlier
-  stage's output.** A signature element the systems stage didn't source
-  from the subject, a color the dial table didn't derive from an
-  adjective — both get flagged by the traceability self-check, not
-  waved through.
-- **Ingredients move in agreement.** Color, type, space, motion, copy
-  rhythm, and pacing are one system reconciled at the systems stage — a
-  page warm in color but cold in type is a defect, not a style choice.
-- **Sequential through the pipeline.** A stage starts only once the
-  stage before it is checkpointed and committed — the systems stage's
-  dial table and voice spec run in parallel (same input), everything
-  else is strictly sequential.
-- **One phase = one commit**, in the exact Conventional Commit format
-  from `hedgehog-landing-loop`.
-- **Fix wrong phases at the source** via the Correction Protocol — never
-  a downstream workaround (e.g. don't patch the build stage's output to
-  fix a token that's wrong at the systems stage).
-- **The traceability self-check is real.** A traceability or
-  default-cluster failure blocks the build stage from starting, the same
-  way a failing gate blocks a commit elsewhere in Hedgehog.
+**One page, one job.** The subject statement names it; every downstream
+choice traces back to that sentence or gets cut — the discipline
+`hedgehog-landing-loop`'s Rules section enforces stage by stage.

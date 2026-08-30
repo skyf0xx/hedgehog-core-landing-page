@@ -129,8 +129,8 @@ layer's single commit.
 | 1 | Subject/audience/job statement, adjective pairs, emotional sort, note timing | The emotional target spec, confirmed by the user | `feeling` | `feat(landing): strategy` |
 | 2 | Dial table + voice spec, token system, signature element | The token system (`src/styles/global.css`) and signature element (`src/shapes/`) | `tokens` | `feat(landing): systems` |
 | 3 | Per-section transition, weight, spacing, beat structure, archetype role | The pacing spec | `sequence` | `feat(landing): sequence` |
-| 4 | Headline generation (via the `landing-copy` skill), run by `landing-copywriter` | The locked headline plus backups | `sequence` | bundled into `feat(landing): sequence` |
-| 5 | Section copy, drafted in one pass by `landing-copywriter` via `landing-copy`, mapped onto Stage 3's section list, then an AI-tell self-check | Every section's locked body and CTA copy | `sequence` | bundled into `feat(landing): sequence` |
+| 4 | Headline generation (via the `landing-copy` skill), run by `landing-copywriter` | The locked headline plus backups (`.hedgehog/chain/04-headline.md`) | `sequence` | bundled into `feat(landing): sequence` |
+| 5 | Section copy, drafted in one pass by `landing-copywriter` via `landing-copy`, mapped onto Stage 3's section list, then an AI-tell self-check | Every section's locked body and CTA copy (`.hedgehog/chain/05-copy.md`) | `sequence` | bundled into `feat(landing): sequence` |
 | 6 | Traceability, default-cluster, swap test, BMAD-fidelity, Chanel cut, Fitts's Law, affordance, gutter checks | Findings resolved against the chain, before building | `artifact` | bundled into `feat(landing): build` |
 | 7 | The Astro/Tailwind/Motion implementation | The built page | `artifact` | `feat(landing): build` |
 

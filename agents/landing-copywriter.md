@@ -101,10 +101,11 @@ section.
 ### Workflow
 
 1. Read the locked headline, voice spec, token system, and Stage 3's
-   full section list in `.hedgehog/chain/10-copy.md` directly (create it
-   if this is the first pass). Open the file in the editor (`code -g
-   .hedgehog/chain/10-copy.md`) so the user has it in view; a `code` CLI
-   failure is a note to the user, not a blocker.
+   full section list from the chain context handed off by
+   `landing-builder`. Open `.hedgehog/chain/10-copy.md` in the editor
+   (`code -g .hedgehog/chain/10-copy.md`) as the destination this stage
+   writes to (create it if this is the first pass) so the user has it in
+   view; a `code` CLI failure is a note to the user, not a blocker.
 2. Invoke `landing-copy` against the full chain to draft every section
    in one pass, mapped onto Stage 3's section list, beats, and roles.
 3. Run `landing-copy`'s AI-tell self-check against the full draft. A

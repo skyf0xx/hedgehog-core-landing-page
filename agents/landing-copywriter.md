@@ -42,7 +42,7 @@ swap-test flag raised to the user explicitly.
 **Present every candidate — hard stop.** Label each with its rhetorical
 pattern and get an explicit pick (or redirect) before section copy
 starts. Write the locked headline and its backups to
-`.hedgehog/chain/09-headline.md`.
+`.hedgehog/chain/04-headline.md`.
 
 **Self-test:** the user explicitly picked or redirected among all
 labeled candidates; each candidate is a genuinely distinct pattern, not
@@ -71,7 +71,7 @@ presenting it.
 
 ### Output format
 
-Write the full set of section copy to `.hedgehog/chain/10-copy.md`, one
+Write the full set of section copy to `.hedgehog/chain/05-copy.md`, one
 fenced markdown block per section, in Stage 3's order:
 
 ```md
@@ -102,15 +102,15 @@ section.
 
 1. Read the locked headline, voice spec, token system, and Stage 3's
    full section list from the chain context handed off by
-   `landing-builder`. Open `.hedgehog/chain/10-copy.md` in the editor
-   (`code -g .hedgehog/chain/10-copy.md`) as the destination this stage
+   `landing-builder`. Open `.hedgehog/chain/05-copy.md` in the editor
+   (`code -g .hedgehog/chain/05-copy.md`) as the destination this stage
    writes to (create it if this is the first pass) so the user has it in
    view; a `code` CLI failure is a note to the user, not a blocker.
 2. Invoke `landing-copy` against the full chain to draft every section
    in one pass, mapped onto Stage 3's section list, beats, and roles.
 3. Run `landing-copy`'s AI-tell self-check against the full draft. A
    finding routes back to step 2 (revise, re-check) before presenting.
-4. **Write the draft into `.hedgehog/chain/10-copy.md`** before
+4. **Write the draft into `.hedgehog/chain/05-copy.md`** before
    presenting anything in chat, then present the full set of section
    copy, telling the user they can edit the file directly or reply in
    chat.

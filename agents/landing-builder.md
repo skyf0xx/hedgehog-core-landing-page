@@ -364,15 +364,15 @@ Pass it the full chain so far: Stage 1's emotional target, Stage 2's
 voice spec and token system, Stage 3's section list, beat structure,
 and archetype roles, plus `04-prd.md`'s Hero/Core Claim feature where it
 exists. Resume at Stage 6 once `landing-copywriter` reports the headline
-locked in `.hedgehog/chain/09-headline.md` and every section locked in
-`.hedgehog/chain/10-copy.md`.
+locked in `.hedgehog/chain/04-headline.md` and every section locked in
+`.hedgehog/chain/05-copy.md`.
 
 **Self-test (before resuming):**
 
 - The headline was locked by explicit user pick or redirect among every
-  labeled candidate, per `.hedgehog/chain/09-headline.md`.
+  labeled candidate, per `.hedgehog/chain/04-headline.md`.
 - Every section in Stage 3's list has a corresponding locked block in
-  `.hedgehog/chain/10-copy.md`, in the same order, and the whole draft
+  `.hedgehog/chain/05-copy.md`, in the same order, and the whole draft
   has passed its AI-tell self-check.
 - A flagged gap (unwritable voice spec, wrong archetype role, beat
   structure too thin) was resolved at its owning stage before resuming
@@ -442,7 +442,7 @@ here explicitly, not left for Stage 7 to guess at.
   `src/shapes/`, referenced from whichever sections Stage 2's
   continuity rule calls for.
 - Place the locked headline and every section's final copy verbatim.
-  Read `.hedgehog/chain/10-copy.md`'s markdown structure literally: `<p>`
+  Read `.hedgehog/chain/05-copy.md`'s markdown structure literally: `<p>`
   for a plain paragraph, `<ul>` for `-`, `<ol>` for `1.`, a callout
   treatment (token-system-consistent inline emphasis or bordered
   fragment, not a plain `<p>`) for a bolded standalone line, a

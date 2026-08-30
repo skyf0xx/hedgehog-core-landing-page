@@ -36,10 +36,10 @@ Work through these roles in order. Each is a distinct pass, not a single blended
    - **Never let the scaffolding role leak through.** Role labels (problem/mechanism/differentiation/proof/CTA) are internal only, for mapping fact-ledger items to sections — they must not survive into the visible header verbatim or as a light rewording.
    - **Short beats clever.** 4-8 words, concrete and specific, over a pun or an abstraction.
    - **CTA headers name the action or the payoff**, never "Get Started."
-6. **Verifier** — Check every claim in the draft, including section headers, against the fact ledger. Cut or flag anything not traceable to a fact. No invented metrics, no vague superlatives ("revolutionary," "seamless") unsupported by a concrete mechanism.
-7. **Cross-Examiner** — Read as a skeptical member of the target audience would. Where would they say "sure, but"? Preempt the strongest objection directly in copy rather than ignoring it.
-8. **CTA Writer** — Write 2-3 CTA variants tied to actual next steps (install, sign up, view repo/docs) — specific verbs, no generic "Get Started Now."
-9. **Voice Editor** — Final pass for voice: conversational, direct, story/plain-talk register (Frank Kern-style — write like explaining it to a smart friend, not a press release) unless the calling context specifies a different register. Apply the paragraph shape and Writing standard below. Read the whole thing aloud in your head — if it sounds like it could've been copy-pasted from a docs site, rewrite the offending line. Re-check every header against the Header Writer rules once more here — voice edits to body copy sometimes leave a header's register mismatched.
+5. **Verifier** — Check every claim in the draft, including section headers, against the fact ledger. Cut or flag anything not traceable to a fact. No invented metrics, no vague superlatives ("revolutionary," "seamless") unsupported by a concrete mechanism.
+6. **Cross-Examiner** — Read as a skeptical member of the target audience would. Where would they say "sure, but"? Preempt the strongest objection directly in copy rather than ignoring it.
+7. **CTA Writer** — Write 2-3 CTA variants tied to actual next steps (install, sign up, view repo/docs) — specific verbs, no generic "Get Started Now."
+8. **Voice Editor** — Final pass for voice: conversational, direct, story/plain-talk register (Frank Kern-style — write like explaining it to a smart friend, not a press release) unless the calling context specifies a different register. Apply the paragraph shape and Writing standard below. Read the whole thing aloud in your head — if it sounds like it could've been copy-pasted from a docs site, rewrite the offending line. Re-check every header against the Header Writer rules once more here — voice edits to body copy sometimes leave a header's register mismatched.
 
 ### Paragraph shape
 

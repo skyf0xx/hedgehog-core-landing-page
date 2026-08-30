@@ -172,8 +172,6 @@ src/
                        write-once, from planner
   chain/              this core's own archival planning intake output — subject statement, adjective tables,
                        token system, signature element spec, sequence spec — write-once, from planner and landing-builder
-docs/
-  design/              the reconciled traceability and usability self-check landing-builder builds from
 ```
 
 ### Core rules

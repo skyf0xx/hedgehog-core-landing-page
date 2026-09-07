@@ -47,10 +47,6 @@ Ask your agent:
 npx @skyf0xx/hedgehog init
 ```
 
-Hedgehog's planner selects this core automatically for a marketing or
-announcement page with no persistent data of its own. You can also
-request it directly:
-
 ```
 npx @skyf0xx/hedgehog init --landing-page
 ```

@@ -1,6 +1,6 @@
 # Hedgehog Landing Page Core ⭐
 
-### A Page With a Point of View
+### For: A Page With a Point of View
 
 AI-built landing pages tend to blur together: a hero, three feature
 cards, a pricing table, done in five minutes and forgettable in five

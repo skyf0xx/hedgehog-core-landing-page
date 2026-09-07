@@ -1,13 +1,14 @@
 # Hedgehog Landing Page Core ⭐
 
-### A Page That Looks Designed, Not Generated
+### A Page With a Point of View
 
-Most AI-built landing pages look the same: a hero, three feature cards,
-a pricing table, done in five minutes and forgettable in five seconds.
+AI-built landing pages tend to blur together: a hero, three feature
+cards, a pricing table, done in five minutes and forgettable in five
+seconds.
 
-This core builds a page with an actual point of view — a brief, a
-feeling, and a visual system decided before a single section gets
-written, then carried through every section that follows.
+This core starts with a brief, a feeling, and a visual system, fixed
+before a single section gets written, then carries that system through
+every section that follows.
 
 ```mermaid
 flowchart LR
@@ -20,19 +21,19 @@ flowchart LR
 ## What you get
 
 - **Astro + Tailwind v4**, fast by default, nothing to configure.
-- **A real animation and motion layer** (Motion, Lenis, SplitType, ogl)
-  instead of a static page pretending to be a product.
-- **A copywriting skill built in** — headlines and section copy written
-  for the page, not generic marketing filler.
+- **A working animation and motion layer** (Motion, Lenis, SplitType,
+  ogl), built so the page moves like a shipped product.
+- **A copywriting skill built in**, writing headlines and section copy
+  for the page instead of generic marketing filler.
 - **A Polish Loop**: a visual reviewer and a UX reviewer check the built
   page before you ever see it.
 
-## Built for real launches
+## Built for launches
 
 Reach for this core for a marketing page, an announcement, a waitlist,
-or a portfolio — any page with no persistent data of its own. A dozen
-sections is still a landing page; it only becomes a different core once
-there's a real backend behind it.
+or a portfolio: any page with no persistent data of its own. A dozen
+sections is still a landing page. Add a backend behind it, and the
+project needs a different core.
 
 ## Easy to install and use
 

@@ -4,11 +4,14 @@ The Chain Method: brief → feeling → tokens/element → sequence →
 artifact, where every visual choice traces back to a sentence that
 caused it. No domain data, no backend — a single (or few-page) marketing
 site, built once through a fixed pipeline rather than iterated on
-freely. See `.hedgehog/BMAD/` for the vendored BMAD-METHOD shelf's raw
+freely.
+<!-- hedgehog:bootstrap-only start -->
+See `.hedgehog/BMAD/` for the vendored BMAD-METHOD shelf's raw
 output and `.hedgehog/chain/` for this core's own archival planning
 intake output — the subject statement, the adjective/note tables, and
 the token system, written once by `planner` and `landing-builder`,
 never edited after a phase closes.
+<!-- hedgehog:bootstrap-only end -->
 
 The Chain Method decides *what* the signature element is and *why* it's
 there — sourced from the subject statement, audited for traceability.
@@ -24,9 +27,11 @@ pinned icon source. Neither restates the other's decision.
   Protocol, and the Polish Loop. Invoke it at the start of any build
   session and for "what's next"; it owns which agent runs which stage
   and in what order.
+<!-- hedgehog:bootstrap-only start -->
 - **`hedgehog-bootstrap-landing-page-core`** — run **once**, at project
   start, to land the pre-verified Astro + Tailwind workspace. Skip if
   `astro.config.mjs` already exists.
+<!-- hedgehog:bootstrap-only end -->
 - **`landing-shapes`** — the shape/divider/icon construction library:
   geometry personality, curve and angular CSS/canvas techniques, and
   Lucide as the pinned icon source. `landing-builder` points into it
@@ -45,14 +50,12 @@ pinned icon source. Neither restates the other's decision.
 
 ### The agents — delegate the judgment calls
 
-`planner` runs planning intake and hands off to `bootstrap`, which lands
-the workspace. `landing-builder` and `landing-copywriter` then run the
-Chain Method's seven stages between them, and the Polish Loop
-(`landing-executor`, `landing-visual-reviewer`, `landing-ux-reviewer`)
-runs after the build lands. See `hedgehog-landing-loop` for exactly
-which agent owns which stage, the stage-to-compiled-layer mapping, and
-the Polish Loop's own sequencing — that skill is the source, not
-restated here.
+`landing-builder` and `landing-copywriter` run the Chain Method's seven
+stages between them, and the Polish Loop (`landing-executor`,
+`landing-visual-reviewer`, `landing-ux-reviewer`) runs after the build
+lands. See `hedgehog-landing-loop` for exactly which agent owns which
+stage, the stage-to-compiled-layer mapping, and the Polish Loop's own
+sequencing — that skill is the source, not restated here.
 
 ## The constants (do not deviate)
 

@@ -23,144 +23,22 @@ enforces mechanically, the same role Nx module boundaries play for
 
 ## Planning intake (Phase 0, before any build phase)
 
-Run once, before `bootstrap` scaffolds the workspace. Opens with
-`hedgehog-planning-intake`'s Phase 0 — the same vendored BMAD-METHOD
-shelf `full-stack-app` runs, in the same full sequence, archived to the
-same `.hedgehog/BMAD/` layout. After that Phase 0 completes, this
-section does its own mining — a one-paragraph subject statement, the
-landing-page counterpart to `hedgehog-planning-intake`'s own Phase 1
-(domain modules and an Add-ons decision on full-stack-app). That mined
-draft becomes the first draft of `.hedgehog/chain/00-brief.md`, shown
-back at Confirm & Lock for the user to accept or correct.
-
-1. **Run `hedgehog-planning-intake`'s Phase 0 in full**: state the BMAD
-   attribution it states, then run `bmad-forge-idea`, `bmad-brainstorming`,
-   `bmad-product-brief`, `bmad-prfaq`, `bmad-prd`, `bmad-ux`,
-   `bmad-deep-recon`, archived to `.hedgehog/BMAD/` with the fixed layout
-   and `00-manifest.md` attribution header that skill's Phase 0 defines.
-   `.hedgehog/BMAD/` is archival and immutable once written, same as
-   `full-stack-app` — nothing in this core's day-to-day loop reads it
-   live after this step mines it once. **Before `bmad-ux` runs**, write
-   this core's `bmad-ux.toml` (see `references/bmad-ux-customize.toml` in
-   this package) to `{project-root}/_bmad/custom/bmad-ux.toml`, unless a
-   project-specific override already exists there — this is a
-   `bmad-ux`-native override file (`customize.toml`'s own documented
-   mechanism, not an edit to the vendored skill), and it points `bmad-ux`'s
-   Design handoff working mode at Google Stitch with a landing-page-shaped
-   directive. `bmad-ux` itself decides whether Discovery runs fast-path,
-   coaching-path, or Design handoff — offered, not forced — so this step
-   only makes the option well-formed when the user picks it, never removes
-   the other two paths.
-2. **Mine a draft subject statement** from `.hedgehog/BMAD/`: the
-   concrete subject (what is this actually selling/announcing/showing),
-   the audience, and the page's single job, sourced from the brief and
-   PR-FAQ (a landing page's brief and PR-FAQ are the closest BMAD
-   artifacts to a subject statement — the PRD's Glossary and deep-recon
-   output are read for supporting color, not required to resolve a
-   one-page subject/audience/job). `00-brief.md` itself stays this thin
-   by design — it's the root traceability walks back to, not a copy of
-   BMAD's full archive. The PRD's Features/FRs and the UX spec
-   (`05-ux-spec/DESIGN.md`/`EXPERIENCE.md`), where BMAD produced them, are
-   read directly by `landing-builder`, at the corresponding stage of its
-   run (see that agent's own file for which stage reads which file),
-   rather than mined into the brief here — a locked color, typeface,
-   mascot requirement, or section list is BMAD's own committed material,
-   not something this mining step compresses into one paragraph and the
-   rest of the chain then works without. Where BMAD's material leaves any
-   of the subject/audience/job three genuinely unresolved, ask directly —
-   don't proceed on vagueness, and don't invent an audience or job that
-   wasn't stated, mined, or confirmed.
-3. **Write `.hedgehog/chain/00-brief.md`** — the mined subject statement,
-   one paragraph, plus the audience and single job named explicitly.
-   This is the root every downstream phase's traceability audit walks
-   back to; it draws from BMAD's archive but is its own file, in this
-   core's own `.hedgehog/chain/` layout, not a pointer into
-   `.hedgehog/BMAD/`.
-4. **Confirm & Lock** — show the mined subject statement, audience, and
-   job back in plain terms, alongside which BMAD skills ran and where
-   their output lives (`.hedgehog/BMAD/`), before writing anything to the
-   build graph. State plainly what happens on confirmation: *"This locks
-   in the brief, adds the `landing` intent to the build graph
-   (`hedgehog intent add`), compiles it into the five-phase chain
-   (`hedgehog plan`), commits (`chore(planning): intake`), and hands off
-   to `bootstrap` to scaffold the Astro workspace. `landing-builder`'s
-   Stage 1 starts once that closes. Anything wrong or missing — say so
-   now."* Wait for explicit go-ahead — a revision here is just another
-   mining pass against the same BMAD archive, not a Correction Protocol
-   entry, since nothing downstream exists yet.
-5. **Add the intent and compile the graph**: `hedgehog intent add --id
-   landing --goal "<subject statement>" --outcome "<audience + single
-   job>"` — one call, no `--rule`/`--depends-on` needed; landing-page has
-   no module axis, so this single intent is what `hedgehog plan` compiles
-   against this core's `workspace/core.yaml` into the five phase
-   tasks. Run `hedgehog plan` next, then `hedgehog status` to show the
-   compiled chain.
-6. **Commit planning intake's output as one commit**,
-   `chore(planning): intake` — the committed intent
-   (`.hedgehog/intents/landing.json`), `.hedgehog/BMAD/`,
-   `.hedgehog/chain/00-brief.md`, and root `CLAUDE.md`'s filled
-   placeholders. `.hedgehog/hedgehog.db` is gitignored and derived —
-   `hedgehog plan` compiles it from the committed intent, and `hedgehog db
-   rebuild` re-derives it from that same intent plus git history.
-7. **Hand off to `bootstrap`** once the commit lands.
-
+Run once, before `bootstrap` scaffolds the workspace — the vendored BMAD
+shelf plus this core's own subject-statement mining into
+`.hedgehog/chain/00-brief.md`, ending in Confirm & Lock. See
+[planning intake](references/planning-intake.md) for the full procedure.
 `planner` owns this section; see that agent for when it runs.
 
 ## The Chain Method stages
 
-`landing-builder` runs Stages 1–3 and 6–7, and delegates Stages 4–5 to
-`landing-copywriter` — every stage below runs in this exact order, in
-one continuous session across the two agents, from the confirmed
-subject statement through the built page. Every stage's input is the
-prior stage's output; no stage works from anything but what was actually
-produced before it. Two sub-steps inside Stage 2 (the dial table and the
-voice spec) are the only parallel-input point in the chain, both reading
-the same upstream artifact; everything else is strictly sequential.
-
-This table maps `landing-builder`'s stages against the compiled build
-graph's 5 layers (this core's `workspace/core.yaml`) — the coarser,
-one-task-per-commit view. The two views are intentionally not the same
-granularity: don't "fix" either one to match the other's — see The Loop
-below for how the stages inside one compiled layer relate to that
-layer's single commit.
-
-| Stage | Runs | Produces | Compiled layer | Commit |
-|---|---|---|---|---|
-| 1 | Subject/audience/job statement, adjective pairs, emotional sort, note timing | The emotional target spec, confirmed by the user | `feeling` | `feat(landing): strategy` |
-| 2 | Dial table + voice spec, token system, signature element | The token system (`src/styles/global.css`) and signature element (`src/shapes/`) | `tokens` | `feat(landing): systems` |
-| 3 | Per-section transition, weight, spacing, beat structure, archetype role | The pacing spec | `sequence` | `feat(landing): sequence` |
-| 4 | Headline generation (via the `landing-copy` skill), run by `landing-copywriter` | The locked headline plus backups (`.hedgehog/chain/04-headline.md`) | `sequence` | bundled into `feat(landing): sequence` |
-| 5 | Section copy, drafted in one pass by `landing-copywriter` via `landing-copy`, mapped onto Stage 3's section list, then an AI-tell self-check | Every section's locked body and CTA copy (`.hedgehog/chain/05-copy.md`) | `sequence` | bundled into `feat(landing): sequence` |
-| 6 | Traceability, default-cluster, swap test, BMAD-fidelity, Chanel cut, Fitts's Law, affordance, gutter checks | Findings resolved against the chain, before building | `artifact` | bundled into `feat(landing): build` |
-| 7 | The Astro/Tailwind/Motion implementation | The built page | `artifact` | `feat(landing): build` |
-
-This strict, no-branching sequence is what `workspace/core.yaml` declares as `pattern: layered` — no module axis, one dependent per layer, each stage building only on what actually came before it.
-
-`hedgehog-authored-loop`'s "Test depth follows verify radius" rule reads
-cadence off `verify_radius`/`exclusive: true` — this core's chain
-declares neither (`workspace/core.yaml`): every stage above already runs
-its own self-test as a matter of course, and there is no module axis, so
-nothing ever builds concurrently for the radius/exclusivity distinction
-to protect against. The nearest thing this chain has to that rule's
-integration point is `artifact` — the widest scope (`src/**`) and the
-only layer whose verify (`pnpm build`) proves the whole page compiles,
-not just one stage's own output.
-
-Stages 1 and 2 are each one continuous judgment call — subject into
-feeling into timing (Stage 1), then dial table into voice spec into
-token system into signature element (Stage 2) — not separable steps
-with different tool footprints, which is why each is one stage rather
-than several. `landing-builder` runs both directly. The headline is its
-own stage (4), one artifact, one review checkpoint, because it's the
-single highest-leverage line on the page — every section beneath it
-either delivers on its promise or doesn't, so it locks before any
-section copy is drafted. Copy (Stage 5) is drafted for the whole page in
-one pass, mapped onto Stage 3's locked section list, beats, and
-archetype roles, then read once against the AI-tell self-check before
-the user reviews and locks it — see `landing-copywriter`'s own file for
-the writing standard and self-test; both Stages 4 and 5 run inside
-`landing-copywriter`, not `landing-builder`, since they share a tool
-footprint (pure prose, no code) distinct from the rest of the chain.
+`landing-builder` runs Stages 1–3 and 6–7 directly, and delegates Stages
+4–5 (headline and section copy) to `landing-copywriter` — every stage
+runs in this exact order, in one continuous session across the two
+agents, from the confirmed subject statement through the built page.
+See [the Chain Method stages](references/chain-stages.md) for the full
+stage table (what each stage runs, produces, and which compiled layer
+and commit it bundles into) and the literary/design grounding each
+stage's judgment calls draw on.
 
 ## The Loop (every unit of work)
 
@@ -173,9 +51,10 @@ footprint (pure prose, no code) distinct from the rest of the chain.
    no separate gate check to run by hand. This core's chain is linear, so
    `--count N` always returns 1 task, never more — see Rules below.
    `hedgehog ready` previews the same decision without claiming anything.
-2. **Map the packet's layer to the stages it bundles**, per the table
-   above (`feeling` = Stage 1, `tokens` = Stage 2, `sequence` = Stages
-   3–5, `artifact` = Stages 6–7), and **delegate to `landing-builder`,
+2. **Map the packet's layer to the stages it bundles**, per [the Chain
+   Method stages](references/chain-stages.md) table (`feeling` = Stage 1,
+   `tokens` = Stage 2, `sequence` = Stages 3–5, `artifact` = Stages 6–7),
+   and **delegate to `landing-builder`,
    which runs every stage inside the claimed layer in one continuous
    session**, passing the full chain so far (every upstream artifact, not
    just the immediately prior one) — an agent that only sees its direct
@@ -224,8 +103,9 @@ footprint (pure prose, no code) distinct from the rest of the chain.
    locked by the user, **run `hedgehog verify <task-id> --owner
    <owner>`.** It checks the touched files against the packet's ALLOWED
    SCOPE, runs the layer's `VERIFICATION` command, and on a pass writes
-   the commit (the exact Conventional Commit message from the table
-   above) and unlocks the next layer. On a scope violation or a failing
+   the commit (the exact Conventional Commit message from [the Chain
+   Method stages](references/chain-stages.md) table) and unlocks the
+   next layer. On a scope violation or a failing
    check, the task moves to `blocked` with a `blocked_reason` of
    `scope_violation` or `verification_failed`, and nothing downstream
    unlocks. Fix the work, then run `hedgehog retry <task-id>` to return
@@ -348,66 +228,16 @@ built page.
 ## Polish Loop
 
 Once `landing-builder` commits `feat(landing): build`, the compiled
-graph is done — `hedgehog status` shows every task `complete` — but the
-orchestrating session runs one more uncompiled pass before offering the
-Stop Condition's handoff: a bounded loop that polishes the rendered page
-for visual and interaction quality independent of the chain's own
-traceability concerns. This is not a compiled layer (no `hedgehog claim`
-packet, no `hedgehog verify` gate) — it runs the same way the Correction
-Protocol's post-build entry does, driven directly by the orchestrating
-session, because it operates on the built page after the graph's own
-Stop Condition has already been reached.
-
-**Why this is separate from `landing-builder`'s Stage 6.** Stage 6 gates
-whether the page traces back to the subject statement and clears the
-usability formulas, before a single line of Astro exists. The Polish
-Loop runs after the page is actually rendered and interactive, catching
-what only shows up once it's real: AI-tell visual patterns, dead or
-uneven gaps, scan-pattern and interaction friction, and a general taste
-pass — none of which Stage 6 checks and none of which require re-opening
-the chain's own artifacts.
-
-All three Polish Loop agents work on their own editorial judgment, not a
-fixed checklist derived from the chain's generation-time rules — a
-finished page invites critique-and-improve the way a human editor or
-designer gives it, which is a different, often sharper instinct than the
-constrained judgment calls Stages 1–6 make while generating the first
-draft from nothing. `landing-executor` in particular has full license
-over the rendered page's markup, styling, and copy substance — it can
-rewrite a sentence, cut a paragraph, or restructure a section, not just
-swap a word — bounded only by the locked stack/token system and by never
-touching `.hedgehog/chain/*.md` itself (see that agent's own file for
-why: those are the historical record of the first draft's reasoning, not
-something a later pass edits to match a rewrite).
-
-1. **`landing-executor`** applies the current iteration's redlines (none,
-   on the first pass — the first pass reviews `landing-builder`'s output
-   as-is) directly to the built page.
-2. **Build and screenshot** — `landing-visual-reviewer` and
-   `landing-ux-reviewer` each build and serve the page fresh; don't
-   review against a stale render.
-3. **Both reviewers run in parallel**, independent of each other:
-   `landing-visual-reviewer` for AI-tell patterns, gap/rhythm, and visual
-   taste; `landing-ux-reviewer` for scan-pattern, flow/friction, and
-   interaction taste. Each returns redlines or clean.
-4. **Decide:**
-   - Both clean → exit the loop, proceed to the Stop Condition.
-   - Either has redlines, and the iteration count is below 10 → commit
-     nothing yet, return to step 1 with the combined redlines for
-     `landing-executor` to apply as the next iteration.
-   - Either has redlines, and 10 iterations have already run → exit the
-     loop anyway (the cap is a backstop against unproductive churn, not
-     a quality gate) and note in the handoff to `tweaker` that the loop
-     hit its cap with redlines still open.
-5. **Commit each iteration separately** as `feat(landing): polish
-   iteration <n>` (`landing-executor`'s own act — it carries `Bash`
-   unlike most agents in this loop) — one commit per pass through steps
-   1–3, not one squashed commit at the end.
-
-The loop's iteration count resets per Polish Loop run — a later
-`tweaker` session or Correction Protocol post-build entry that touches
-the built page again starts a fresh count if it re-invokes this loop,
-rather than inheriting a prior run's count.
+graph is done, but the orchestrating session runs one more uncompiled
+pass before offering the Stop Condition's handoff: a bounded loop
+(`landing-executor` plus `landing-visual-reviewer` and
+`landing-ux-reviewer`, up to 10 iterations) that polishes the rendered
+page for visual and interaction quality independent of the chain's own
+traceability concerns. This is not a compiled layer — no `hedgehog
+claim` packet, no `hedgehog verify` gate. See
+[the Polish Loop](references/polish-loop.md) for the full step sequence,
+the decision rule for exiting or iterating, and why it's separate from
+Stage 6. The loop's iteration count resets on every fresh invocation.
 
 ## Rules
 
@@ -439,25 +269,6 @@ rather than inheriting a prior run's count.
   level every self-test in this discipline carries, not a second agent's
   veto — there is no separate agent positioned to check this chain from
   outside it, and this core doesn't claim otherwise.
-
-## Core Reference Points
-
-The chain's judgment calls, across every stage, are grounded in these —
-not restated per-stage since they're shared foundation, not one stage's
-procedure:
-
-- Donald Norman, *Emotional Design* — visceral / behavioral / reflective
-  (Stage 1's emotional sort)
-- Scott McCloud, *Understanding Comics* — panel transition taxonomy,
-  closure (Stage 3's sequencing)
-- Will Eisner, *Comics and Sequential Art* — page as one composition
-  before it's a sequence (Stage 3's sequencing)
-- Rudolf Arnheim, *Art and Visual Perception* — visual weight, tension,
-  balance (Stage 2's dial reconciliation)
-- Josef Albers, *Interaction of Color* — color as relational, not
-  absolute (Stage 2's color dial)
-- Dieter Rams / Massimo Vignelli — restraint as an emotional register
-  (Stage 6's Chanel cut)
 
 ## Stop Condition
 

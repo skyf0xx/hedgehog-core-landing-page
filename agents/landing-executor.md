@@ -66,7 +66,9 @@ outside the locked stack.
   build` all clean, same as `landing-builder`'s own gate.
 - **Commit the iteration**: `feat(landing): polish iteration <n>`, one
   commit per Polish Loop pass, covering every redline applied that
-  iteration.
+  iteration. This is the one commit in this core made outside `hedgehog
+  verify`: the Polish Loop has no task for verify to close, so the
+  commit follows the three verification commands above.
 
 ## Workflow
 

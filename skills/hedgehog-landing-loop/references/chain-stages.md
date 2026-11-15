@@ -35,9 +35,9 @@ This strict, no-branching sequence is what `workspace/core.yaml` declares
 as `pattern: layered` — no module axis, one dependent per layer, each
 stage building only on what actually came before it.
 
-`hedgehog-authored-loop`'s "Test depth follows verify radius" rule reads
+`hedgehog-orchestrating`'s `## Test-depth and review rule` reads
 cadence off `verify_radius`/`exclusive: true` — this core's chain
-declares neither (`workspace/core.yaml`): every stage above already runs
+declares neither (`hedgehog core show`): every stage above already runs
 its own self-test as a matter of course, and there is no module axis, so
 nothing ever builds concurrently for the radius/exclusivity distinction
 to protect against. The nearest thing this chain has to that rule's

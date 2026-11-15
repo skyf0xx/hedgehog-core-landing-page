@@ -9,8 +9,8 @@ freely.
 See `.hedgehog/BMAD/` for the vendored BMAD-METHOD shelf's raw
 output and `.hedgehog/chain/` for this core's own archival planning
 intake output — the subject statement, the adjective/note tables, and
-the token system, written once by `planner` and `landing-builder`,
-never edited after a phase closes.
+the token system, written by `planner` and `landing-builder` and patched
+afterwards only through the Correction Protocol (`hedgehog-orchestrating`).
 <!-- hedgehog:bootstrap-only end -->
 
 The Chain Method decides *what* the signature element is and *why* it's
@@ -30,7 +30,7 @@ pinned icon source. Neither restates the other's decision.
 <!-- hedgehog:bootstrap-only start -->
 - **`hedgehog-bootstrap-landing-page-core`** — run **once**, at project
   start, to land the pre-verified Astro + Tailwind workspace. Skip if
-  `astro.config.mjs` already exists.
+  the `feat(landing): workspace` commit already exists.
 <!-- hedgehog:bootstrap-only end -->
 - **`landing-shapes`** — the shape/divider/icon construction library:
   geometry personality, curve and angular CSS/canvas techniques, and
@@ -71,7 +71,7 @@ the sequencing pacing and top/heart/base fade timing) · **Lenis**
 construction** — the `landing-shapes` skill: geometry personality, the
 curve/angular CSS and Canvas 2D technique library, Lucide as the pinned
 icon source · **`@fontsource-variable/*`** (self-hosted variable
-typefaces, picked per brief at step 5 — never `system-ui`, never an
+typefaces, picked per brief at Stage 2 — never `system-ui`, never an
 external font request) · **`astro:assets`** (`<Image />`/`<Picture />`
 for every raster image — format conversion, `srcset`, and reserved
 space; a bare `<img>` is a defect) · **`ogl`** (lightweight WebGL) or a raw shader (a
@@ -111,11 +111,12 @@ src/
   assets/             raster images, imported as modules and rendered through astro:assets `<Image />`
   styles/             global.css — @fontsource-variable imports + Tailwind v4 CSS-first import + the `@theme` token layer (hex values, font families, `--text-*` scale, spacing unit, easing family from the systems stage)
 .hedgehog/
-  hedgehog.db         the build graph — the landing intent, its five compiled tasks, verifications, committed to git
+  hedgehog.db         the build graph — the landing intent, its five compiled tasks, verifications; gitignored, derived from the committed intents/ via `hedgehog db rebuild`
+  intents/            the committed intent records
   BMAD/               vendored BMAD-METHOD shelf's raw output (brief, PR-FAQ, PRD, UX spec, research) —
-                       write-once, from planner
-  chain/              this core's own archival planning intake output — subject statement, adjective tables,
-                       token system, signature element spec, sequence spec — write-once, from planner and landing-builder
+                       archival, from planner
+  chain/              this core's own planning intake output — subject statement, adjective tables,
+                       token system, signature element spec, sequence spec — from planner and landing-builder, patched only via the Correction Protocol
 ```
 
 ### Core rule

@@ -64,7 +64,7 @@ shown back at Confirm & Lock for the user to accept or correct.
    in the brief, adds the `landing` intent to the build graph
    (`hedgehog intent add`), compiles it into the five-phase chain
    (`hedgehog plan`), commits (`chore(planning): intake`), and hands off
-   to `bootstrap` to scaffold the Astro workspace. `landing-builder`'s
+   to `bootstrap` to verify and commit the Astro workspace. `landing-builder`'s
    Stage 1 starts once that closes. Anything wrong or missing — say so
    now."* Wait for explicit go-ahead — a revision here is just another
    mining pass against the same BMAD archive, not a Correction Protocol
@@ -74,8 +74,11 @@ shown back at Confirm & Lock for the user to accept or correct.
    job>"` — one call, no `--rule`/`--depends-on` needed; landing-page has
    no module axis, so this single intent is what `hedgehog plan` compiles
    against this core's `workspace/core.yaml` into the five phase
-   tasks. Run `hedgehog plan` next, then `hedgehog status` to show the
-   compiled chain.
+   tasks. `planner` installed this core (`hedgehog core install
+   landing-page`) before this intake started, which put the root
+   `core.yaml` on disk; if `hedgehog cores list` marks no core installed,
+   run that install first. Run `hedgehog plan` next, then `hedgehog
+   status` to show the compiled chain.
 6. **Commit planning intake's output as one commit**,
    `chore(planning): intake` — the committed intent
    (`.hedgehog/intents/landing.json`), `.hedgehog/BMAD/`,

@@ -131,7 +131,7 @@ EOF
 cat > src/styles/global.css <<'EOF'
 @import 'tailwindcss';
 
-/* The token layer — Step 5 (Systems Designer) of the Chain Method
+/* The token layer — Stage 2 (Systems) of the Chain Method
    overwrites every value below with the project's derived token system.
    Nothing here is meant to ship as-is; this is the placeholder that
    proves the pipeline (Tailwind v4's CSS-first @theme) is wired. */
@@ -144,7 +144,7 @@ cat > src/styles/global.css <<'EOF'
   --font-body: 'system-ui', sans-serif;
 
   /* Type scale — a ratio (here 1.25, Major Third), not independently
-     chosen sizes. Step 5 (Systems Designer) picks the ratio the target
+     chosen sizes. Stage 2 (Systems) picks the ratio the target
      feeling calls for and re-derives every size from it. */
   --text-caption: 0.875rem;
   --text-body: 1rem;

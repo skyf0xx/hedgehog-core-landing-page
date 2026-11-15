@@ -11,22 +11,26 @@ Hedgehog project built on it.
   project's repo root: Astro config, the Tailwind v4 CSS-first token
   layer, the animation/icon library set (Motion, Lenis, SplitType, ogl,
   Lucide), and every enforcement file.
-- `agents/` — the Chain Method's chain agent (`landing-builder`, which
-  runs the whole chain from the subject statement through the built
-  page) and its Polish Loop agents (`landing-executor`,
-  `landing-visual-reviewer`, `landing-ux-reviewer`).
+- `agents/` — the Chain Method's agents (`landing-builder`, which runs
+  Stages 1-3 and 6-7, and `landing-copywriter`, which runs the headline
+  and section copy at Stages 4-5) and its Polish Loop agents
+  (`landing-executor`, `landing-visual-reviewer`, `landing-ux-reviewer`).
 - `skills/` — `hedgehog-landing-loop`,
   `hedgehog-bootstrap-landing-page-core`, `landing-shapes`, and
   `landing-copy` (the headline and section copywriting skill).
 - `CLAUDE.core.md` — fills a Hedgehog project's root `CLAUDE.md`
   `{{CORE_SECTION}}` placeholder for this core.
-- `hedgehog-core.yaml` — this package's manifest: name, flag, the
-  selection prose the Hedgehog planner matches a project description
-  against, and which agents/skills it carries.
+- `hedgehog-core.yaml` — this package's manifest: name, flag, and which
+  agents/skills it carries. The prose the planner matches a project
+  description against lives in the engine's `src/registry/cores.json`
+  (`selects_when`).
 - `scripts/regenerate-landing-page-core.sh` — the deterministic
   generator that regenerates `workspace/` from scratch. Run by hand
   when a workspace dependency needs bumping; not part of any install
-  path.
+  path, and not in the published package. `create-astro`'s scaffold ships
+  its own `AGENTS.md`/`CLAUDE.md` symlink, `README.md`, and
+  `pnpm-workspace.yaml`; the generator strips all four so they cannot
+  shadow the project's root `CLAUDE.md`.
 
 ## Using this package
 
@@ -57,8 +61,7 @@ core lives in that project's own generated `CLAUDE.md`, never here.
 Changing this core means editing one of: the `workspace/` template (the
 scaffold a Hedgehog install copies into a project's repo root), a Chain
 Method or Polish Loop agent under `agents/`, or a skill under `skills/`
-(the loop, bootstrap, `landing-shapes`, or one of the per-section copy
-archetype skills). `scripts/regenerate-landing-page-core.sh` is the
+(the loop, bootstrap, `landing-shapes`, or `landing-copy`). `scripts/regenerate-landing-page-core.sh` is the
 deterministic generator that rebuilds `workspace/` from scratch — run it
 by hand after bumping a workspace dependency, then diff the result before
 committing. A change here is a release of this package, not of the

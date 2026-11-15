@@ -5,10 +5,137 @@ description: Use for every unit of work on the landing-page core, from planning 
 
 # Hedgehog Landing Loop
 
-The operating loop for a bootstrapped `landing-page` project. The
-claim, dispatch, verify cycle, the Friction log, the Correction Protocol,
-its Post-build entry, and the Stop Condition are owned by
-`hedgehog-orchestrating` (its `## The cycle`, `## Friction log
+The operating loop for a bootstrapped `landing-page` project: `hedgehog
+claim --owner <owner> --count <n>` emits the packet for one ready phase
+(this core's chain is linear, so `--count N` always returns 1), run it
+through its owning agent, `hedgehog verify` gates and commits it. The
+cycle itself, the Friction log, the Correction Protocol with its
+Post-build entry, and the Stop Condition are owned by
+`hedgehog-orchestrating`; this skill adds what is specific to this core.
+The build graph (`.hedgehog/hedgehog.db`) is the live list — query it via
+`hedgehog status`/`hedgehog ready`, never re-derive state from prose. The
+five compiled phases (`hedgehog core show` prints them) are the
+degenerate one-module case of the layer graph: one task per phase, each
+depending on the one before it.
+
+This is the **Chain Method**: a pipeline where every visual choice traces
+back to a reason. No stage may introduce a choice that doesn't originate
+in an earlier stage's output — that discipline is what this skill
+enforces mechanically, the same role Nx module boundaries play for
+`full-stack-app`.
+
+## Planning intake (Phase 0, before any build phase)
+
+Run once, before `bootstrap` scaffolds the workspace — the vendored BMAD
+shelf plus this core's own subject-statement mining into
+`.hedgehog/chain/00-brief.md`, ending in Confirm & Lock. See
+[planning intake](references/planning-intake.md) for the full procedure.
+`planner` owns this section; see that agent for when it runs.
+
+## The Chain Method stages
+
+`landing-builder` runs Stages 1–3 and 6–7 directly, and delegates Stages
+4–5 (headline and section copy) to `landing-copywriter` — every stage
+runs in this exact order, in one continuous session across the two
+agents, from the confirmed subject statement through the built page.
+See [the Chain Method stages](references/chain-stages.md) for the full
+stage table (what each stage runs, produces, and which compiled layer
+and commit it bundles into) and the literary/design grounding each
+stage's judgment calls draw on.
+
+## The Loop (every unit of work)
+
+1. **Run `hedgehog claim --owner <owner> --count <n>`.** `<owner>` is
+   this session (a stable id — session id or equivalent). It emits the
+   task packet for one ready compiled layer (STATUS/INTENT/RELEVANT
+   RULES/INHERITED DEBT/WHY NOW/BLOCKED DOWNSTREAM/ALLOWED
+   SCOPE/VERIFICATION) — trust it: `hedgehog claim`
+   never hands out a layer whose dependency isn't `complete`, so there's
+   no separate gate check to run by hand.
+   `hedgehog ready` previews the same decision without claiming anything.
+2. **Map the packet's layer to the stages it bundles**, per [the Chain
+   Method stages](references/chain-stages.md) table (`feeling` = Stage 1,
+   `tokens` = Stage 2, `sequence` = Stages 3–5, `artifact` = Stages 6–7),
+   and **delegate to `landing-builder`,
+   which runs every stage inside the claimed layer in one continuous
+   session**, passing the full chain so far (every upstream artifact, not
+   just the immediately prior one) — an agent that only sees its direct
+   input can't verify its own traceability back to the subject statement.
+   If a dispatch by name reports `landing-builder` or `landing-copywriter`
+   as not found — expected right after `init`/`update` installed it this
+   same session — see root CLAUDE.md's "Delegating on this host" note
+   rather than treating it as fatal.
+   For the `sequence` layer, `landing-builder` runs Stage 3 itself, then
+   hands off to `landing-copywriter` for Stages 4–5, passing it the same
+   full chain plus Stage 3's own output, and resumes only once
+   `landing-copywriter` reports the headline and the full set of section
+   copy locked — `landing-builder` still presents the whole layer's
+   artifact and runs its own self-test against `landing-copywriter`'s
+   output before the task is ready for `hedgehog verify`. Within a
+   bundled layer, its stages run in order and in one continuous pass:
+   Stage 4 locks the headline first, then Stage 5 drafts every section's
+   copy in one pass against Stage 3's locked section list and runs the
+   AI-tell self-check on the full draft before it's presented for lock,
+   all still inside the one `sequence` task.
+
+   **Relaying a live user-confirmation checkpoint to a delegated
+   subagent.** Stage 1 carries a hard-stop checkpoint per Phase
+   Transition Checks below, and a delegated `landing-builder` subagent
+   instance has no channel for the user to address it directly. The
+   orchestrating session relays the confirmation instead, and the relay
+   is sufficient only if it quotes the user's actual words with its
+   provenance stated plainly (*"Relaying the user's own confirmation,
+   verbatim — user said: '\<exact words\>'"*) rather than asserting the
+   outcome ("the user approved"). This trusts the orchestrator's honesty
+   about provenance, the same trust the rest of this discipline already
+   places in it for relaying artifacts and task packets.
+3. `landing-builder` and `landing-copywriter` each **run their own
+   self-test** at every stage they own (see each agent's own file for
+   what each stage checks) before presenting its artifact — necessary,
+   not sufficient. This is a sanity check the owning agent does for
+   itself; neither moves the task and neither commits its own work,
+   whether run directly or delegated to a subagent instance. Committing
+   is the orchestrating session's act via `hedgehog verify`, regardless
+   of which agent or stage produced the artifact. The one exception is
+   `landing-executor`'s Polish Loop iteration commit: the Polish Loop has
+   no task for `hedgehog verify` to close, so the executor commits each
+   iteration itself (see Polish Loop below). `landing-builder` carries
+   `Bash` for dev/build/lint commands during Stage 7, and
+   `landing-copywriter` carries it only for reading/opening files.
+4. Once every stage inside the packet's layer has been presented and
+   locked by the user, **run `hedgehog verify <task-id> --owner
+   <owner>`.** It checks the touched files against the packet's ALLOWED
+   SCOPE, runs the layer's `VERIFICATION` command, and on a pass writes
+   the commit (the exact Conventional Commit message from [the Chain
+   Method stages](references/chain-stages.md) table) and unlocks the
+   next layer. On a scope violation or a failing
+   check, the task moves to `blocked` with a `blocked_reason` of
+   `scope_violation` or `verification_failed`, and nothing downstream
+   unlocks. Fix the work, then run `hedgehog retry <task-id>` to return
+   the task to `planned`, claim it again by task id, and verify again —
+   `hedgehog verify` only accepts a task you currently hold in
+   `building`, so a blocked task has to go back through `retry` and
+   `claim` first. Don't hand-commit around it. Stage 2 writes outside the
+   chain files and `src/styles/global.css` (the font install edits
+   `package.json` and `pnpm-lock.yaml`; the signature element lands in
+   `src/shapes/`), so the `tokens` layer's scope covers all of them.
+
+   A `blocked` task anywhere in the graph makes `hedgehog claim --count
+   <n>` refuse to hand out anything at all, with a non-zero exit naming
+   the blocked task(s). Fix and `retry` it before claiming more. A
+   **targeted** `hedgehog claim <task-id> --owner <owner>` is exempt —
+   that's how the just-retried task gets reclaimed above. A lease the
+   same `claim` call reaps for having just expired is exempt too: that
+   call still claims whatever else is ready, and the reaped task lands in
+   NEEDS ATTENTION for the next `claim` call to stop on.
+5. **Repeat** — `hedgehog claim --owner <owner> --count <n>` again for
+   the following layer.
+
+Each `hedgehog verify` call commits exactly one compiled layer's
+artifact; a wrong stage is fixed forward later via the Correction
+Protocol.
+
+## Friction log
 
 `hedgehog-orchestrating`'s `## Friction log` applies. On this core, the
 friction worth logging includes a stage's instructions unclear and the

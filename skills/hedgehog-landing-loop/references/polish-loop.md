@@ -56,14 +56,17 @@ something a later pass edits to match a rewrite).
      `landing-executor` to apply as the next iteration.
    - Either has redlines, and 10 iterations have already run → exit the
      loop anyway (the cap is a backstop against unproductive churn, not
-     a quality gate) and note in the handoff to `tweaker` that the loop
-     hit its cap with redlines still open.
+     a quality gate). Record each open redline with `hedgehog debt add
+     LANDING-ARTIFACT "<redline>"`, commit the records (`chore: build
+     graph records`), and name them in the handoff to `tweaker`
+     (`hedgehog debt list LANDING-ARTIFACT`).
 5. **Commit each iteration separately** as `feat(landing): polish
    iteration <n>` (`landing-executor`'s own act — it carries `Bash`
-   unlike most agents in this loop) — one commit per pass through steps
+   unlike most agents in this loop, and this loop has no task for
+   `hedgehog verify` to close) — one commit per pass through steps
    1–3, not one squashed commit at the end.
 
-The loop's iteration count resets per Polish Loop run — a later
-`tweaker` session or Correction Protocol post-build entry that touches
-the built page again starts a fresh count if it re-invokes this loop,
-rather than inheriting a prior run's count.
+The iteration number `<n>` is the count of `polish iteration` commits
+(`git log --grep "polish iteration"`) made since the loop was last
+opened. A later `tweaker` session or Correction Protocol post-build entry
+that re-invokes this loop starts a fresh count.

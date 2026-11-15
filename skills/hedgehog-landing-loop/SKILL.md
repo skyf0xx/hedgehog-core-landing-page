@@ -9,11 +9,14 @@ The operating loop for a bootstrapped `landing-page` project: `hedgehog
 claim --owner <owner> --count <n>` emits the packet for one ready phase
 (this core's chain is linear, so `--count N` always returns 1), run it
 through its owning agent, `hedgehog verify` gates and commits it. The
-build graph (`.hedgehog/hedgehog.db`) is the live list — query it via
+cycle itself, the Friction log, the Correction Protocol with its
+Post-build entry, and the Stop Condition are owned by
+`hedgehog-orchestrating`; this skill adds what is specific to this core.
+The build graph (`.hedgehog/hedgehog.db`) is the live list — query it via
 `hedgehog status`/`hedgehog ready`, never re-derive state from prose. The
-five compiled phases (this core's `workspace/core.yaml`, already
-the source of truth) are the degenerate one-module case of the layer
-graph: one task per phase, each depending on the one before it.
+five compiled phases (`hedgehog core show` prints them) are the
+degenerate one-module case of the layer graph: one task per phase, each
+depending on the one before it.
 
 This is the **Chain Method**: a pipeline where every visual choice traces
 back to a reason. No stage may introduce a choice that doesn't originate
@@ -48,8 +51,7 @@ stage's judgment calls draw on.
    RULES/INHERITED DEBT/WHY NOW/BLOCKED DOWNSTREAM/ALLOWED
    SCOPE/VERIFICATION) — trust it: `hedgehog claim`
    never hands out a layer whose dependency isn't `complete`, so there's
-   no separate gate check to run by hand. This core's chain is linear, so
-   `--count N` always returns 1 task, never more — see Rules below.
+   no separate gate check to run by hand.
    `hedgehog ready` previews the same decision without claiming anything.
 2. **Map the packet's layer to the stages it bundles**, per [the Chain
    Method stages](references/chain-stages.md) table (`feeling` = Stage 1,
@@ -93,12 +95,13 @@ stage's judgment calls draw on.
    not sufficient. This is a sanity check the owning agent does for
    itself; neither moves the task and neither commits its own work,
    whether run directly or delegated to a subagent instance. Committing
-   is always the orchestrating session's act via `hedgehog verify`,
-   regardless of which agent or stage produced the artifact —
-   `landing-builder` carries `Bash` for running dev/build/lint commands
-   during Stage 7, and `landing-copywriter` carries it only for
-   reading/opening files, neither for writing commits itself, so this
-   stays consistent with every earlier stage's commit path.
+   is the orchestrating session's act via `hedgehog verify`, regardless
+   of which agent or stage produced the artifact. The one exception is
+   `landing-executor`'s Polish Loop iteration commit: the Polish Loop has
+   no task for `hedgehog verify` to close, so the executor commits each
+   iteration itself (see Polish Loop below). `landing-builder` carries
+   `Bash` for dev/build/lint commands during Stage 7, and
+   `landing-copywriter` carries it only for reading/opening files.
 4. Once every stage inside the packet's layer has been presented and
    locked by the user, **run `hedgehog verify <task-id> --owner
    <owner>`.** It checks the touched files against the packet's ALLOWED
@@ -112,7 +115,10 @@ stage's judgment calls draw on.
    the task to `planned`, claim it again by task id, and verify again —
    `hedgehog verify` only accepts a task you currently hold in
    `building`, so a blocked task has to go back through `retry` and
-   `claim` first. Don't hand-commit around it.
+   `claim` first. Don't hand-commit around it. Stage 2 writes outside the
+   chain files and `src/styles/global.css` (the font install edits
+   `package.json` and `pnpm-lock.yaml`; the signature element lands in
+   `src/shapes/`), so the `tokens` layer's scope covers all of them.
 
    A `blocked` task anywhere in the graph makes `hedgehog claim --count
    <n>` refuse to hand out anything at all, with a non-zero exit naming
@@ -131,23 +137,20 @@ Protocol.
 
 ## Friction log
 
-Same mechanic as `hedgehog-loop`'s Friction log — log real friction (a
-stage's instructions unclear, the traceability self-check redlining the
-same underlying gap twice, a repeated user correction) via `hedgehog
-friction add "<note>" [--task <task-id>]`, `tweaker` reads it at the
-Stop Condition.
+`hedgehog-orchestrating`'s `## Friction log` applies. On this core, the
+friction worth logging includes a stage's instructions unclear and the
+traceability self-check redlining the same underlying gap twice.
 
 ## Correction Protocol
 
-Same core mechanic as `hedgehog-loop`'s Correction Protocol (stop, patch
-the upstream step in place — for Stage 7's generated code, checking the
-LSP tool's findReferences/incomingCalls against a symbol before patching
-it — fast-forward every dependent step as its own commit, commit
-messages as the explanation, resume the loop), triggered most often by
-Stage 6's traceability self-check surfacing something that doesn't trace
-back to the subject statement or matches a known AI-default cluster. Two
-differences for this core:
+`hedgehog-orchestrating`'s `## Correction Protocol` applies, triggered
+most often by Stage 6's traceability self-check surfacing something that
+doesn't trace back to the subject statement or matches a known
+AI-default cluster. Core-specific additions:
 
+- **Chain files are patched in place.** `.hedgehog/chain/*.md` hold each
+  stage's reasoning; the protocol's patch step edits the upstream
+  stage's file, and the commit messages explain the change.
 - **Fast-forwarding ripples further.** A token system change (Stage 2)
   ripples through the signature element (same stage), the sequence
   (Stage 3), the headline (Stage 4, if the voice spec shifted, re-run by
@@ -157,32 +160,22 @@ differences for this core:
   as locked again), and the build (Stage 7) — each its own small commit,
   in order.
 - **Re-run Stage 6's traceability self-check against the patched chain
-  before resuming** — an extra step this core adds, since traceability
-  is what the whole chain rests on.
-
-The orchestrating session runs this protocol and owns every commit in
-it. `landing-builder` re-runs the affected stage when the patch is to a
-stage it owns directly (1, 2, 3, 6, 7); `landing-copywriter` re-runs
-Stage 4 or re-drafts the affected Stage 5 sections when the patch
-touches those. Commits are always the session's act via `hedgehog
-verify` — the same way they are for every other pass through The Loop.
-
-Use `conventional-commits` when a correction touches several stages in
-one working-tree pass and needs splitting back into per-stage commits.
+  before resuming**, since traceability is what the whole chain rests on.
+- `landing-builder` re-runs the affected stage when the patch is to a
+  stage it owns directly (1, 2, 3, 6, 7); `landing-copywriter` re-runs
+  Stage 4 or re-drafts the affected Stage 5 sections.
 
 ### Post-build entry
 
-Same shape as `hedgehog-loop`'s Post-build entry — no task to stop, no
-loop to resume (return to `tweaker` instead), every touched task stays
-`complete` and is fixed forward in new commits. This core routes here for
-two distinct reasons: something structural is wrong rather than small
-(the voice spec itself rather than one line of copy), or new scope is
-genuinely additive but has nowhere else to go — a new section under a
-brief that still holds, since this core has no module axis for
-`planner`'s Re-entry pass to add an intent to. Either way, the protocol's
-"patch" step reads as "add" in the additive case, and re-running Stage
-6's traceability self-check against the patched chain still holds before
-handing back, since traceability is what the whole core rests on.
+`hedgehog-orchestrating`'s `### Post-build entry` applies; the return
+target is `tweaker`. This core routes here for two reasons: something
+structural is wrong rather than small (the voice spec itself rather than
+one line of copy), or new scope is genuinely additive but has nowhere
+else to go — a new section under a brief that still holds, since this
+core has no module axis for `planner`'s Re-entry pass to add an intent
+to. In the additive case the protocol's "patch" step reads as "add".
+Stage 6's traceability self-check re-runs against the patched chain
+before handing back.
 
 ## Phase Transition Checks
 
@@ -227,8 +220,8 @@ built page.
 
 ## Polish Loop
 
-Once `landing-builder` commits `feat(landing): build`, the compiled
-graph is done, but the orchestrating session runs one more uncompiled
+Once the `artifact` task's `hedgehog verify` commits `feat(landing):
+build`, the compiled graph is done, but the orchestrating session runs one more uncompiled
 pass before offering the Stop Condition's handoff: a bounded loop
 (`landing-executor` plus `landing-visual-reviewer` and
 `landing-ux-reviewer`, up to 10 iterations) that polishes the rendered
@@ -237,7 +230,14 @@ traceability concerns. This is not a compiled layer — no `hedgehog
 claim` packet, no `hedgehog verify` gate. See
 [the Polish Loop](references/polish-loop.md) for the full step sequence,
 the decision rule for exiting or iterating, and why it's separate from
-Stage 6. The loop's iteration count resets on every fresh invocation.
+Stage 6. The iteration number is the count of `feat(landing): polish
+iteration <n>` commits (`git log --grep "polish iteration"`) made since
+the loop was last opened.
+
+At the 10-iteration cap with redlines still open, record each open
+redline with `hedgehog debt add LANDING-ARTIFACT "<redline>"`, then
+commit the records (`chore: build graph records`) so they survive
+`/clear`.
 
 ## Rules
 
@@ -254,10 +254,7 @@ Stage 6. The loop's iteration count resets on every fresh invocation.
   and the voice spec, inside Stage 2, read the same sorted-adjectives
   input and can be produced together; every other stage waits on the one
   before it. This is design, not a gap to close: the chain is a linear
-  sequence (this core's `workspace/core.yaml`), so `hedgehog claim
-  --count N` always returns one task — there is no scheduler fan-out to
-  reason about here, and this core's docs stay free of the
-  conflict-predicate machinery that `full-stack-app` needs.
+  sequence, so there is no scheduler fan-out to reason about here.
 - **A wrong stage gets fixed at its source** — the Correction Protocol,
   not a downstream workaround (e.g. don't patch Stage 7's output to fix
   a token that's wrong at Stage 2).
@@ -272,9 +269,10 @@ Stage 6. The loop's iteration count resets on every fresh invocation.
 
 ## Stop Condition
 
-Offer the fresh-context handoff once the Polish Loop above has exited
-(clean or capped) — not at the `artifact` task's completion directly, the
-way `hedgehog-loop`'s Stop Condition works. The `artifact` task being
+`hedgehog-orchestrating`'s `## Stop Condition` applies, with one
+difference: offer the fresh-context handoff once the Polish Loop above
+has exited (clean or capped), not at the `artifact` task's completion
+directly. The `artifact` task being
 `complete` opens the Polish Loop; the Polish Loop exiting is what actually
 ends the build session. The subject statement or an adjective being
 genuinely ambiguous mid-chain is the other, earlier trigger, same as
@@ -312,9 +310,10 @@ session needs. Name **both** ways forward:
   > tweak requests one at a time.
 
   If the Polish Loop exited at its 10-iteration cap with redlines still
-  open, say so explicitly in this handoff too, so the fresh `tweaker`
-  session knows to treat those as its first tweak requests rather than
-  assuming the page is fully clean.
+  open, say so in this handoff and name the debt records
+  (`hedgehog debt list LANDING-ARTIFACT`), so the fresh `tweaker`
+  session treats those as its first tweak requests rather than assuming
+  the page is fully clean.
 
 **New scope** — anything beyond adjusting what exists — and on this
 core the deciding question is whether `.hedgehog/chain/00-brief.md`

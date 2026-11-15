@@ -8,7 +8,9 @@
 #   feeling  — Strategy: subject statement, adjective pairs, emotional
 #              sort, note timing (landing-builder Stage 1)
 #   tokens   — Systems: dial table, voice spec, token system, signature
-#              element (landing-builder Stage 2)
+#              element (landing-builder Stage 2); its scope also covers
+#              the font install (package.json, pnpm-lock.yaml) and the
+#              signature element (src/shapes/)
 #   sequence — Sequence (landing-builder Stage 3), then headline
 #              (landing-copywriter Stage 4) and section copy with its
 #              AI-tell self-check (landing-copywriter Stage 5)
@@ -34,7 +36,7 @@ layers:
     commit: "feat(landing): strategy"
   - id: tokens
     depends_on: feeling
-    scope: [".hedgehog/chain/02-tokens.md", "src/styles/global.css"]
+    scope: [".hedgehog/chain/02-tokens.md", "src/styles/global.css", "src/shapes/**", "package.json", "pnpm-lock.yaml"]
     verify: "test -s .hedgehog/chain/02-tokens.md"
     commit: "feat(landing): systems"
   - id: sequence

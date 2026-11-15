@@ -49,27 +49,23 @@ from the committed `pnpm-lock.yaml`.
 
 ### 1. Confirm this hasn't already run
 
-Check for `astro.config.mjs` at the repo root, or a prior
-`feat(landing): workspace` commit
-(`git log --grep="^feat(landing): workspace"`). Either means core already
-landed — stop, don't re-copy. If something about the landed core seems
+Check for a prior `feat(landing): workspace` commit
+(`git log --grep="^feat(landing): workspace"`). It means core already
+landed — stop, don't re-copy. `astro.config.mjs` at the repo root without
+that commit means the files are on disk but not yet installed, verified,
+and committed: continue at step 3. If something about the landed core seems
 wrong, that's a Correction Protocol case (`hedgehog-landing-loop`), not a
 re-copy: patch the specific file at its source.
 
 ### 2. Land this package's `workspace/`
 
-`hedgehog init --landing-page` copies this package's `workspace/` to
-the repo root at install time, the same way it copies the engine's
-`src/agents` to this host's own agents directory — check whether the
-core files are already present (same check as step 1) before copying
-again. On a project that ran plain `init` (no core flag) and only
-reaches `landing-page` because `planner` picked it at Phase 0, this
-hasn't happened yet: copy `workspace/`'s contents to the repo root now.
-Also merge this core's `CLAUDE.md` section into root `CLAUDE.md` (this
-package's `CLAUDE.core.md` fills the shell's `{{CORE_SECTION}}`
-placeholder left unfilled by a deferred install) — skip this if the
-section is already filled. Either way, by the end of this step every
-file listed in "What lands" above should be on disk.
+`hedgehog init --landing-page` and `hedgehog core install landing-page`
+both land this package's `workspace/` at the repo root (including
+`core.yaml`) and fill this core's section into root `CLAUDE.md`. `planner`
+runs `hedgehog core install landing-page` before planning intake, so by
+this step the files are normally on disk: check for `astro.config.mjs`. If
+it is missing, run `hedgehog core install landing-page` now. By the end of
+this step every file listed in "What lands" above is on disk.
 
 ### 3. Install
 
@@ -105,37 +101,14 @@ One commit for all of core, landed as a verified copy. That commit
 existing is the record that core landed — `bootstrap` checks for it via
 the commit log, not a checklist line.
 
-## Known issues baked into the landing-page core
-
-These are already fixed in the committed tree — listed here so anyone
-regenerating `workspace/` (see `scripts/regenerate-landing-page-core.sh`
-in this package) knows why the tree looks the way it does, and doesn't
-reintroduce the bug by "cleaning up" what looks like an unnecessary pin.
-
-- **`typescript` must stay pinned to the `^5` line, not `7.x`.**
-  `@astrojs/check` (which `astro check` calls into) relies on a
-  programmatic TypeScript API that the 7.x native compiler doesn't
-  expose yet — running `astro check` against TS 7 fails immediately with
-  "does not expose the programmatic API that `astro check` relies on"
-  (tracked at github.com/withastro/roadmap/discussions/1321). Re-check
-  this pin when bumping TypeScript; it may be resolved upstream by then.
-- **`create-astro`'s scaffold ships its own `AGENTS.md`/`CLAUDE.md`
-  symlink, `README.md`, and `pnpm-workspace.yaml`**, as if this were a
-  standalone repo rather than a tree that lands at a Hedgehog project's
-  root. All four are stripped before syncing — they'd otherwise collide
-  with (or silently shadow) the project's real root `CLAUDE.md` and
-  Hedgehog's own workspace conventions.
-
 ## If verification fails
 
 A clean copy of `workspace/` that fails `astro check`
 or `pnpm build`, or needs a lockfile change, means the shipped template
 itself is broken — not a per-project problem to hand-patch around. Stop
-and report exactly what failed. Fixing this means updating
-`workspace/` at its source (via `scripts/regenerate-landing-page-core.sh`
-in this package) and shipping a new package version — never patch a
-consuming project's copy to route around a broken template and call core
-done.
+and report exactly what failed. The fix is a new package version of this
+core's `workspace/`; never patch a consuming project's copy to route
+around a broken template and call core done.
 
 ## Constraints
 
@@ -146,8 +119,7 @@ done.
   backend), that's a new core decision for `planner`'s Phase 0, not an
   add-on bolted onto this one.
 - Don't hand-edit any file this step lands to work around a verification
-  failure. Fix `workspace/` at the source instead (see
-  **If verification fails**).
+  failure; see **If verification fails**.
 - Don't write any Chain Method phase content (adjectives, tokens,
   signature element, sequence, or the built page) — that's
   `landing-builder`'s work, after this Bootstrap box is checked.
